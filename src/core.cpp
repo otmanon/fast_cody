@@ -11,8 +11,10 @@
 #include "fast_cd_viewer.h"
 #include "lbs_jacobian.h"
 
+#include "momentum_leaking_matrix.h"
 
 #include <igl/readMSH.h>
+#include <igl/massmatrix.h>
 #include <igl/readOBJ.h>
 #include <pybind11/pybind11.h>
 #include <pybind11/eigen.h>
@@ -26,15 +28,55 @@ PYBIND11_MODULE(fast_cd_pyb, m) {
 
 
     py::class_<fast_cd_arap_sim>(m, "fast_cd_arap_sim")
-        .def(py::init<>());
+        .def(py::init<>())
+        .def_readwrite("params", &fast_cd_arap_sim::params)
+        .def_readwrite("sp", &fast_cd_arap_sim::sp)
+         .def_readwrite("dp", &fast_cd_arap_sim::dp)
+        .def(py::init<fast_cd_sim_params, cd_arap_local_global_solver_params>())
+        .def("step", static_cast<VectorXd(fast_cd_arap_sim::*)(
+            const VectorXd &, const VectorXd &, const cd_sim_state& ,
+            const  VectorXd & , const  VectorXd & )>
+            (&fast_cd_arap_sim::step))
+        .def("step_test", static_cast<VectorXd(fast_cd_arap_sim::*)(
+            const VectorXd&, const VectorXd&, const cd_sim_state&,
+            const  VectorXd&, const  VectorXd&)>
+            (&fast_cd_arap_sim::step_test))
+        .def("step", static_cast<VectorXd(fast_cd_arap_sim::*)(
+            const VectorXd&, const VectorXd&, const VectorXd&, const VectorXd&,
+            const VectorXd&, const VectorXd&,
+            const  VectorXd&, const  VectorXd&)>
+            (&fast_cd_arap_sim::step));
 
+    py::class_<cd_sim_state>(m, "cd_sim_state")
+        .def(py::init<>())
+        .def(py::init<VectorXd&, VectorXd&, VectorXd&, VectorXd&>())
+        .def("init", &cd_sim_state::init)
+        .def("update", &cd_sim_state::update)
+        .def_readwrite("z_curr", &cd_sim_state::z_curr)
+        .def_readwrite("z_prev", &cd_sim_state::z_prev)
+        .def_readwrite("p_curr", &cd_sim_state::p_curr)
+        .def_readwrite("p_prev", &cd_sim_state::p_prev);
 
     py::class_<fast_cd_sim_params>(m, "fast_cd_sim_params")
         .def(py::init<>())
         .def(py::init<EigenDRef<MatrixXd>, EigenDRef<MatrixXi>,
             EigenDRef<MatrixXd>, EigenDRef<VectorXi>,
             SparseMatrix<double>&, double, double, double,
-            bool >());
+            bool >())
+        .def_readwrite("X", &fast_cd_sim_params::X)
+        .def_readwrite("T", &fast_cd_sim_params::T)
+        .def_readwrite("B", &fast_cd_sim_params::B)
+        .def_readwrite("labels", &fast_cd_sim_params::labels)
+        .def_readwrite("do_inertia", &fast_cd_sim_params::do_inertia)
+        .def_readwrite("Aeq", &fast_cd_sim_params::Aeq)
+        .def_readwrite("h", &fast_cd_sim_params::h)
+        .def_readwrite("invh2", &fast_cd_sim_params::invh2)
+        .def_readwrite("mu", &fast_cd_sim_params::mu)
+        .def_readwrite("lambda", &fast_cd_sim_params::lambda);
+
+    py::class_<cd_arap_local_global_solver_params>(m, "cd_arap_local_global_solver_params")
+        .def(py::init<>())
+        .def(py::init<bool, int, double>());
        
     py::class_<fast_cd_arap_static_precomp>(m, "fast_cd_arap_static_precomp")
         .def(py::init<>());
@@ -62,7 +104,7 @@ PYBIND11_MODULE(fast_cd_pyb, m) {
             return id; })
         .def("set_pre_draw_callback", [&](fast_cd_viewer& v, std::function<void(void)>& func)
             {
-                auto wrapperFunc = [=](igl::opengl::glfw::Viewer&) -> bool {  //pase by value here is reaaaly important. 
+                auto wrapperFunc = [=](igl::opengl::glfw::Viewer&) -> bool {
                     func();
                     return false;
                 };
@@ -105,20 +147,7 @@ PYBIND11_MODULE(fast_cd_pyb, m) {
        // .def("set_points", &fast_cd_viewer::set_points)
 
 
-
     /// INDEPENDANT FUNCTIONS 
-
-    m.def("readMSH", [](std::string filename) {
-        MatrixXd V; MatrixXi F, T;
-        VectorXi tritag, tettag;
-        igl::readMSH(filename, V, F, T, tritag, tettag);
-        return std::make_tuple(V, F, T);
-        });
-    m.def("readOBJ", [](std::string filename) {
-        MatrixXd V; MatrixXi F;
-        igl::readOBJ(filename, V, F); 
-        return std::make_tuple(V, F);
-        });
     m.def("get_modes", [](EigenDRef<MatrixXd> V, EigenDRef<MatrixXi> T, EigenDRef<MatrixXd> W, SparseMatrix<double>& J, std::string mode_type, int num_modes ) {
         MatrixXd B, Ws;
         VectorXd L;
@@ -134,11 +163,42 @@ PYBIND11_MODULE(fast_cd_pyb, m) {
             return std::make_tuple(B_lbs, W, L);
         });
 
+    m.def("compute_clusters", [](EigenDRef<MatrixXi> T, EigenDRef<MatrixXd> B, EigenDRef<VectorXd> L, int num_clusters, int num_feature_modes)
+        {
+            VectorXi labels;
+            MatrixXd C;
+            compute_clusters_igl(T, B, L, num_clusters, num_feature_modes, labels, C);
+            return std::make_tuple(labels, C);
+        });
     m.def("lbs_jacobian", [](EigenDRef<MatrixXd> V, EigenDRef<MatrixXd> W) {
         SparseMatrix<double> J;
         lbs_jacobian(V, W, J);
         return J;
         });
 
+    m.def("momentum_leaking_matrix", [](EigenDRef<MatrixXd> V, EigenDRef<MatrixXi> T) {
+        SparseMatrix<double> D;
+        momentum_leaking_matrix(V, T, fast_cd::MOMENTUM_LEAK_DIFFUSION, D);
+        return D; });
+    
+        //LIBIGL WRAPPERS
+    m.def("readMSH", [](std::string filename) {
+        MatrixXd V; MatrixXi F, T;
+        VectorXi tritag, tettag;
+        igl::readMSH(filename, V, F, T, tritag, tettag);
+        return std::make_tuple(V, F, T);
+        });
+    m.def("readOBJ", [](std::string filename) {
+        MatrixXd V; MatrixXi F;
+        igl::readOBJ(filename, V, F); 
+        return std::make_tuple(V, F);
+        });
+
+    m.def("massmatrix", [](EigenDRef<MatrixXd> V, EigenDRef<MatrixXi> F) {
+        SparseMatrix<double> M;
+
+        igl::massmatrix(V, F,igl::MASSMATRIX_TYPE_BARYCENTRIC, M);
+        return M;
+        });
         
 }
