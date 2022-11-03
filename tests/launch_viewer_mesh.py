@@ -27,15 +27,18 @@ viewer.set_color(color1, id1)
 viewer.set_color(color2, id2)
 
 
-# #def callback():
-#     global U1
-#     U1 -= 0.01
-#     viewer.set_vertices(U1, 0)
+T0 = np.identity(4).astype( dtype=np.float32, order="F");
 
+def callback():
+     global V, T0
+     t = T0[0:3, 3]
+     U = V + t.T
+     viewer.set_vertices(U, 0)
+     
 def guizmo_callback(A):
-    print("hi")
+    global T0
+    T0 = A
 
-A0 = np.identity(4).astype( dtype=np.float32, order="F");
-viewer.init_guizmo(True, A0, guizmo_callback, operation="translation")
-#viewer.set_pre_draw_callback(callback)
+viewer.init_guizmo(True, T0, guizmo_callback, "translate")
+viewer.set_pre_draw_callback(callback)
 viewer.launch()
