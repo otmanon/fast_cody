@@ -9,6 +9,8 @@
 #include "compute_clusters_igl.h"
 
 #include "fast_cd_viewer.h"
+#include "lbs_jacobian.h"
+
 
 #include <igl/readMSH.h>
 #include <igl/readOBJ.h>
@@ -48,6 +50,8 @@ PYBIND11_MODULE(fast_cd_pyb, m) {
         .def("set_camera_center", &fast_cd_viewer::set_camera_center)
         .def("set_camera_eye", &fast_cd_viewer::set_camera_eye)
         .def("set_camera_zoom", &fast_cd_viewer::set_camera_zoom)
+        .def("clear", &fast_cd_viewer::clear)
+        .def("compute_normals", &fast_cd_viewer::compute_normals)
         .def("add_mesh", [](fast_cd_viewer& v) {
         int id;
         v.add_mesh(id);
@@ -56,20 +60,49 @@ PYBIND11_MODULE(fast_cd_pyb, m) {
             int id;
             v.add_mesh(V, F, id);
             return id; })
-  //      .def("set_pre_draw_callback", &fast_cd_viewer::set_pre_draw_callback) For some reason this makes the callback go out of scope
         .def("set_pre_draw_callback", [&](fast_cd_viewer& v, std::function<void(void)>& func)
             {
-                auto wrapperFunc = [=](igl::opengl::glfw::Viewer&) -> bool {
+                auto wrapperFunc = [=](igl::opengl::glfw::Viewer&) -> bool {  //pase by value here is reaaaly important. 
                     func();
                     return false;
                 };
                 v.igl_v->callback_pre_draw = wrapperFunc;
       
         })
+         
         .def("set_key_callback", &fast_cd_viewer::set_key_pressed_callback)
         .def("set_color", static_cast<void (fast_cd_viewer::*)(const RowVector3d&, int)>(&fast_cd_viewer::set_color))
         .def("set_color", static_cast<void (fast_cd_viewer::*)(const MatrixXd&, int)>(&fast_cd_viewer::set_color))
-        .def("launch", &fast_cd_viewer::launch);
+        .def("set_show_faces", &fast_cd_viewer::set_show_faces)
+        .def("set_show_lines", &fast_cd_viewer::set_show_lines)
+        .def("launch", &fast_cd_viewer::launch)
+        .def("init_guizmo", [&](fast_cd_viewer& v, bool visible, EigenDRef<Matrix4f> A0,  std::function<void(const Matrix4f &)> func, std::string operation)
+        {
+               
+                v.guizmo->visible = visible;
+                v.guizmo->T = A0;
+                auto wrapperFunc = [=](const Matrix4f& A ) {
+                    func(A);
+                };
+                v.guizmo->callback = wrapperFunc;
+
+                if (operation == "scale")
+                    v.guizmo->operation = ImGuizmo::SCALE;
+                if (operation == "translate")
+                    v.guizmo->operation = ImGuizmo::TRANSLATE;
+                if (operation == "rotate")
+                    v.guizmo->operation = ImGuizmo::ROTATE;
+        })
+        .def("change_guizmo_op", [&](fast_cd_viewer& v, std::string operation)
+            {
+                if (operation == "scale")
+                    v.guizmo->operation = ImGuizmo::SCALE;
+                if (operation == "translate")
+                    v.guizmo->operation = ImGuizmo::TRANSLATE;
+                if (operation == "rotate")
+                    v.guizmo->operation = ImGuizmo::ROTATE;
+            });
+       // .def("set_points", &fast_cd_viewer::set_points)
 
 
 
@@ -100,5 +133,12 @@ PYBIND11_MODULE(fast_cd_pyb, m) {
             skinning_modes(V, H, M, Aeq, num_modes, B_lbs, W, L);
             return std::make_tuple(B_lbs, W, L);
         });
+
+    m.def("lbs_jacobian", [](EigenDRef<MatrixXd> V, EigenDRef<MatrixXd> W) {
+        SparseMatrix<double> J;
+        lbs_jacobian(V, W, J);
+        return J;
+        });
+
         
 }
