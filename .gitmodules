@@ -1,3 +1,6 @@
 [submodule "deps/fast_cd"]
 	path = deps/fast_cd
 	url = https://github.com/otmanon/fast_cd.git
+[submodule "deps/pybind11"]
+	path = deps/pybind11
+	url = https://github.com/pybind/pybind11.git
