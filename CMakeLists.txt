@@ -5,9 +5,9 @@ add_subdirectory(./deps/fast_cd)
 add_subdirectory(./deps/pybind11/)
 
 pybind11_add_module(fast_cd_pyb
-  src/cpp/core.cpp
+  src/core.cpp
 )
-target_include_directories(fast_cd_pyb PRIVATE ./deps/fastComplementaryDynamicsCpp/fast_cd/include/)
+target_include_directories(fast_cd_pyb PRIVATE ./deps/fast_cd/include/)
 target_link_libraries(fast_cd_pyb PRIVATE fast_cd)
 
 set_target_properties(fast_cd_pyb PROPERTIES LINKER_LANGUAGE CXX)
