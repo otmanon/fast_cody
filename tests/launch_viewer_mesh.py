@@ -25,4 +25,13 @@ color2 = np.array([0, 0, 1])
 viewer.set_color(color, 0)
 viewer.set_color(color1, id1)
 viewer.set_color(color2, id2)
+
+
+def callback():
+    global U1
+    U1 += 0.01;
+    viewer.set_vertices(U1, 0);
+
+
+viewer.set_pre_draw_callback(callback);
 viewer.launch()

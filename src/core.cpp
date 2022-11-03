@@ -14,7 +14,7 @@
 #include <igl/readOBJ.h>
 #include <pybind11/pybind11.h>
 #include <pybind11/eigen.h>
-
+#include <pybind11/functional.h>
 namespace py = pybind11;
 using EigenDStride = Stride<Eigen::Dynamic, Eigen::Dynamic>;
 template <typename MatrixType>
@@ -43,6 +43,7 @@ PYBIND11_MODULE(fast_cd_pyb, m) {
     py::class_<fast_cd_viewer>(m, "fast_cd_viewer")
         .def(py::init<>())
         .def("set_mesh", &fast_cd_viewer::set_mesh)
+        .def("set_vertices", &fast_cd_viewer::set_vertices)
         .def("invert_normals", &fast_cd_viewer::invert_normals)
         .def("set_camera_center", &fast_cd_viewer::set_camera_center)
         .def("set_camera_eye", &fast_cd_viewer::set_camera_eye)
@@ -55,7 +56,17 @@ PYBIND11_MODULE(fast_cd_pyb, m) {
             int id;
             v.add_mesh(V, F, id);
             return id; })
-
+  //      .def("set_pre_draw_callback", &fast_cd_viewer::set_pre_draw_callback) For some reason this makes the callback go out of scope
+        .def("set_pre_draw_callback", [&](fast_cd_viewer& v, std::function<void(void)>& func)
+            {
+                auto wrapperFunc = [=](igl::opengl::glfw::Viewer&) -> bool {
+                    func();
+                    return false;
+                };
+                v.igl_v->callback_pre_draw = wrapperFunc;
+      
+        })
+        .def("set_key_callback", &fast_cd_viewer::set_key_pressed_callback)
         .def("set_color", static_cast<void (fast_cd_viewer::*)(const RowVector3d&, int)>(&fast_cd_viewer::set_color))
         .def("set_color", static_cast<void (fast_cd_viewer::*)(const MatrixXd&, int)>(&fast_cd_viewer::set_color))
         .def("launch", &fast_cd_viewer::launch);
