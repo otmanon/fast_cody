@@ -3,4 +3,4 @@
 	url = https://github.com/otmanon/fast_cd.git
 [submodule "deps/pybind"]
 	path = deps/pybind
-	url = https://github.com/pybind/pybind11.git
+	url = https://github.com/pybind11/pybind11.git
