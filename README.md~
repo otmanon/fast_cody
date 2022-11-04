@@ -74,10 +74,6 @@ Lets you control charizard's wings with rotations fitted to mediapipes arm landm
 
 
 ## Making Changes to the Bindings
-All the actual "binding" code is written in `src/core.cpp`
-
-You can add whatever functions you like to this file, a good idea is to consult prior functions/classes, and also to read the pybind11 startup manual.
-
 If you make changes to the bindings (Like writing new bounded functions), the same command should run much faster. 
 Either that or run 
 ```
