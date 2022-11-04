@@ -4,3 +4,6 @@ fast_cd_pyb.egg-info/*
 **.pyd
 dist/*
 .vscode/*
+**.DMAT
+./cache/*
+

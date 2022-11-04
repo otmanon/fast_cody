@@ -10,6 +10,11 @@
 
 #include "fast_cd_viewer.h"
 #include "lbs_jacobian.h"
+#include "scale_and_center_geometry.h"
+#include "read_fast_cd_sim_static_precompute.h"
+#include "write_fast_cd_sim_static_precomputation.h"
+
+#include "fit_rig_to_mesh.h"
 
 #include "momentum_leaking_matrix.h"
 
@@ -31,8 +36,10 @@ PYBIND11_MODULE(fast_cd_pyb, m) {
         .def(py::init<>())
         .def_readwrite("params", &fast_cd_arap_sim::params)
         .def_readwrite("sp", &fast_cd_arap_sim::sp)
-         .def_readwrite("dp", &fast_cd_arap_sim::dp)
+        .def_readwrite("dp", &fast_cd_arap_sim::dp)
         .def(py::init<fast_cd_sim_params, cd_arap_local_global_solver_params>())
+        .def(py::init<std::string, cd_arap_local_global_solver_params>())
+        .def("save", &fast_cd_arap_sim::save)
         .def("step", static_cast<VectorXd(fast_cd_arap_sim::*)(
             const VectorXd &, const VectorXd &, const cd_sim_state& ,
             const  VectorXd & , const  VectorXd & )>
@@ -180,6 +187,14 @@ PYBIND11_MODULE(fast_cd_pyb, m) {
         SparseMatrix<double> D;
         momentum_leaking_matrix(V, T, fast_cd::MOMENTUM_LEAK_DIFFUSION, D);
         return D; });
+
+    m.def("scale_and_center_geometry", [](EigenDRef<MatrixXd> V, const double h, EigenDRef<RowVector3d> c)
+        {
+            RowVector3d to;
+            double so;
+            MatrixXd V2 = scale_and_center_geometry(V, h, c, so, to);
+            return std::make_tuple(V2, so, to);
+        });
     
         //LIBIGL WRAPPERS
     m.def("readMSH", [](std::string filename) {
@@ -193,6 +208,25 @@ PYBIND11_MODULE(fast_cd_pyb, m) {
         igl::readOBJ(filename, V, F); 
         return std::make_tuple(V, F);
         });
+    m.def("read_fast_cd_sim_static_precomputation", [](std::string cache_dir) {
+        fast_cd_arap_static_precomp sp;
+        MatrixXd B; VectorXd L; VectorXi l;
+        read_fast_cd_sim_static_precomputation(cache_dir, B, L, l, sp.BCB, sp.BMB, sp.BAB,
+            sp.AeqB, sp.GmKB, sp.GmKJ, sp.GmKx, sp.G1VKB, sp.BMJ, sp.BMx, sp.BCJ, sp.BCx);
+        return std::make_tuple(sp, B, L, l);
+        });
+
+    m.def("write_fast_cd_sim_static_precomputation", [](std::string cache_dir, fast_cd_arap_static_precomp& sp, EigenDRef<MatrixXd> B, const VectorXd& L, const VectorXi& l) {
+        write_fast_cd_sim_static_precomputation(cache_dir, B, L, l, sp.BCB, sp.BMB, sp.BAB,
+            sp.AeqB, sp.GmKB, sp.GmKJ, sp.GmKx, sp.G1VKB, sp.BMJ, sp.BMx, sp.BCJ, sp.BCx);
+        });
+
+    m.def("fit_rig_to_mesh", [](MatrixXd W, MatrixXd P0, 
+        MatrixXd V0, MatrixXd X, MatrixXi T) {
+            MatrixXd W2 = W, P2 = P0;
+            fit_rig_to_mesh(W2, P2, V0, X, T);
+            return std::make_tuple(W2, P2);
+        });
 
     m.def("massmatrix", [](EigenDRef<MatrixXd> V, EigenDRef<MatrixXi> F) {
         SparseMatrix<double> M;
@@ -201,4 +235,5 @@ PYBIND11_MODULE(fast_cd_pyb, m) {
         return M;
         });
         
+
 }
