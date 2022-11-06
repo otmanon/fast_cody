@@ -6,4 +6,5 @@ dist/*
 .vscode/*
 **.DMAT
 ./cache/*
-
+./results/*
+results/*
