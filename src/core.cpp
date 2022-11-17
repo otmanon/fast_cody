@@ -57,8 +57,11 @@ PYBIND11_MODULE(fast_cd_pyb, m) {
     py::class_<cd_sim_state>(m, "cd_sim_state")
         .def(py::init<>())
         .def(py::init<VectorXd&, VectorXd&, VectorXd&, VectorXd&>())
-        .def("init", &cd_sim_state::init)
-        .def("update", &cd_sim_state::update)
+        .def(py::init<VectorXd&, VectorXd>())
+        .def("init", static_cast<void (cd_sim_state::*)(const VectorXd&, const VectorXd&, const VectorXd&, const VectorXd&)>(&cd_sim_state::init))
+        .def("init", static_cast<void (cd_sim_state::*)(const VectorXd&, const VectorXd&)>(&cd_sim_state::init))
+        .def("update", static_cast<void (cd_sim_state::*)(const VectorXd&, const VectorXd&)>(&cd_sim_state::update))
+        .def("update", static_cast<void (cd_sim_state::*)(const VectorXd&)>(&cd_sim_state::update))
         .def_readwrite("z_curr", &cd_sim_state::z_curr)
         .def_readwrite("z_prev", &cd_sim_state::z_prev)
         .def_readwrite("p_curr", &cd_sim_state::p_curr)
@@ -177,6 +180,14 @@ PYBIND11_MODULE(fast_cd_pyb, m) {
             compute_clusters_igl(T, B, L, num_clusters, num_feature_modes, labels, C);
             return std::make_tuple(labels, C);
         });
+
+    m.def("compute_clusters_weight_space", [](EigenDRef<MatrixXi> T, EigenDRef<MatrixXd> B, EigenDRef<VectorXd> L, int num_clusters, int num_feature_modes)
+        {
+            VectorXi labels;
+            MatrixXd C;
+            compute_clusters_weight_space(T, B, L, num_clusters, num_feature_modes, labels, C);
+            return std::make_tuple(labels, C);
+        });
     m.def("lbs_jacobian", [](EigenDRef<MatrixXd> V, EigenDRef<MatrixXd> W) {
         SparseMatrix<double> J;
         lbs_jacobian(V, W, J);
@@ -196,18 +207,6 @@ PYBIND11_MODULE(fast_cd_pyb, m) {
             return std::make_tuple(V2, so, to);
         });
     
-        //LIBIGL WRAPPERS
-    m.def("readMSH", [](std::string filename) {
-        MatrixXd V; MatrixXi F, T;
-        VectorXi tritag, tettag;
-        igl::readMSH(filename, V, F, T, tritag, tettag);
-        return std::make_tuple(V, F, T);
-        });
-    m.def("readOBJ", [](std::string filename) {
-        MatrixXd V; MatrixXi F;
-        igl::readOBJ(filename, V, F); 
-        return std::make_tuple(V, F);
-        });
     m.def("read_fast_cd_sim_static_precomputation", [](std::string cache_dir) {
         fast_cd_arap_static_precomp sp;
         MatrixXd B; VectorXd L; VectorXi l;
@@ -233,6 +232,39 @@ PYBIND11_MODULE(fast_cd_pyb, m) {
 
         igl::massmatrix(V, F,igl::MASSMATRIX_TYPE_BARYCENTRIC, M);
         return M;
+        });
+
+
+    m.def("get_skeleton_mesh", [](double thickness, const VectorXd& p, const VectorXd& bl) {
+        float t = (float) thickness;
+        MatrixXd renderV, renderC;
+        MatrixXi renderF;
+        get_skeleton_mesh( thickness,  p,  bl,  renderV,  renderF,  renderC);
+        return std::make_tuple(renderV, renderF, renderC);
+        });
+
+
+
+    m.def("get_skeleton_mesh", [](double thickness,const  VectorXd&  p, const VectorXd&  p_w, const VectorXd& bl) {
+        float t = (float)thickness;
+        MatrixXd renderV, renderC;
+        MatrixXi renderF;
+        get_skeleton_mesh(thickness, p, p_w, bl, renderV, renderF, renderC);
+        return std::make_tuple(renderV, renderF, renderC);
+        });
+
+
+        //LIBIGL WRAPPERS
+    m.def("readMSH", [](std::string filename) {
+        MatrixXd V; MatrixXi F, T;
+        VectorXi tritag, tettag;
+        igl::readMSH(filename, V, F, T, tritag, tettag);
+        return std::make_tuple(V, F, T);
+        });
+    m.def("readOBJ", [](std::string filename) {
+        MatrixXd V; MatrixXi F;
+        igl::readOBJ(filename, V, F); 
+        return std::make_tuple(V, F);
         });
         
 

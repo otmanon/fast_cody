@@ -18,7 +18,7 @@ face_control_scale = 10;
 
 
 write_cache = True
-read_cache = False
+read_cache = True
 
 name = "bulldog"
 mesh_file = "./data/" + name + ".msh"
@@ -32,7 +32,7 @@ W = np.ones((V.shape[0], 1))
 J = fcd.lbs_jacobian(V, W)
 
 ##### SIMULATION PARAMETERS
-num_modes = 30
+num_modes = 20
 num_clusters = 100
 num_clustering_features = 10
 mu = 10
@@ -93,7 +93,6 @@ color = np.array([144, 210, 236])/255.0
 viewer.set_color(color, 0)
 def user_callback():
     global T0, J, calibrated, PX
-   # print("hi")
     with mp_face_mesh.FaceMesh(
         max_num_faces=1,
         refine_landmarks=True,

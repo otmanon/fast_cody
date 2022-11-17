@@ -1,0 +1,39 @@
+{
+    "cache_dir": "../results/interactive_dirichlet_constrained_simulation/bar/cache_full/",
+    "center": [
+        0,
+        0.5,
+        0
+    ],
+    "colormap": "magma",
+    "do_clustering": false,
+    "do_inertia": false,
+    "do_reduction": false,
+    "double_sided_lighting": false,
+    "dt": 0.016666666666666666,
+    "eye_pos": [
+        0,
+        1,
+        5
+    ],
+    "face_based": false,
+    "height": 1.0,
+    "invert_normals": true,
+    "max_iters": 20,
+    "mesh": "../data/raw_data/bar/bar.msh",
+    "mode_type": "skinning",
+    "momentum_leaking_force": 0.0,
+    "num_clustering_features": 12,
+    "num_clusters": 100,
+    "num_modes": 40,
+    "num_substeps": 1,
+    "pr": 0.0,
+    "read_cache": false,
+    "results": "../results/interactive_dirichlet_constrained_simulation/bar/",
+    "run_solver_to_convergence": false,
+    "show_lines": false,
+    "vis_texture": false,
+    "write_cache": true,
+    "ym": 10,
+    "zoom": 1.5
+}
