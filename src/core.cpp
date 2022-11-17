@@ -1,26 +1,21 @@
 #include "fast_cd_arap_sim.h"
-
-
 #include "rig_parameters.h"
 #include "get_skeleton_mesh.h"
-
 #include "skinning_modes.h"
 #include "get_modes.h"
 #include "compute_clusters_igl.h"
-
 #include "fast_cd_viewer.h"
 #include "lbs_jacobian.h"
 #include "scale_and_center_geometry.h"
 #include "read_fast_cd_sim_static_precompute.h"
 #include "write_fast_cd_sim_static_precomputation.h"
-
 #include "fit_rig_to_mesh.h"
-
 #include "momentum_leaking_matrix.h"
 
 #include <igl/readMSH.h>
 #include <igl/massmatrix.h>
 #include <igl/readOBJ.h>
+
 #include <pybind11/pybind11.h>
 #include <pybind11/eigen.h>
 #include <pybind11/functional.h>
