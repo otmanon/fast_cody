@@ -32,8 +32,8 @@ PYBIND11_MODULE(fast_cd_pyb, m) {
         .def_readwrite("params", &fast_cd_arap_sim::params)
         .def_readwrite("sp", &fast_cd_arap_sim::sp)
         .def_readwrite("dp", &fast_cd_arap_sim::dp)
-        .def(py::init<fast_cd_sim_params, cd_arap_local_global_solver_params>())
-        .def(py::init<std::string, cd_arap_local_global_solver_params>())
+        .def(py::init<fast_cd_sim_params &, cd_arap_local_global_solver_params &>())
+        .def(py::init<std::string &, cd_arap_local_global_solver_params &>())
         .def("save", &fast_cd_arap_sim::save)
         .def("step", static_cast<VectorXd(fast_cd_arap_sim::*)(
             const VectorXd &, const VectorXd &, const cd_sim_state& ,
