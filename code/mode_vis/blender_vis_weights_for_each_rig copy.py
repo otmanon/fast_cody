@@ -9,7 +9,7 @@ cwd = os.getcwd()
 
 # User params
 name = "charizard"
-rig_names = ["null", "skeleton_rig_arms_legs"] #, "single_bone", "skeleton_rig_legs", 
+rig_names = ["null", "skeleton_rig"] #, "single_bone", "skeleton_rig_legs", 
 data_dir  = "./data/" + name + "/" 
 texturePath = ['./data/colormaps/RdBu_11.png', './data/colormaps/RdBu_11.png']#_black.png' 
 

@@ -272,5 +272,20 @@ PYBIND11_MODULE(fast_cd_pyb, m) {
 
         return std::make_tuple(W, P0, pI, l, V, F, rig_type);
         });
+    m.def("writeDMATd", [](std::string filename, EigenDRef<MatrixXd> D) {
+        return igl::writeDMAT(filename, D);
+        });
+    
+    m.def("writeDMATi", [](std::string filename, EigenDRef<MatrixXi> D) {
+        return igl::writeDMAT(filename, D);
+        });
+
+    m.def("boundary_facets", [](EigenDRef<MatrixXi> T) {
+        MatrixXi F;
+    VectorXi FiT, K;
+    igl::boundary_facets(T, F, FiT, K);
+    return std::make_tuple( F, FiT, K);
+     });
+        
 
 }
