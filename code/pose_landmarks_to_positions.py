@@ -10,6 +10,7 @@ def pose_landmarks_to_positions(pose_landmarks):
   
     return V
 
+
 def pose_landmarks_to_numpy(pose_landmarks):
     num_V = 33 # hard coded for mediapipes pose solution
     V = np.zeros((num_V, 3))
@@ -19,3 +20,4 @@ def pose_landmarks_to_numpy(pose_landmarks):
         V[i, :] = np.array([l[i].x, l[i].y, l[i].z])
         vis[i] = l[i].visibility
     return V, vis
+

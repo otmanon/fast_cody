@@ -16,13 +16,13 @@ calibrated = False # used to pick rest positions used for rotaiton fitting
 PX = None # filled up after first frame of detected face
 face_control_scale = 10;
 
-
 write_cache = True
 read_cache = True
 
 name = "bulldog"
-mesh_file = "./data/" + name + ".msh"
-cache_dir = "./cache/" + name + "/"
+mesh_file = "./fast_cd_data/raw_data/" + name + "/" + name + ".msh"
+result_dir = "../results/cd_demo_face_tracking/"
+cache_dir = result_dir + "./cache/" + name + "/"
 meta_file = cache_dir + "/meta.json"
 [V, F, T] = fcd.readMSH(mesh_file)
 [V, so, to] = fcd.scale_and_center_geometry(V, 1, np.array([[0, 0,  0.]]))

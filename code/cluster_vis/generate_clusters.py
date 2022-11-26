@@ -9,13 +9,12 @@ import scipy as sp
 import json
 cwd = os.getcwd()
 
-
 # User params
 name = "charizard"
 rig_names = ["skeleton_rig_arms_legs"] #"null", "single_bone", "skeleton_rig_legs", 
 data_dir  = "./fast_cd_data/raw_data/" + name + "/" 
-texturePath = './fast_cd_data/colormaps/RdBu_11.png' #_black.png' 
-results_dir = "../results/skinning_mode_anim/" + name + "/"
+results_dir = "C:/Users/otmanbench/Dropbox/fast-cd-results/experiments/cluster_vis/" + name + "/"
+cluster_count_list = [10, 20, 40, 80, 160]
 bones = [0]
 period = 48
 amplitude = 1
@@ -23,11 +22,12 @@ amplitude = 1
 
 mesh_file = data_dir + "/" + name + ".msh"
 [V, F, T] = fcd.readMSH(mesh_file)
-F = igl.boundary_facets(T)
+[F, FiT, K] = fcd.boundary_facets(T)
 [V, so, to] = fcd.scale_and_center_geometry(V, 1, np.array([[0, 0,  0.]]))
 
 mode_type = "skinning"
 num_modes = 10
+num_feature_modes = 10
 #ALSO  DO a Null Rig by default
 rig_dir = results_dir +  "/null/"
 try: 
@@ -40,6 +40,11 @@ np.save(rig_dir + "V.npy", V)
 np.save(rig_dir + "F.npy", F)
 np.save(rig_dir + "Ws.npy", Ws)
 np.save(rig_dir + "B.npy", B)
+
+for num_clusters in cluster_count_list:
+    [tet_labels, centroids] = fcd.compute_clusters_weight_space( T, Ws, L, num_clusters, num_feature_modes)
+    face_labels = tet_labels[FiT];
+    np.save(rig_dir + "clusters_" + str(num_clusters) + ".npy", face_labels)
 
 for rig_name in rig_names:
   rig_dir = data_dir +  "/rigs/" + rig_name + "/"
@@ -63,7 +68,6 @@ for rig_name in rig_names:
 
   J = fcd.lbs_jacobian(V, W);
   [B, Ws, L] = fcd.get_modes(V, T, W, J, mode_type, num_modes)
-
   try: 
     os.makedirs(results_dir + "/" + rig_name + "/") 
   except OSError as error: 
@@ -72,6 +76,12 @@ for rig_name in rig_names:
   np.save(results_dir + "/" + rig_name + "/" + "F.npy", F)
   np.save(results_dir + "/" + rig_name + "/" + "Ws.npy", Ws)
   np.save(results_dir + "/" + rig_name + "/" + "B.npy", B)
+
+  for num_clusters in cluster_count_list:
+    [tet_labels, centroids] = fcd.compute_clusters_weight_space( T, Ws, L, num_clusters, num_feature_modes)
+    face_labels = tet_labels[FiT];
+    np.save(results_dir + "/" + rig_name  + "clusters_" + str(num_clusters) + ".npy", face_labels)
+    
   num_b = B.shape[1]/12
   assert(num_b >= np.max(np.array(bones)) and " Weight function doesn't have enough bones!" )
 

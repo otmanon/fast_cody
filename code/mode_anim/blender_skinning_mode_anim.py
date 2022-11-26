@@ -9,9 +9,9 @@ cwd = os.getcwd()
 # User params
 name = "charizard"
 rig_names = [ "skeleton_rig_arms_legs"] #"null", "single_bone", "skeleton_rig_legs", 
-data_dir  = "./data/" + name + "/"
+data_dir  = "./fast_cd_data/" + name + "/"
 texturePath = ['./data/colormaps/RdBu_11.png' ] #_black.png' 
-results_dir = "./results/mode_anim/"
+results_dir = "../results/skinning_mode_anim/" + name + "/"
 
 bones = [1]
 
@@ -19,7 +19,7 @@ period = 48
 amplitude = 0.1
 imgRes_x = 800 
 imgRes_y = 800 
-numSamples = 5 
+numSamples = 50 
 exposure = 1.5 
 
 location = (0,0,0.67)
@@ -37,9 +37,9 @@ shadowSoftness = 0.3
 c = 0
 for rig_name in rig_names:
   print("###################### " + rig_name + "########################")
-  rig_dir = data_dir + rig_name + "/"
+  rig_dir = results_dir +  '/' + rig_name + "/"
 
-  output_dir = results_dir + name + '/' + rig_name + '/'
+  output_dir = results_dir +  rig_name + '/blender_render/'
   
   V = np.load( rig_dir + "V.npy") # np.array([[1,1,1],[-1,1,-1],[-1,-1,1],[1,-1,-1]], dtype=np.float32) # vertex list
   print(V.shape)
@@ -111,7 +111,7 @@ for rig_name in rig_names:
         bt.shadowThreshold(alphaThreshold = 0.02, interpolationMode = 'CARDINAL')
 
         ## save blender file so that you can adjust parameters in the UI
-        bpy.ops.wm.save_mainfile(filepath=os.getcwd() + '/test.blend')
+        #bpy.ops.wm.save_mainfile(filepath=os.getcwd() + '/test.blend')
 
         # save rendering
         bt.renderImage(outputPath, cam)
