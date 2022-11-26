@@ -11,6 +11,7 @@
 #include "write_fast_cd_sim_static_precomputation.h"
 #include "fit_rig_to_mesh.h"
 #include "momentum_leaking_matrix.h"
+#include "read_rig_from_json.h"
 
 #include <igl/readMSH.h>
 #include <igl/massmatrix.h>
@@ -192,7 +193,8 @@ PYBIND11_MODULE(fast_cd_pyb, m) {
     m.def("momentum_leaking_matrix", [](EigenDRef<MatrixXd> V, EigenDRef<MatrixXi> T) {
         SparseMatrix<double> D;
         momentum_leaking_matrix(V, T, fast_cd::MOMENTUM_LEAK_DIFFUSION, D);
-        return D; });
+        return D;
+        });
 
     m.def("scale_and_center_geometry", [](EigenDRef<MatrixXd> V, const double h, EigenDRef<RowVector3d> c)
         {
@@ -249,7 +251,7 @@ PYBIND11_MODULE(fast_cd_pyb, m) {
         });
 
 
-        //LIBIGL WRAPPERS
+    //LIBIGL WRAPPERS
     m.def("readMSH", [](std::string filename) {
         MatrixXd V; MatrixXi F, T;
         VectorXi tritag, tettag;
@@ -261,6 +263,14 @@ PYBIND11_MODULE(fast_cd_pyb, m) {
         igl::readOBJ(filename, V, F); 
         return std::make_tuple(V, F);
         });
-        
+
+    m.def("read_rig_from_json", [](std::string filename) {
+        MatrixXd V; MatrixXi F;
+        MatrixXd W; MatrixXd P0; VectorXi pI; VectorXd l;
+        std::string rig_type;
+        read_rig_from_json(filename, W, P0, pI, l, V, F, rig_type);
+
+        return std::make_tuple(W, P0, pI, l, V, F, rig_type);
+        });
 
 }
