@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/deps/fast_cd" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/deps/fast_cd/deps/libigl" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/deps/pybind11" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/fast_cd_data" vcs="Git" />
+  </component>
+</project>

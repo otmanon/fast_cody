@@ -11,7 +11,7 @@ import json
 
 #mediapipe preliminaries
 mp_face_mesh = mp.solutions.face_mesh
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(1)
 calibrated = False # used to pick rest positions used for rotaiton fitting
 PX = None # filled up after first frame of detected face
 face_control_scale = 10;
@@ -32,14 +32,23 @@ W = np.ones((V.shape[0], 1))
 J = fcd.lbs_jacobian(V, W)
 
 ##### SIMULATION PARAMETERS
+read_cache = True
+write_cache = True
+modes_cache_dir = "./cache/"
+clusters_cache_dir = "./cache/"
+
 num_modes = 20
+mode_type = "skinning"
+subspace_constraint_type= "cd_momentum_leak"
 num_clusters = 100
 num_clustering_features = 10
+split_components = True
 mu = 10
 h = 1e-2
 lam = 0
 mode_type = "skinning"
 do_inertia = True
+
 
 cache_params = {"num_modes" : num_modes, 
 "num_clusters" : num_clusters, 
@@ -48,27 +57,20 @@ cache_params = {"num_modes" : num_modes,
 "mode_type" : mode_type, 
 "do_inertia" : do_inertia}
 ### Check cache for stored data
-solver_params = fcd.cd_arap_local_global_solver_params(True, 10, 1e-3)
 sim = fcd.fast_cd_arap_sim();
-well_read = False
-if read_cache and os.path.isfile(meta_file) :
-    f = open(meta_file)
-    data = json.load(f)
-    if data == cache_params:
-        sim  = fcd.fast_cd_arap_sim(cache_dir, solver_params)
-        B2 = sim.params.B.copy();
-        labels2  =  sim.params.labels.copy()
-        sim.params = fcd.fast_cd_sim_params(V, T, B2, labels2, J, mu, lam, h, do_inertia) 
-        well_read = True
-if not well_read:
-    [B, Ws, L] = fcd.get_modes(V, T, W, J, mode_type, num_modes)
-    [labels, C] = fcd.compute_clusters(T, B, L, num_clusters, num_clustering_features)
-    sim_params = fcd.fast_cd_sim_params(V, T, B, labels, J, mu, lam, h, do_inertia) 
-    sim = fcd.fast_cd_arap_sim(sim_params, solver_params)
-    if (write_cache):
-        sim.save(cache_dir);
-        with open(meta_file, 'w') as outfile:
-                json.dump(cache_params, outfile, indent=2)
+solver_params = fcd.cd_arap_local_global_solver_params(True, 10, 1e-3)
+
+sub = fcd.fast_cd_subspace(num_modes, subspace_constraint_type, mode_type,
+                           num_clusters, num_clustering_features, split_components)
+sub.init_with_cache(V, T, J, read_cache, write_cache, modes_cache_dir, clusters_cache_dir, True, True)
+labels = np.copy(sub.labels)  #need to copy this, for some reason its not writeable otherwise
+B = np.copy(sub.B)
+sim_params = fcd.fast_cd_sim_params(V, T, B, labels, J, mu, lam, h, do_inertia, "none")
+sim = fcd.fast_cd_arap_sim(sim_params, solver_params)
+    # if (write_cache):
+    #     # sim.save(cache_dir);
+    #     with open(meta_file, 'w') as outfile:
+    #             json.dump(cache_params, outfile, indent=2)
 
 
 # set sim state 
@@ -78,11 +80,7 @@ p0 = T0[0:3, :].reshape( (12, 1))
 st = fcd.cd_sim_state(z0, z0, p0, p0)
 
 # momentum leaking matrix
-M = fcd.massmatrix(V, T)
-D = fcd.momentum_leaking_matrix(V, T)
-md = np.tile((M@ D).diagonal(), (3))
-MD = sp.sparse.diags(md)
-BMDJ = sim.params.B.T @  MD @ J
+
 
 
 #init 3D libigl viewer
@@ -129,13 +127,13 @@ def user_callback():
                     T0[0:3, 3] =0*t
                     T0[0:3, 0:3] = R
                     p = T0[0:3, :].reshape( (12, 1))
-                    f_ext = sim.params.invh2 * BMDJ @ (2.0 * st.p_curr.reshape((12, 1), order="F") - st.p_prev.reshape((12, 1), order="F") - p)
+                    f_ext = 0.0*np.zeros(st.z_curr.shape)
                     bc = np.array([[]], dtype=np.float64).T
                     #initial guess... 
                     z = st.z_curr   
                     z = sim.step(z, p,  st, f_ext, bc).reshape((12*num_modes, 1), order="F")
                     st.update(z, p);
-                    U = np.reshape(J@p+ sim.params.B@z, (int(J.shape[0]/3), 3), order="F")
+                    U = np.reshape(J@p+ B@z, (int(J.shape[0]/3), 3), order="F")
                     viewer.set_vertices(U, 0)
                     viewer.compute_normals(0)
                 # Flip the image horizontally for a selfie-view display.
@@ -147,51 +145,3 @@ viewer.set_pre_draw_callback(user_callback);
 viewer.launch()
 
 cap.release()
-# with mp_face_mesh.FaceMesh(
-# max_num_faces=1,
-# refine_landmarks=True,
-# min_detection_confidence=0.5,
-# min_tracking_confidence=0.5) as face_mesh:
-# while cap.isOpened():
-# success, image = cap.read()
-# if not success:
-#     print("Ignoring empty camera frame.")
-#     # If loading a video, use 'break' instead of 'continue'.
-#     continue
-
-# # To improve performance, optionally mark the image as not writeable to
-# # pass by reference.
-# image.flags.writeable = False
-# image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-# results = face_mesh.process(image)
-
-# # Draw the face mesh annotations on the image.
-# image.flags.writeable = True
-# image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
-# if results.multi_face_landmarks:
-#     for face_landmarks in results.multi_face_landmarks:
-#     mp_drawing.draw_landmarks(
-#         image=image,
-#         landmark_list=face_landmarks,
-#         connections=mp_face_mesh.FACEMESH_TESSELATION,
-#         landmark_drawing_spec=None,
-#         connection_drawing_spec=mp_drawing_styles
-#         .get_default_face_mesh_tesselation_style())
-#     mp_drawing.draw_landmarks(
-#         image=image,
-#         landmark_list=face_landmarks,
-#         connections=mp_face_mesh.FACEMESH_CONTOURS,
-#         landmark_drawing_spec=None,
-#         connection_drawing_spec=mp_drawing_styles
-#         .get_default_face_mesh_contours_style())
-#     mp_drawing.draw_landmarks(
-#         image=image,
-#         landmark_list=face_landmarks,
-#         connections=mp_face_mesh.FACEMESH_IRISES,
-#         landmark_drawing_spec=None,
-#         connection_drawing_spec=mp_drawing_styles
-#         .get_default_face_mesh_iris_connections_style())
-# # Flip the image horizontally for a selfie-view display.
-# cv2.imshow('MediaPipe Face Mesh', cv2.flip(image, 1))
-# if cv2.waitKey(5) & 0xFF == 27:
-#     break
