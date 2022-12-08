@@ -34,6 +34,7 @@ J = fcd.lbs_jacobian(V, W)
 ##### SIMULATION PARAMETERS
 read_cache = True
 write_cache = True
+precomp_cache_dir = "./cache/"
 modes_cache_dir = "./cache/"
 clusters_cache_dir = "./cache/"
 
@@ -57,8 +58,7 @@ cache_params = {"num_modes" : num_modes,
 "mode_type" : mode_type, 
 "do_inertia" : do_inertia}
 ### Check cache for stored data
-sim = fcd.fast_cd_arap_sim();
-solver_params = fcd.cd_arap_local_global_solver_params(True, 10, 1e-3)
+solver_params = fcd.cd_arap_local_global_solver_params(True, 100, 1e-6)
 
 sub = fcd.fast_cd_subspace(num_modes, subspace_constraint_type, mode_type,
                            num_clusters, num_clustering_features, split_components)
@@ -66,7 +66,11 @@ sub.init_with_cache(V, T, J, read_cache, write_cache, modes_cache_dir, clusters_
 labels = np.copy(sub.labels)  #need to copy this, for some reason its not writeable otherwise
 B = np.copy(sub.B)
 sim_params = fcd.fast_cd_sim_params(V, T, B, labels, J, mu, lam, h, do_inertia, "none")
-sim = fcd.fast_cd_arap_sim(sim_params, solver_params)
+sim = fcd.fast_cd_arap_sim(cache_dir, sim_params, solver_params, read_cache, write_cache)
+
+sp = sim.sp();
+dp = sim.dp();
+solver = sim.sol();
     # if (write_cache):
     #     # sim.save(cache_dir);
     #     with open(meta_file, 'w') as outfile:
@@ -132,6 +136,7 @@ def user_callback():
                     #initial guess... 
                     z = st.z_curr   
                     z = sim.step(z, p,  st, f_ext, bc).reshape((12*num_modes, 1), order="F")
+                    print(solver.prev_solve_iters)
                     st.update(z, p);
                     U = np.reshape(J@p+ B@z, (int(J.shape[0]/3), 3), order="F")
                     viewer.set_vertices(U, 0)

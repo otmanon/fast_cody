@@ -123,15 +123,51 @@ PYBIND11_MODULE(fast_cd_pyb, m) {
 
 
        
+    py::class_<fast_cd_arap_local_global_solver>(m, "fast_cd_arap_local_global_solver")
+        .def(py::init<>())
+        .def(py::init<EigenDRef<MatrixXd> , 
+            EigenDRef<MatrixXd>, cd_arap_local_global_solver_params&>(), " \n \
+            Constructs arap local global solver object used to solve \n \
+            dynamics quickly for fast Complementary DYnamoics \n \
+            Inputs : \n \
+                 A - m x m system matrix \n \
+                Aeq - c x m constraint rows that enforece Aeq z = b \n \
+                as linear equality constraints \n \
+                p - cd_arap_local_global_solver_params \n \
+            ")
+        .def(py::init<EigenDRef<MatrixXd>,
+            EigenDRef<MatrixXd>, bool, int, double>(), " \n \
+            Constructs arap local global solver object used to solve \n \
+            dynamics quickly for fast Complementary DYnamoics \n \
+            Inputs : \n \
+                 A - m x m system matrix \n \
+                Aeq - c x m constraint rows that enforece Aeq z = b \n \
+                as linear equality constraints \n \
+               run_solver_to_convergence - (bool)  \n \
+                max_iters - (int) \n \
+                convergence_threshold - (double) \n \
+                            where to stop if || res || 2 drops below this \n \
+            ")
+        .def_readwrite("prev_solve_iters", &fast_cd_arap_local_global_solver::prev_solve_iters)
+        .def_readwrite("prev_res", &fast_cd_arap_local_global_solver::prev_res);
+        
+
 
     py::class_<fast_cd_arap_sim>(m, "fast_cd_arap_sim")
-        .def(py::init<>())
-        .def(py::init<fast_cd_sim_params&, cd_arap_local_global_solver_params&>())       
+        .def(py::init<std::string&, fast_cd_sim_params&, 
+            cd_arap_local_global_solver_params&, bool, bool>())
+        .def(py::init<fast_cd_sim_params&, cd_arap_local_global_solver_params&>(), "\
+            cache_dir - (string)  \n \
+            sim_params - fast_cd_sim_params  \n \
+            solver_params - solver_params \n  \
+            read_cache - (bool) \n \
+            write_cache - (bool)\
+            ")
         .def("step", static_cast<VectorXd(fast_cd_arap_sim::*)(
             const VectorXd&, const VectorXd&, const cd_sim_state&,
             const  VectorXd&, const  VectorXd&)>
             (&fast_cd_arap_sim::step), " \ \
-	Advances the pre-configured simulation one step  \n \
+	        Advances the pre-configured simulation one step  \n \
             Inputs : \n \
                 z:  m x 1 current guess for z(maybe shouldn't expose this) \n \
                 p : p x 1 flattened rig parameters following writeup column order flattening converntion \n \
