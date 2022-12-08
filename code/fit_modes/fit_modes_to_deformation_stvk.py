@@ -5,9 +5,9 @@ import fast_cd_pyb as fcd
 import scipy as sp
 import os
 
-name = "spoon"
-frame = 20
-num_modes = 3
+name = "bar"
+frame = 8
+num_modes = 4
 [V, n, T] = fcd.readMSH("C:/Users/otmanbench/Desktop/fastCD/fast_cd_cpp/data/raw_data/" + name + "/" + name + ".msh")
 deform_path = "C:/Users/otmanbench/Desktop/fastCD/fast_cd_cpp/results/skeleton_rig_cd_animation/" + name + "/mesh_recording/" + str(frame).zfill(4) + ".obj"
 result_dir = "C:/Users/otmanbench/Dropbox/fast-cd-results/experiments/mode_fitting/" + name + "/npy/"  + str(frame) +"/"

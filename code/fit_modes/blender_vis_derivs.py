@@ -7,7 +7,7 @@ import numpy as np
 cwd = os.getcwd()
 
 name = "spoon"
-frame = 7
+frame = 0
 
 result_dir = "C:/Users/otmanbench/Dropbox/fast-cd-results/experiments/mode_fitting/" + name + "/"
 npy_dir = result_dir + "/npy/" + str(frame) + "/"
@@ -17,9 +17,9 @@ imgRes_y = 800
 numSamples = 200
 exposure = 1.0
 ## read mesh from numpy arrayss
-location = (0,0, 0)
-rotation = (90, 0, 90)
-scale = ( 0.4,  0.4, 0.4)
+location = (1,0.3, 0.25)
+rotation = (90, -45, -45)
+scale = ( 0.25,  0.25, 0.25)
 
 # for twisting bar
 # rotation = (0, 0, 90)
@@ -30,7 +30,7 @@ scale = ( 0.4,  0.4, 0.4)
 
 
 
-render_dir = result_dir + "/render/"
+render_dir = result_dir + "/" +str(frame) +"/"
 try: 
   os.mkdir(result_dir) 
 except OSError as error: 
@@ -46,9 +46,11 @@ P_lbs = np.load( npy_dir + "P_lbs.npy")
 print(P_lbs.shape)
 P_disp = np.load( npy_dir + "P_disp.npy") 
 print(P_disp.shape)
-for method in ["rest", "ref", "lbs", "disp"]:
+P_disp_derivs = np.load( npy_dir + "P_disp_derivs.npy") 
+print(P_disp_derivs.shape)
+for method in ["rest", "ref", "lbs", "disp", "derivs"]:
   print ("############## " + method)
-  outputPath = os.path.join(cwd, result_dir + "/" + method +  '.png') 
+  outputPath = os.path.join(cwd, render_dir +"/" + method +  '.png') 
 
   bt.blenderInit(imgRes_x, imgRes_y, numSamples, exposure)
   X = V;
@@ -66,25 +68,32 @@ for method in ["rest", "ref", "lbs", "disp"]:
   elif (method == "disp"):
     X = P_disp
     RGBA = (250/255, 114.0/255, 104.0/255, 1)
- 
+
+  elif (method == "derivs"):
+    X = P_disp_derivs
+    RGBA = (201./255, 148.0/255, 199.0/255, 1)
+
   mesh = bt.readNumpyMesh(X,F,location,rotation,scale)
   # bpy.context.view_layer.update()
   ob = bpy.data.objects.get('numpy mesh object')
   ## set shading (uncomment one of them)
-  bpy.ops.object.shade_smooth() 
-
-  ## subdivision
-  bt.subdivision(mesh, level = 4)
-  bpy.ops.object.shade_smooth()  
-  #set lighting to smooth. 
+  # bpy.ops.object.shade_smooth() 
+  bevel_mod = ob.modifiers.new(name="MY-Bevel2", type='BEVEL')
+  bevel_mod.width = 1.0
+  # ## subdivision
+  bt.subdivision(mesh, level = 2)
+  # bpy.ops.object.shade_smooth()  
+  # #set lighting to smooth. 
   for poly in ob.data.polygons:
      poly.use_smooth = True
 
 
   # mesh = bt.setMeshScalars(mesh, vertex_scalars, color_map, color_type)
-  # bt.invisibleGround(location=(0, 0, X[:, 1].min()), shadowBrightness=0.9)
+  # bt.invisibleGround(location=(0, 0, X[:, 1].min()), shadowBrightness=0.0)
 
- 
+  # bevel_mod = ob.modifiers.new(name="MY-Bevel", type='BEVEL')
+  # bevel_mod.width = 1.0
+
   meshColor = bt.colorObj(RGBA, 0.5, 1.3, 1.0, 0.4, 2.0)
   AOStrength = 100
   bt.setMat_balloon(mesh, meshColor, AOStrength)
