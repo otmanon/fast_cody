@@ -9,11 +9,14 @@
 #include "scale_and_center_geometry.h"
 #include "read_fast_cd_sim_static_precompute.h"
 #include "write_fast_cd_sim_static_precomputation.h"
+#include "surface_to_volume_weights.h"
 #include "fit_rig_to_mesh.h"
 #include "momentum_leaking_matrix.h"
 #include "read_rig_from_json.h"
 #include "fast_cd_subspace.h"
 #include "fast_cd_external_force.h"
+#include "read_rig_anim_from_json.h"
+#include "rig_parameters.h"
 
 #include <igl/readMSH.h>
 #include <igl/massmatrix.h>
@@ -428,14 +431,6 @@ skinning weights (empty if mode_type == \"displacement\" ) \n L - num_modes x 1 
         });
     
 
-
-    m.def("fit_rig_to_mesh", [](MatrixXd W, MatrixXd P0, 
-        MatrixXd V0, MatrixXd X, MatrixXi T) {
-            MatrixXd W2 = W, P2 = P0;
-            fit_rig_to_mesh(W2, P2, V0, X, T);
-            return std::make_tuple(W2, P2);
-        });
-
     m.def("massmatrix", [](EigenDRef<MatrixXd> V, EigenDRef<MatrixXi> F) {
         SparseMatrix<double> M;
 
@@ -470,6 +465,7 @@ skinning weights (empty if mode_type == \"displacement\" ) \n L - num_modes x 1 
         igl::readMSH(filename, V, F, T, tritag, tettag);
         return std::make_tuple(V, F, T);
         });
+    
     m.def("readOBJ", [](std::string filename) {
         MatrixXd V; MatrixXi F;
         igl::readOBJ(filename, V, F); 
@@ -483,7 +479,120 @@ skinning weights (empty if mode_type == \"displacement\" ) \n L - num_modes x 1 
         read_rig_from_json(filename, W, P0, pI, l, V, F, rig_type);
 
         return std::make_tuple(W, P0, pI, l, V, F, rig_type);
+        }, " \n \
+        Reads rig from json file \n \
+            Inputs : \n \
+        rig_path - (string)where is my rig.json file ? \n \
+            Outputs : \n \
+            W - n x m matrix of rig weights \n \
+            P0 - 4mx3 matrix of rest bone world transforms  \
+            , where each 4x3 block is an affine handle \n \
+            pI - mx1 parent bone Indicies, in the case of a skeleton rig \n \
+            l - mx1 bone lengths, useful for visualization \n \
+            V - nx 3 mesh geometry \n \
+            F - Fx 3 | 4 mesh face / tet indices \n \
+            rig_type - either \"surface\" or \"volume\", \n \
+        ");
+
+    m.def("surface_to_volume_weights", [](EigenDRef<MatrixXd> Ws,
+        EigenDRef<MatrixXd> Vs, EigenDRef<MatrixXd>
+        V, EigenDRef<MatrixXi> T) {
+            MatrixXd W = surface_to_volume_weights(Ws, Vs, V, T);
+    return W;
+        }, " \n \
+        Transfers weights defined on the surface Vs to the volume V \n \
+        Fits the surface vertices of a mesh b(V) \n \
+                to the surface points Vs \n \
+        via a procrustes fit. \n \
+             \n \
+        Inputs: \n \
+        surfaceW - bn x m set of surface weights defined over the mesh \n \
+            surfaceV - bn x 3 surface vertices vertex positions \n \
+            X - n x 3 full mesh vertices \n \
+            T - T x 4 tet mesh indices \n \
+            Outputs : \n \
+        W - n x m set of surface weights obtained via a diffusion \n \
+            from the surface to the interior \n \
+        ");
+
+    m.def("fit_rig_to_mesh_surface", [](
+        EigenDRef<MatrixXd> V, EigenDRef<MatrixXi> T,
+        EigenDRef<MatrixXd> Vs, EigenDRef<MatrixXd> P0) {
+            MatrixXd B;
+        MatrixXd P1 = P0;
+            fit_rig_to_mesh(V, T, Vs, P1, B);
+            return std::make_tuple(P1, B);
+        }, " \n \
+    Given a surface rig with parameters P0,  \
+        fit it to the mesh defined by V, T.  \
+    The new rig bones might be changing scale, \
+        rotationand centroid....  \
+            Inputs : \n \
+            V - mesh geometry \n \
+            T - tet indices \n \
+            Vs - intiial surface geometry associated with rig \n \
+            P0 - initial rig parameters \n \
+            lengths - intiial rig lengths \n \
+        Outpus : \n \
+            P0 - fitted rig parameters \n \
+            B - the affine matrix that fits the rig to the mesh \n \
+        ");
+
+    m.def("fit_rig_to_mesh", [](
+        EigenDRef<MatrixXd> V, 
+        EigenDRef<MatrixXd> Vs, EigenDRef<MatrixXd> P0) {
+            MatrixXd B;
+    MatrixXd P1 = P0;
+    fit_rig_to_mesh_vertices(V, Vs, P1, B);
+    std::make_tuple(P1, B);
+        }, " \n \
+    Given a surface rig with parameters P0,  \
+        fit it to the mesh defined by V, T.  \
+    The new rig bones might be changing scale, \
+        rotationand centroid....  \
+            Inputs : \n \
+            V - mesh geometry \n \
+            Vs - intiial surface geometry associated with rig \n \
+            P0 - initial rig parameters \n \
+            lengths - intiial rig lengths \n \
+        Outpus : \n \
+            P0 - fitted rig parameters \n \
+            B - the affine matrix that fits the rig to the mesh \n \
+        ");
+
+    m.def("read_anim_from_json", [](string anim_path) {
+        MatrixXd animP;
+        read_rig_anim_from_json(anim_path, animP);
+        return animP;
+        }, " \n \
+        Reads a rig animation from a json file. \n \
+            Input: \n \
+        anim_path - path to anim.json file \n \
+            Output : \n \
+        animP - 12m x #frames matrix containing the world  \
+            space animations bone transformations \
+            for each frame \n \
+        ");
+
+    m.def("transform_rig_parameters_anim", [](EigenDRef<MatrixXd> animP,
+        EigenDRef<MatrixXd> A) {
+        MatrixXd P = animP;
+        MatrixXd B = A;
+        transform_rig_parameters_anim(P, B);
+        return P;
+        }, " \
+        Given a world space set of animation frames for rig parameters P_w, \
+            and a worlds space rest pose rig parameters p0, \
+        compute the animation as relative space rig parameters, as needed for CD \
+        ");
+
+    m.def("world_to_rel_rig_anim", [](EigenDRef<MatrixXd> animPw,
+        VectorXd& p0) {
+            MatrixXd animP;
+            world_to_rel_rig_anim(animPw, p0, animP);
+            return animP;
         });
+
     m.def("writeDMATd", [](std::string filename, EigenDRef<MatrixXd> D) {
         return igl::writeDMAT(filename, D);
         });
