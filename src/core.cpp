@@ -17,6 +17,8 @@
 #include "fast_cd_external_force.h"
 #include "read_rig_anim_from_json.h"
 #include "rig_parameters.h"
+#include "fast_ik_subspace.h"
+#include "fast_ik_sim.h"
 
 #include <igl/readMSH.h>
 #include <igl/massmatrix.h>
@@ -32,6 +34,70 @@ template <typename MatrixType>
 using EigenDRef = Ref<MatrixType, 0, EigenDStride>;
 using namespace std;
 PYBIND11_MODULE(fast_cd_pyb, m) {
+
+
+    py::class_<fast_ik_subspace>(m, "fast_ik_subspace", "Helper Class that builds, reads and writes \
+         the FAST IK subspace\n")
+        .def(py::init<>())
+        .def(py::init<int, bool, string>(), py::arg("num_clusters"),
+            py::arg("debug") = false, py::arg("output_dir") = "")
+        .def("init", &fast_ik_subspace::init)
+        .def("init_with_cache", &fast_ik_subspace::init_with_cache)
+        .def("write_to_cache", &fast_ik_subspace::write_to_cache)
+        .def("read_from_cache", &fast_ik_subspace::read_from_cache)
+        .def("read_from_cache_recompute", &fast_ik_subspace::read_from_cache_recompute)
+        .def_readwrite("labels", &fast_ik_subspace::l)
+        ;
+
+
+    /*MatrixXd& V, MatrixXi& T, MatrixXd& W,
+        VectorXi& l, VectorXi& bI,
+        cd_arap_local_global_solver_params& solver_params*/
+    py::class_<fast_ik_sim>(m, "fast_ik_sim", "FAST IK Simulation") 
+       .def(py::init<>())
+       .def(py::init<EigenDRef<MatrixXd>, EigenDRef<MatrixXi>,
+           EigenDRef<MatrixXd>, const VectorXi& , const VectorXi&,
+            const cd_arap_local_global_solver_params&>())
+       .def("step", static_cast<VectorXd(fast_ik_sim::*)(
+            const VectorXd&, const VectorXd&,
+           const VectorXd&, const VectorXd&,
+            const VectorXd&, const VectorXd&,
+            const  VectorXd&, const  VectorXd&)>
+            (&fast_ik_sim::step), " \n \
+            Advances the pre - configured simulation one step \n \
+            Inputs : \n \
+                z:  m x 1 current guess for z(maybe shouldn't expose this) \n \
+                p : p x 1 flattened rig parameters following writeup column order flattening converntion  \n \
+                z_curr : m x 1 current d.o.f.s  \n \
+                z_prev : m x 1 previos d.o.f.s  \n \
+                p_curr : p x 1 current rig parameters  \n \
+                p_prev : p x 1 previous rig parameters  \n \
+                f_ext : used to specify excternal forces like gravity.  \n \
+                bc : rhs of equality constraint if some are configured in system  \n \
+                (should match in rows with sim.params.Aeq)  \n \
+            Outputs :  \n \
+                z_next: m x 1 next timestep degrees of freedom  \n \
+            ")
+        .def("step", static_cast<VectorXd(fast_ik_sim::*)(
+            const VectorXd&, const VectorXd&, const cd_sim_state&,
+            const  VectorXd&, const  VectorXd&)>
+            (&fast_ik_sim::step), " \ \
+	        Advances the pre-configured simulation one step  \n \
+            Inputs : \n \
+                z:  m x 1 current guess for z(maybe shouldn't expose this) \n \
+                p : p x 1 flattened rig parameters following writeup column order flattening converntion \n \
+                state : sim_cd_state that contains info like z_curr, z_prev, p_currand p_prev \n \
+                f_ext : used to specify excternal forces like gravity. \n \
+                bc : rhs of equality constraint if some are configured in system \n \
+                (should match in rows with sim.params.Aeq) \n \
+            Outputs : \n \
+                z_next: m x 1 next timestep degrees of freedom \n \
+            ")
+        .def("params", [](fast_ik_sim& sim) {
+            fast_cd_sim_params* p = (fast_cd_sim_params*)sim.params;
+                return p;
+             })
+        ;
 
     py::class_<fast_cd_subspace>(m, "fast_cd_subspace", "Helper class that \
         builds/reads/writes the subspaces necessary to run and test Fast CD\n",
