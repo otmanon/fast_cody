@@ -21,38 +21,64 @@ sub = fcd.fast_ik_subspace(num_clusters, False, "./debug/");
 
 
 sub.init_with_cache(V, T, W, True, True,
-                    "./data/charizard/skeleton_rig_arms_legs/cache/", True);
+                    "./data/charizard/skeleton_rig_arms_legs/cache2/", True);
 
 
 bI = np.array([1])
-solver_params = fcd.cd_arap_local_global_solver_params(True, 100, 1e-6)
-sim = fcd.fast_ik_sim(V, T, W, sub.labels, bI, solver_params);
+solver_params = fcd.cd_arap_local_global_solver_params(True, 10, 1e-3)
+bI = np.array([])
+S = fcd.selection_matrix(bI, V.shape[0], V.shape[1])
+labels = np.copy(sub.labels)
+sim = fcd.fast_ik_sim(V, T, W,  labels, S, solver_params);
+
+z = np.zeros((W.shape[1] * 12, 1))
+z = np.tile(np.identity(4)[:3, :4], W.shape[1]).reshape(z.shape)
+state = fcd.sim_state(z, z)
 
 print("Done!")
 
 
-ps.init()
 
-mesh = ps.register_volume_mesh("mesh", V, T)
+# mesh = ps.register_volume_mesh("mesh", V, T)
 
-B = fcd.lbs_jacobian(V, W)
-num_b = P0.shape[0]/4
-p = np.zeros((0, 1))
-z = np.zeros(B.shape[1])
-state = fcd.cd_sim_state(z, z, p, p)
-f_ext = np.zeros(z.shape);
-step = 0
-d = [1]
+# B = fcd.lbs_jacobian(V, W)
+# num_b = P0.shape[0]/4
+# p = np.zeros((0, 1))
+# z = np.zeros(B.shape[1])
+# state = fcd.sim_state(z, z)
+# f_ext = np.zeros(z.shape);
+# step = 0
+# d = [1]
 
+v = fcd.fast_cd_viewer_vertex_selector()
+F = igl.boundary_facets(T)
+v.set_mesh(V, F, 0)
+v.invert_normals(True, 0)
+
+f_ext = np.zeros(z.shape)
+
+J = fcd.lbs_jacobian(V, W)
+
+bc = np.array([])
 def callback():
-    global step
-    bc = step *  np.array(d)
-    z_next = sim.step(z, p, state, f_ext, bc)
-    u = B*z_next
-    V_next = u.reshape((V.shape[0], 3))
-    mesh.update_vertex_positions(V_next)
-    step += 1
-    pass
+    global bc
+    [C, CI, new_handles] = v.query_new_handles()
+    if (new_handles):
+        S = fcd.selection_matrix(CI, V.shape[0], V.shape[1])
+        sim.set_equality_constraint(S)
+    bc = np.reshape(C, (C.shape[0] * C.shape[1]), order="F")
+    #
+    # # global step
+    # # bc = step *  np.array(d)
+    z_next = sim.step(z,  state, f_ext, bc)
+    u = J@z_next
+    V_next = u.reshape((V.shape[0], 3), order="F")
+    v.set_vertices(V_next, 0)
+    v.compute_normals(0)
 
-ps.set_user_callback(callback)
-ps.show()
+    return
+
+
+v.set_pre_draw_callback(callback)
+
+v.launch()

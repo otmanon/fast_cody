@@ -4,7 +4,7 @@
 #include "skinning_modes.h"
 #include "get_modes.h"
 #include "compute_clusters_igl.h"
-#include "fast_cd_viewer.h"
+
 #include "lbs_jacobian.h"
 #include "scale_and_center_geometry.h"
 #include "read_fast_cd_sim_static_precompute.h"
@@ -19,10 +19,12 @@
 #include "rig_parameters.h"
 #include "fast_ik_subspace.h"
 #include "fast_ik_sim.h"
+#include "selection_matrix.h"
 
 #include <igl/readMSH.h>
 #include <igl/massmatrix.h>
 #include <igl/readOBJ.h>
+
 
 #include <pybind11/pybind11.h>
 #include <pybind11/eigen.h>
@@ -33,7 +35,21 @@ using EigenDStride = Stride<Eigen::Dynamic, Eigen::Dynamic>;
 template <typename MatrixType>
 using EigenDRef = Ref<MatrixType, 0, EigenDStride>;
 using namespace std;
+
+
+// Forward-declare bindings from other files
+void bind_viewer(py::module& m);
+
 PYBIND11_MODULE(fast_cd_pyb, m) {
+
+
+
+    py::class_<sim_state>(m, "sim_state",
+        "Simulation state \ \n")
+        .def(py::init<>())
+        .def(py::init<const VectorXd&, const VectorXd&>())
+        .def("update",  & sim_state::update)
+        ;
 
 
     py::class_<fast_ik_subspace>(m, "fast_ik_subspace", "Helper Class that builds, reads and writes \
@@ -53,46 +69,27 @@ PYBIND11_MODULE(fast_cd_pyb, m) {
     /*MatrixXd& V, MatrixXi& T, MatrixXd& W,
         VectorXi& l, VectorXi& bI,
         cd_arap_local_global_solver_params& solver_params*/
-    py::class_<fast_ik_sim>(m, "fast_ik_sim", "FAST IK Simulation") 
-       .def(py::init<>())
-       .def(py::init<EigenDRef<MatrixXd>, EigenDRef<MatrixXi>,
-           EigenDRef<MatrixXd>, const VectorXi& , const VectorXi&,
+    py::class_<fast_ik_sim>(m, "fast_ik_sim", "FAST IK Simulation")
+        .def(py::init<>())
+        .def(py::init<EigenDRef<MatrixXd>, EigenDRef<MatrixXi>,
+            EigenDRef<MatrixXd>, const VectorXi&,
+            SparseMatrix<double>&,
             const cd_arap_local_global_solver_params&>())
-       .def("step", static_cast<VectorXd(fast_ik_sim::*)(
-            const VectorXd&, const VectorXd&,
-           const VectorXd&, const VectorXd&,
-            const VectorXd&, const VectorXd&,
-            const  VectorXd&, const  VectorXd&)>
+        .def("step", static_cast<VectorXd(fast_ik_sim::*)(
+            const VectorXd&,
+            const sim_state&, const VectorXd&, const VectorXd&)>
             (&fast_ik_sim::step), " \n \
             Advances the pre - configured simulation one step \n \
             Inputs : \n \
                 z:  m x 1 current guess for z(maybe shouldn't expose this) \n \
-                p : p x 1 flattened rig parameters following writeup column order flattening converntion  \n \
-                z_curr : m x 1 current d.o.f.s  \n \
-                z_prev : m x 1 previos d.o.f.s  \n \
-                p_curr : p x 1 current rig parameters  \n \
-                p_prev : p x 1 previous rig parameters  \n \
-                f_ext : used to specify excternal forces like gravity.  \n \
-                bc : rhs of equality constraint if some are configured in system  \n \
+                sim_state : state  \n \
+                f_ext : m x 1 previos d.o.f.s  \n \
+                bc :  rhs of equality constraint if some are configured in system \n \
                 (should match in rows with sim.params.Aeq)  \n \
             Outputs :  \n \
                 z_next: m x 1 next timestep degrees of freedom  \n \
             ")
-        .def("step", static_cast<VectorXd(fast_ik_sim::*)(
-            const VectorXd&, const VectorXd&, const cd_sim_state&,
-            const  VectorXd&, const  VectorXd&)>
-            (&fast_ik_sim::step), " \ \
-	        Advances the pre-configured simulation one step  \n \
-            Inputs : \n \
-                z:  m x 1 current guess for z(maybe shouldn't expose this) \n \
-                p : p x 1 flattened rig parameters following writeup column order flattening converntion \n \
-                state : sim_cd_state that contains info like z_curr, z_prev, p_currand p_prev \n \
-                f_ext : used to specify excternal forces like gravity. \n \
-                bc : rhs of equality constraint if some are configured in system \n \
-                (should match in rows with sim.params.Aeq) \n \
-            Outputs : \n \
-                z_next: m x 1 next timestep degrees of freedom \n \
-            ")
+        .def("set_equality_constraint", &fast_ik_sim::set_equality_constraint)        
         .def("params", [](fast_ik_sim& sim) {
             fast_cd_sim_params* p = (fast_cd_sim_params*)sim.params;
                 return p;
@@ -282,6 +279,7 @@ PYBIND11_MODULE(fast_cd_pyb, m) {
         fast_cd_arap_local_global_solver* p = (fast_cd_arap_local_global_solver*)sim.sol;
         return p;
         })
+        .def("set_equality_constraint", &fast_cd_arap_sim::set_equality_constraint)
         ;
 
     py::class_<cd_sim_state>(m, "cd_sim_state")
@@ -360,68 +358,7 @@ PYBIND11_MODULE(fast_cd_pyb, m) {
     py::class_<fast_cd_arap_dynamic_precomp>(m, "fast_cd_arap_dynamic_precomp")
         .def(py::init<>());
 
-    py::class_<fast_cd_viewer>(m, "fast_cd_viewer")
-        .def(py::init<>())
-        .def("set_mesh", &fast_cd_viewer::set_mesh)
-        .def("set_vertices", &fast_cd_viewer::set_vertices)
-        .def("invert_normals", &fast_cd_viewer::invert_normals)
-        .def("set_camera_center", &fast_cd_viewer::set_camera_center)
-        .def("set_camera_eye", &fast_cd_viewer::set_camera_eye)
-        .def("set_camera_zoom", &fast_cd_viewer::set_camera_zoom)
-        .def("clear", &fast_cd_viewer::clear)
-        .def("compute_normals", &fast_cd_viewer::compute_normals)
-        .def("add_mesh", [](fast_cd_viewer& v) {
-        int id;
-        v.add_mesh(id);
-        return id; })
-        .def("add_mesh", [](fast_cd_viewer& v, EigenDRef<MatrixXd> V, EigenDRef<MatrixXi> F) {
-            int id;
-            v.add_mesh(V, F, id);
-            return id; })
-        .def("set_pre_draw_callback", [&](fast_cd_viewer& v, std::function<void(void)>& func)
-            {
-                auto wrapperFunc = [=](igl::opengl::glfw::Viewer&) -> bool {
-                    func();
-                    return false;
-                };
-                v.igl_v->callback_pre_draw = wrapperFunc;
-      
-        })
-         
-        .def("set_key_callback", &fast_cd_viewer::set_key_pressed_callback)
-        .def("set_color", static_cast<void (fast_cd_viewer::*)(const RowVector3d&, int)>(&fast_cd_viewer::set_color))
-        .def("set_color", static_cast<void (fast_cd_viewer::*)(const MatrixXd&, int)>(&fast_cd_viewer::set_color))
-        .def("set_show_faces", &fast_cd_viewer::set_show_faces)
-        .def("set_show_lines", &fast_cd_viewer::set_show_lines)
-        .def("launch", &fast_cd_viewer::launch)
-        .def("init_guizmo", [&](fast_cd_viewer& v, bool visible, EigenDRef<Matrix4f> A0,  std::function<void(const Matrix4f &)> func, std::string operation)
-        {
-               
-                v.guizmo->visible = visible;
-                v.guizmo->T = A0;
-                auto wrapperFunc = [=](const Matrix4f& A ) {
-                    func(A);
-                };
-                v.guizmo->callback = wrapperFunc;
-
-                if (operation == "scale")
-                    v.guizmo->operation = ImGuizmo::SCALE;
-                if (operation == "translate")
-                    v.guizmo->operation = ImGuizmo::TRANSLATE;
-                if (operation == "rotate")
-                    v.guizmo->operation = ImGuizmo::ROTATE;
-        })
-        .def("change_guizmo_op", [&](fast_cd_viewer& v, std::string operation)
-            {
-                if (operation == "scale")
-                    v.guizmo->operation = ImGuizmo::SCALE;
-                if (operation == "translate")
-                    v.guizmo->operation = ImGuizmo::TRANSLATE;
-                if (operation == "rotate")
-                    v.guizmo->operation = ImGuizmo::ROTATE;
-            });
-       // .def("set_points", &fast_cd_viewer::set_points)
-
+   
         m.def("compute_clusters_weight_space", [](EigenDRef<MatrixXi> T, EigenDRef<MatrixXd> B, EigenDRef<VectorXd> L, int num_clusters, int num_feature_modes)
             {
                 VectorXi labels;
@@ -674,5 +611,13 @@ skinning weights (empty if mode_type == \"displacement\" ) \n L - num_modes x 1 
     return std::make_tuple( F, FiT, K);
      });
         
+    m.def("selection_matrix", [](const VectorXi& bI, int n, int dim)
+    {
+        SparseMatrix<double> S;
+        selection_matrix(bI, n, dim, S);
+        return S;
+    }, py::arg("bI"), py::arg("n"), py::arg("dim") = 1);
 
+
+    bind_viewer(m);
 }
