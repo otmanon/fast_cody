@@ -1,10 +1,15 @@
 import fast_cd_pyb as fcd
 import igl
 import numpy as np
+import scipy as sp
 import polyscope as ps
 msh_file = "./data/charizard/charizard.msh"
 rig_dir = "./data/charizard/skeleton_rig_arms_legs/"
 rig_file = rig_dir + "/skeleton_rig_arms_legs.json"
+
+texture_obj = "./data/charizard/charizard_tex.obj"
+texture_png = "./data/charizard/charizard_tex.png"
+
 
 [V, F, T] = fcd.readMSH(msh_file)
 [W, P0, pI, bl, Vs, Fs, rig_type] = fcd.read_rig_from_json(rig_file)
@@ -49,20 +54,22 @@ print("Done!")
 # f_ext = np.zeros(z.shape);
 # step = 0
 # d = [1]
+f_ext = np.zeros(z.shape)
+J = fcd.lbs_jacobian(V, W)
+bc = np.array([])
 
 v = fcd.fast_cd_viewer_vertex_selector()
 F = igl.boundary_facets(T)
+
 v.set_mesh(V, F, 0)
+v.set_show_lines(False, 0)
+v.set_face_based(False, 0)
 v.invert_normals(True, 0)
 
-f_ext = np.zeros(z.shape)
-
-J = fcd.lbs_jacobian(V, W)
-
-bc = np.array([])
+X = V
 def callback():
-    global bc
-    [C, CI, new_handles] = v.query_new_handles()
+    global bc, X
+    [C, CI, new_handles] = v.query_new_handles_on_mesh(X, F)
     if (new_handles):
         S = fcd.selection_matrix(CI, V.shape[0], V.shape[1])
         sim.set_equality_constraint(S)
@@ -71,9 +78,10 @@ def callback():
     # # global step
     # # bc = step *  np.array(d)
     z_next = sim.step(z,  state, f_ext, bc)
-    u = J@z_next
-    V_next = u.reshape((V.shape[0], 3), order="F")
-    v.set_vertices(V_next, 0)
+
+    X = (J @ z_next).reshape(V.shape, order="F")
+
+    v.set_vertices(X, 0)
     v.compute_normals(0)
 
     return

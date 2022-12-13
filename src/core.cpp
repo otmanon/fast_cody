@@ -20,10 +20,7 @@
 #include "fast_ik_subspace.h"
 #include "fast_ik_sim.h"
 #include "selection_matrix.h"
-
-#include <igl/readMSH.h>
-#include <igl/massmatrix.h>
-#include <igl/readOBJ.h>
+#include "prolongation.h"
 
 
 #include <pybind11/pybind11.h>
@@ -39,7 +36,7 @@ using namespace std;
 
 // Forward-declare bindings from other files
 void bind_viewer(py::module& m);
-
+void bind_igl(py::module& m);
 PYBIND11_MODULE(fast_cd_pyb, m) {
 
 
@@ -461,19 +458,6 @@ skinning weights (empty if mode_type == \"displacement\" ) \n L - num_modes x 1 
         });
 
 
-    //LIBIGL WRAPPERS
-    m.def("readMSH", [](std::string filename) {
-        MatrixXd V; MatrixXi F, T;
-        VectorXi tritag, tettag;
-        igl::readMSH(filename, V, F, T, tritag, tettag);
-        return std::make_tuple(V, F, T);
-        });
-    
-    m.def("readOBJ", [](std::string filename) {
-        MatrixXd V; MatrixXi F;
-        igl::readOBJ(filename, V, F); 
-        return std::make_tuple(V, F);
-        });
 
     m.def("read_rig_from_json", [](std::string filename) {
         MatrixXd V; MatrixXi F;
@@ -596,20 +580,7 @@ skinning weights (empty if mode_type == \"displacement\" ) \n L - num_modes x 1 
             return animP;
         });
 
-    m.def("writeDMATd", [](std::string filename, EigenDRef<MatrixXd> D) {
-        return igl::writeDMAT(filename, D);
-        });
-    
-    m.def("writeDMATi", [](std::string filename, EigenDRef<MatrixXi> D) {
-        return igl::writeDMAT(filename, D);
-        });
 
-    m.def("boundary_facets", [](EigenDRef<MatrixXi> T) {
-        MatrixXi F;
-    VectorXi FiT, K;
-    igl::boundary_facets(T, F, FiT, K);
-    return std::make_tuple( F, FiT, K);
-     });
         
     m.def("selection_matrix", [](const VectorXi& bI, int n, int dim)
     {
@@ -618,6 +589,14 @@ skinning weights (empty if mode_type == \"displacement\" ) \n L - num_modes x 1 
         return S;
     }, py::arg("bI"), py::arg("n"), py::arg("dim") = 1);
 
+    m.def("prolongation", [](EigenDRef<MatrixXd>Xf, EigenDRef<MatrixXd> Xc, EigenDRef<MatrixXi> T)
+    {
+        SparseMatrix<double> P;
+        prolongation(Xf, Xc, T, P);
+        return P;
+    });
 
+
+    bind_igl(m);
     bind_viewer(m);
 }
