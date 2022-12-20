@@ -1,5 +1,7 @@
 #include "fast_cd_viewer.h"
 #include "fast_cd_viewer_vertex_selector.h"
+#include "fast_cd_viewer_custom_shader.h"
+
 #include <pybind11/pybind11.h>
 //#include <pybind11/stl.h>
 #include <pybind11/functional.h>
@@ -30,9 +32,9 @@ void bind_viewer(py::module& m) {
             v.add_mesh(id);
             return id; })
         .def("add_mesh", [](fast_cd_viewer& v, EigenDRef<MatrixXd> V, EigenDRef<MatrixXi> F) {
-        int id;
-    v.add_mesh(V, F, id);
-    return id; })
+            int id;
+        v.add_mesh(V, F, id);
+        return id; })
         .def("set_pre_draw_callback", [&](fast_cd_viewer& v, std::function<void(void)>& func)
             {
                 auto wrapperFunc = [=](igl::opengl::glfw::Viewer&) -> bool {
@@ -45,9 +47,10 @@ void bind_viewer(py::module& m) {
         .def("set_face_based", &fast_cd_viewer::set_face_based)
         .def("set_key_callback", &fast_cd_viewer::set_key_pressed_callback)
         .def("set_color", static_cast<void (fast_cd_viewer::*)(const RowVector3d&, int)>(&fast_cd_viewer::set_color))
-        .def("set_color", static_cast<void (fast_cd_viewer::*)(const MatrixXd&, int)>(&fast_cd_viewer::set_color))
-        .def("set_show_faces", &fast_cd_viewer::set_show_faces)
+         .def("set_show_lines", &fast_cd_viewer::get_show_lines)
         .def("set_show_lines", &fast_cd_viewer::set_show_lines)
+        .def("set_show_faces", &fast_cd_viewer::set_show_faces)
+        .def("get_show_faces", &fast_cd_viewer::get_show_faces)
         .def("launch", &fast_cd_viewer::launch)
         .def("init_guizmo", [&](fast_cd_viewer& v, bool visible, EigenDRef<Matrix4f> A0, std::function<void(const Matrix4f&)> func, std::string operation)
             {
@@ -84,6 +87,9 @@ void bind_viewer(py::module& m) {
     Binding fast_cd_viewer_vertex_selector class that allows easy vertex
     selection
     */
+
+
+
 py::class_<fast_cd_viewer_vertex_selector,
 fast_cd_viewer>(m, "fast_cd_viewer_vertex_selector")
     .def(py::init<>())
@@ -120,4 +126,21 @@ fast_cd_viewer>(m, "fast_cd_viewer_vertex_selector")
     a new vertex was added this timestep \n \
     ");
        // .def("set_mesh", &fast_cd_viewer_vertex_selector::set_mesh);
+
+
+    py::class_<fast_cd_viewer_custom_shader,
+        fast_cd_viewer>(m, "fast_cd_viewer_custom_shader")
+        .def(py::init<>())
+        .def(py::init<string&, string&, int, int>(), py::arg("vertex_shader"), py::arg("framgnet_shader"),
+            py::arg("max_num_primary_bones"), py::arg("max_num_secondary_bones"))
+        .def("launch", &fast_cd_viewer_custom_shader::launch)
+        .def("init_buffers", &fast_cd_viewer_custom_shader::init_buffers)
+        .def("free_buffers", &fast_cd_viewer_custom_shader::free_buffers)
+        .def("set_primary_weights", &fast_cd_viewer_custom_shader::set_primary_weights)
+        .def("set_secondary_weights", &fast_cd_viewer_custom_shader::set_secondary_weights)
+        .def("set_weights", &fast_cd_viewer_custom_shader::set_weights)
+        .def("set_primary_bone_transforms", &fast_cd_viewer_custom_shader::set_primary_bone_transforms)
+        .def("set_secondary_bone_transforms", &fast_cd_viewer_custom_shader::set_secondary_bone_transforms)
+        .def("set_bone_transforms", &fast_cd_viewer_custom_shader::set_bone_transforms)
+        .def("updateGL", &fast_cd_viewer_custom_shader::updateGL);
 }

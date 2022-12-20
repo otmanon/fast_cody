@@ -10,7 +10,7 @@ rig_file = rig_dir + "/skeleton_rig_arms_legs.json"
 texture_obj = "./data/charizard/charizard_tex.obj"
 texture_png = "./data/charizard/charizard_tex.png"
 
-read_cache = False
+read_cache = True
 write_cache = True
 
 
@@ -37,7 +37,7 @@ J = fcd.lbs_jacobian(V, W) # rig jacobian
 
 ########## Load IK SIM ##########
 num_clusters = 10;
-sub = fcd.fast_ik_subspace(num_clusters, False, "./debug/");
+sub = fcd.fast_ik_subspace(num_clusters, read_cache, "./debug/");
 sub.init_with_cache(V, T, W, read_cache, write_cache,
                     cache_ik, True);
 bI = np.array([1])

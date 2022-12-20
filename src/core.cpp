@@ -22,7 +22,7 @@
 #include "selection_matrix.h"
 #include "prolongation.h"
 
-
+#include "vector_gradient_operator.h"
 #include <pybind11/pybind11.h>
 #include <pybind11/eigen.h>
 #include <pybind11/functional.h>
@@ -215,6 +215,40 @@ PYBIND11_MODULE(fast_cd_pyb, m) {
         .def_readwrite("prev_res", &fast_cd_arap_local_global_solver::prev_res);
         
 
+    py::class_<cd_arap_sim>(m, "cd_arap_sim")
+        .def(py::init<>())
+        .def(py::init<cd_sim_params&, cd_arap_local_global_solver_params&>())
+        .def("step", static_cast<VectorXd(cd_arap_sim::*)(
+            const VectorXd&, const VectorXd&, const cd_sim_state&,
+            const  VectorXd&, const  VectorXd&)>
+            (&cd_arap_sim::step))
+        .def("step", static_cast<VectorXd(cd_arap_sim::*)(
+            const VectorXd&,  const cd_sim_state&,
+            const  VectorXd&, const  VectorXd&)>
+            (&cd_arap_sim::step))
+        .def("set_equality_constraint", &cd_arap_sim::set_equality_constraint)
+        .def("params", &cd_arap_sim::parameters)
+        ;
+
+    py::class_<cd_sim_params>(m, "cd_sim_params")
+        .def(py::init<>())
+        .def(py::init<EigenDRef<MatrixXd>, EigenDRef<MatrixXi>,
+            const SparseMatrix<double>& , double, double, double, 
+            bool, string>())
+        .def(py::init<EigenDRef<MatrixXd>, EigenDRef<MatrixXi>,
+            double, double, double,
+            bool, string>())
+        .def_readwrite("X", &cd_sim_params::X)
+        .def_readwrite("T", &cd_sim_params::T)
+        .def_readwrite("do_inertia", &cd_sim_params::do_inertia)
+        .def_readwrite("Aeq", &cd_sim_params::Aeq)
+        .def_readwrite("h", &cd_sim_params::h)
+        .def_readwrite("invh2", &cd_sim_params::invh2)
+        .def_readwrite("mu", &cd_sim_params::mu)
+        .def_readwrite("lambda", &cd_sim_params::lambda);
+        ;
+ 
+        
 
     py::class_<fast_cd_arap_sim>(m, "fast_cd_arap_sim")
         .def(py::init<std::string&, fast_cd_sim_params&, 
@@ -596,6 +630,17 @@ skinning weights (empty if mode_type == \"displacement\" ) \n L - num_modes x 1 
         return P;
     });
 
+    m.def("interweaving_matrix", [](int rows, int cols) {
+        SparseMatrix<double>S;
+        interweaving_matrix(rows, cols, S);
+        return S;
+        });
+
+    m.def("vector_gradient_operator", [](EigenDRef<MatrixXd> X, EigenDRef<MatrixXi> T) {
+        SparseMatrix<double> K;
+        vector_gradient_operator(X, T, K);
+        return K;
+        });
 
     bind_igl(m);
     bind_viewer(m);

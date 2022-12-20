@@ -3,14 +3,14 @@ import igl
 import numpy as np
 import scipy as sp
 import polyscope as ps
-msh_file = "./data/charizard/charizard.msh"
-rig_dir = "./data/charizard/skeleton_rig_arms_legs/"
-rig_file = rig_dir + "/skeleton_rig_arms_legs.json"
+# msh_file = "./data/charizard/charizard.msh"
+# rig_dir = "./data/charizard/skeleton_rig_arms_legs/"
+# rig_file = rig_dir + "/skeleton_rig_arms_legs.json"
 
-texture_obj = "./data/charizard/charizard_tex.obj"
-texture_png = "./data/charizard/charizard_tex.png"
-
-
+# msh_file = "./data/king_ghidorah/king_g.msh"
+# rig_dir = "./data/king_ghidorah/skeleton_rig/"
+# rig_file = rig_dir + "/skeleton_rig.json"
+# cache_ik = "./results/fast_ik_cache/king_ghidorah/ik/"
 [V, F, T] = fcd.readMSH(msh_file)
 [W, P0, pI, bl, Vs, Fs, rig_type] = fcd.read_rig_from_json(rig_file)
 A = np.identity(4)[:3, :4]
@@ -26,7 +26,7 @@ sub = fcd.fast_ik_subspace(num_clusters, False, "./debug/");
 
 
 sub.init_with_cache(V, T, W, True, True,
-                    "./data/charizard/skeleton_rig_arms_legs/cache2/", True);
+                    cache_ik, True);
 
 
 bI = np.array([1])
