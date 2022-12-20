@@ -8,5 +8,5 @@ dist/*
 ./cache/*
 ./results/*
 results/*
-
+data/*
 **.npy
