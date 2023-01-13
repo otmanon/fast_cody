@@ -13,6 +13,7 @@
 #include "fit_rig_to_mesh.h"
 #include "momentum_leaking_matrix.h"
 #include "read_rig_from_json.h"
+#include "write_rig_to_json.h"
 #include "fast_cd_subspace.h"
 #include "fast_cd_external_force.h"
 #include "read_rig_anim_from_json.h"
@@ -21,8 +22,12 @@
 #include "fast_ik_sim.h"
 #include "selection_matrix.h"
 #include "prolongation.h"
-
+#include "fast_cd_scene.h"
 #include "vector_gradient_operator.h"
+#include "fast_cd_corot_sim_params.h"
+#include "fast_cd_corot_sim.h"
+#include "compute_bbw_weights.h"
+
 #include <pybind11/pybind11.h>
 #include <pybind11/eigen.h>
 #include <pybind11/functional.h>
@@ -37,9 +42,308 @@ using namespace std;
 // Forward-declare bindings from other files
 void bind_viewer(py::module& m);
 void bind_igl(py::module& m);
+
+void bind_fast_cd_arap_sim(py::module& m)
+{
+    py::class_<fast_cd_arap_local_global_solver>(m, "fast_cd_arap_local_global_solver")
+        .def(py::init<>())
+        .def(py::init<EigenDRef<MatrixXd>,
+            EigenDRef<MatrixXd>, local_global_solver_params&>(), " \n \
+            Constructs arap local global solver object used to solve \n \
+            dynamics quickly for fast Complementary DYnamoics \n \
+            Inputs : \n \
+                 A - m x m system matrix \n \
+                Aeq - c x m constraint rows that enforece Aeq z = b \n \
+                as linear equality constraints \n \
+                p - cd_arap_local_global_solver_params \n \
+            ")
+        .def(py::init<EigenDRef<MatrixXd>,
+            EigenDRef<MatrixXd>, bool, int, double>(), " \n \
+            Constructs arap local global solver object used to solve \n \
+            dynamics quickly for fast Complementary DYnamoics \n \
+            Inputs : \n \
+                 A - m x m system matrix \n \
+                Aeq - c x m constraint rows that enforece Aeq z = b \n \
+                as linear equality constraints \n \
+               run_solver_to_convergence - (bool)  \n \
+                max_iters - (int) \n \
+                convergence_threshold - (double) \n \
+                            where to stop if || res || 2 drops below this \n \
+            ")
+        .def_readwrite("prev_solve_iters", &fast_cd_arap_local_global_solver::prev_solve_iters)
+        .def_readwrite("prev_res", &fast_cd_arap_local_global_solver::prev_res);
+
+
+    py::class_<cd_arap_sim>(m, "cd_arap_sim")
+        .def(py::init<>())
+        .def(py::init<cd_sim_params&, local_global_solver_params&>())
+        .def("step", static_cast<VectorXd(cd_arap_sim::*)(
+            const VectorXd&, const VectorXd&, const cd_sim_state&,
+            const  VectorXd&, const  VectorXd&)>
+            (&cd_arap_sim::step))
+        .def("step", static_cast<VectorXd(cd_arap_sim::*)(
+            const VectorXd&, const cd_sim_state&,
+            const  VectorXd&, const  VectorXd&)>
+            (&cd_arap_sim::step))
+        .def("set_equality_constraint", &cd_arap_sim::set_equality_constraint)
+        .def("params", &cd_arap_sim::parameters)
+        ;
+
+    py::class_<cd_sim_params>(m, "cd_sim_params")
+        .def(py::init<>())
+        .def(py::init<EigenDRef<MatrixXd>, EigenDRef<MatrixXi>,
+            const SparseMatrix<double>&, double, double, double,
+            bool, string>())
+        .def(py::init<EigenDRef<MatrixXd>, EigenDRef<MatrixXi>,
+            double, double, double,
+            bool, string>())
+        .def_readwrite("X", &cd_sim_params::X)
+        .def_readwrite("T", &cd_sim_params::T)
+        .def_readwrite("do_inertia", &cd_sim_params::do_inertia)
+        .def_readwrite("Aeq", &cd_sim_params::Aeq)
+        .def_readwrite("h", &cd_sim_params::h)
+        .def_readwrite("invh2", &cd_sim_params::invh2)
+        .def_readwrite("mu", &cd_sim_params::mu)
+        .def_readwrite("lambda", &cd_sim_params::lambda);
+    ;
+
+
+
+    py::class_<fast_cd_arap_sim>(m, "fast_cd_arap_sim")
+        .def(py::init<std::string&, fast_cd_arap_sim_params&,
+            local_global_solver_params&, bool, bool>())
+        .def(py::init<fast_cd_arap_sim_params&, local_global_solver_params&>(), "\
+            cache_dir - (string)  \n \
+            sim_params - fast_cd_arap_sim_params  \n \
+            solver_params - solver_params \n  \
+            read_cache - (bool) \n \
+            write_cache - (bool)\
+            ")
+        .def("step", static_cast<VectorXd(fast_cd_arap_sim::*)(
+            const VectorXd&, const VectorXd&, const cd_sim_state&,
+            const  VectorXd&, const  VectorXd&)>
+            (&fast_cd_arap_sim::step), " \ \
+	        Advances the pre-configured simulation one step  \n \
+            Inputs : \n \
+                z:  m x 1 current guess for z(maybe shouldn't expose this) \n \
+                p : p x 1 flattened rig parameters following writeup column order flattening converntion \n \
+                state : sim_cd_state that contains info like z_curr, z_prev, p_currand p_prev \n \
+                f_ext : used to specify excternal forces like gravity. \n \
+                bc : rhs of equality constraint if some are configured in system \n \
+                (should match in rows with sim.params.Aeq) \n \
+            Outputs : \n \
+                z_next: m x 1 next timestep degrees of freedom \n \
+            ")
+        .def("step", static_cast<VectorXd(fast_cd_arap_sim::*)(
+            const VectorXd&, const VectorXd&, const VectorXd&, const VectorXd&,
+            const VectorXd&, const VectorXd&,
+            const  VectorXd&, const  VectorXd&)>
+            (&fast_cd_arap_sim::step), " \n \
+            Advances the pre - configured simulation one step \n \
+            Inputs : \n \
+                z:  m x 1 current guess for z(maybe shouldn't expose this) \n \
+                p : p x 1 flattened rig parameters following writeup column order flattening converntion  \n \
+                z_curr : m x 1 current d.o.f.s  \n \
+                z_prev : m x 1 previos d.o.f.s  \n \
+                p_curr : p x 1 current rig parameters  \n \
+                p_prev : p x 1 previous rig parameters  \n \
+                f_ext : used to specify excternal forces like gravity.  \n \
+                bc : rhs of equality constraint if some are configured in system  \n \
+                (should match in rows with sim.params.Aeq)  \n \
+            Outputs :  \n \
+                z_next: m x 1 next timestep degrees of freedom  \n \
+            ")
+        .def("params", [](fast_cd_arap_sim& sim) {
+        fast_cd_arap_sim_params* p = (fast_cd_arap_sim_params*)sim.params;
+    return p;
+            })
+        .def("sp", [](fast_cd_arap_sim& sim) {
+        fast_cd_arap_static_precomp* p = (fast_cd_arap_static_precomp*)sim.sp;
+        return p;
+        })
+        .def("dp", [](fast_cd_arap_sim& sim) {
+        fast_cd_arap_dynamic_precomp* p = (fast_cd_arap_dynamic_precomp*)sim.dp;
+        return p;
+        })
+        .def("sol", [](fast_cd_arap_sim& sim) {
+        fast_cd_arap_local_global_solver* p = (fast_cd_arap_local_global_solver*)sim.sol;
+        return p;
+        })
+        .def("set_equality_constraint", &fast_cd_arap_sim::set_equality_constraint)
+        ;
+
+
+        py::class_<fast_cd_arap_sim_params>(m, "fast_cd_arap_sim_params")
+            .def(py::init<>())
+            .def(py::init<EigenDRef<MatrixXd>, EigenDRef<MatrixXi>,
+                EigenDRef<MatrixXd>, const VectorXi&,
+                const SparseMatrix<double>&, double, double, double,
+                bool, string >(), " \n \
+            Contains all the parameters required to build a \n \
+            fast Complementary Dynamics simulator \n \
+            Inputs: \n \
+                X - n x 3 vertex geometry \n \
+                T - T x 4 tet indices \n \
+                B - 3n x m subspace matrix \n \
+                l - T x 1 clustering labels for each tet \n \
+                J - 3n x p rig jacobian \n \
+                mu - (double)first lame parameter \n \
+                lambda - (double)second lame parameter \n \
+                do_inertia - (bool)whether or not sim should have inertia \n \
+            (if no, then adds Tik.regularizer to laplacian \n \
+                sim_constraint_type - (string) \"none\" or \"cd\" or \"cd_momentum_leak\" for now \n \
+            ")
+            .def_readwrite("X", &fast_cd_arap_sim_params::X)
+            .def_readwrite("T", &fast_cd_arap_sim_params::T)
+            .def_readwrite("B", &fast_cd_arap_sim_params::B)
+            .def_readwrite("labels", &fast_cd_arap_sim_params::labels)
+            .def_readwrite("do_inertia", &fast_cd_arap_sim_params::do_inertia)
+            .def_readwrite("Aeq", &fast_cd_arap_sim_params::Aeq)
+            .def_readwrite("h", &fast_cd_arap_sim_params::h)
+            .def_readwrite("invh2", &fast_cd_arap_sim_params::invh2)
+            .def_readwrite("mu", &fast_cd_arap_sim_params::mu)
+            .def_readwrite("lambda", &fast_cd_arap_sim_params::lambda);
+
+        py::class_<fast_cd_external_force>(m, "fast_cd_external_force", "A \
+        class that holds common spatiotemporal control \
+        forces we can use for test scenes in CD")
+            .def(py::init<fast_cd_arap_sim_params&, string, double>(), py::arg("params"),
+                py::arg("external_force_type") = "none", py::arg("external_force_magnitude"),
+                " \
+            Initializes external force used in simulation \n \
+            sim_params - (fast_cd_arap_sim_params)parameters of our simulation \n \
+            external_force_type - (string)either \"none\", or \"momentum_leak\" \n \
+            external_force_magnitude - (double) "
+            )
+            .def("get", &fast_cd_external_force::get, " \
+        Returns the external force being supplied to the fast complementary dynamics system. \n \
+        Inputs: \n \
+            step - which timestep of the simulation are we in.This is useful for forces that have a time - varying component \n \
+            p - 12 | B | x1 flattened rig parameters at next timestep \n \
+            state - fast_cd_state struct that contains info on z_curr, z_prev,\
+                        p_currand p_prev.Useful for inertial - like external forces \n \
+            Output - \n \
+            f - m x 1 external force at this timestep \n \
+            ");
+
+        py::class_<local_global_solver_params>(m, "local_global_solver_params", py::dynamic_attr())
+            .def(py::init<>())
+            .def(py::init<bool, int, double>())
+            .def_readwrite("max_iters", &local_global_solver_params::max_iters)
+            .def_readwrite("threshold", &local_global_solver_params::threshold)
+            .def_readwrite("to_convergence", &local_global_solver_params::to_convergence);
+        
+
+        py::class_<fast_cd_arap_static_precomp>(m, "fast_cd_arap_static_precomp")
+            .def(py::init<>());
+
+        py::class_<fast_cd_arap_dynamic_precomp>(m, "fast_cd_arap_dynamic_precomp")
+            .def(py::init<>());
+
+}
+
+void bind_fast_cd_corot_sim(py::module& m)
+{
+    py::class_<fast_cd_corot_sim>(m, "fast_cd_corot_sim")
+        //.def(py::init<std::string&, fast_cd_corot_sim_params&,
+        //    local_global_solver_params&, bool, bool>())
+        .def(py::init<fast_cd_corot_sim_params&, local_global_solver_params&>())
+        .def("step", static_cast<VectorXd(fast_cd_corot_sim::*)(
+            const VectorXd&, const VectorXd&, const cd_sim_state&,
+            const  VectorXd&, const  VectorXd&)>
+            (&fast_cd_corot_sim::step), " \ \
+	        Advances the pre-configured simulation one step  \n \
+            Inputs : \n \
+                z:  m x 1 current guess for z(maybe shouldn't expose this) \n \
+                p : p x 1 flattened rig parameters following writeup column order flattening converntion \n \
+                state : sim_cd_state that contains info like z_curr, z_prev, p_currand p_prev \n \
+                f_ext : used to specify excternal forces like gravity. \n \
+                bc : rhs of equality constraint if some are configured in system \n \
+                (should match in rows with sim.params.Aeq) \n \
+            Outputs : \n \
+                z_next: m x 1 next timestep degrees of freedom \n \
+            ")
+        .def("params", [](fast_cd_corot_sim& sim) {
+        fast_cd_corot_sim_params* p = (fast_cd_corot_sim_params*)sim.params;
+    return p;
+            })
+        .def("sp", [](fast_cd_corot_sim& sim) {
+                fast_cd_corot_static_precomp* p = (fast_cd_corot_static_precomp*)sim.sp;
+            return p;
+            })
+        .def("dp", [](fast_cd_corot_sim& sim) {
+        fast_cd_corot_dynamic_precomp* p = (fast_cd_corot_dynamic_precomp*)sim.dp;
+        return p;
+        })
+        .def("sol", [](fast_cd_corot_sim& sim) {
+        fast_cd_corot_local_global_solver* p = (fast_cd_corot_local_global_solver*)sim.sol;
+        return p;
+        })
+        .def("set_equality_constraint", &fast_cd_corot_sim::set_equality_constraint)
+        ;
+
+
+        py::class_<fast_cd_corot_sim_params>(m, "fast_cd_corot_sim_params")
+            .def(py::init<>())
+            .def(py::init<EigenDRef<MatrixXd>, EigenDRef<MatrixXi>,
+                EigenDRef<MatrixXd>, const VectorXi&,
+                const SparseMatrix<double>&, double, double, double,
+                bool >(), " \n \
+        Contains all the parameters required to build a \n \
+        fast Complementary Dynamics simulator \n \
+        Inputs: \n \
+            X - n x 3 vertex geometry \n \
+            T - T x 4 tet indices \n \
+            B - 3n x m subspace matrix \n \
+            l - T x 1 clustering labels for each tet \n \
+            J - 3n x p rig jacobian \n \
+            mu - (double)first lame parameter \n \
+            lambda - (double)second lame parameter \n \
+            do_inertia - (bool)whether or not sim should have inertia \n \
+        (if no, then adds Tik.regularizer to laplacian \n \
+            sim_constraint_type - (string) \"none\" or \"cd\" or \"cd_momentum_leak\" for now \n \
+        ")
+            .def_readwrite("X", &fast_cd_corot_sim_params::X)
+            .def_readwrite("T", &fast_cd_corot_sim_params::T)
+            .def_readwrite("B", &fast_cd_corot_sim_params::B)
+            .def_readwrite("labels", &fast_cd_corot_sim_params::labels)
+            .def_readwrite("do_inertia", &fast_cd_corot_sim_params::do_inertia)
+            .def_readwrite("Aeq", &fast_cd_corot_sim_params::Aeq)
+            .def_readwrite("h", &fast_cd_corot_sim_params::h)
+            .def_readwrite("invh2", &fast_cd_corot_sim_params::invh2)
+            .def_readwrite("mu", &fast_cd_corot_sim_params::mu)
+            .def_readwrite("lambda", &fast_cd_corot_sim_params::lambda);
+
+}
+
 PYBIND11_MODULE(fast_cd_pyb, m) {
 
 
+
+    py::class_<fast_cd_scene_obj>(m, "fast_cd_scene_obj", py::dynamic_attr())
+        .def(py::init<std::string, EigenDRef<MatrixXd>, EigenDRef<MatrixXi>, std::string, std::string, fast_cd_subspace&, fast_cd_arap_sim&>())
+        .def("transform_animation", &fast_cd_scene_obj::transform_animation)
+        .def("step", &fast_cd_scene_obj::step)
+        .def_readwrite("do_cd", &fast_cd_scene_obj::do_cd, py::return_value_policy::reference_internal)
+        ;
+
+    py::class_<fast_cd_scene>(m, "fast_cd_scene")
+        .def(py::init<std::string, std::string, int, int>(), py::arg("vert_shader_path"),
+            py::arg("frag_shader_path"), py::arg("max_primary_bones") = 16, py::arg("max_secondary_bones") = 16)
+        .def("add_scene_object", static_cast<int(fast_cd_scene::*)(
+            fast_cd_scene_obj&)>
+            (&fast_cd_scene::add_scene_object))
+        .def("add_scene_object", static_cast<int(fast_cd_scene::*)(
+            fast_cd_scene_obj&, fast_cd_viewer_parameters&)>
+            (&fast_cd_scene::add_scene_object))
+        .def("show", &fast_cd_scene::show)
+        .def_readwrite("num_v", &fast_cd_scene::num_v)
+        .def_readwrite("num_t", &fast_cd_scene::num_t)
+        .def_readwrite("num_obj", &fast_cd_scene::num_obj)
+        .def("set_do_cd", &fast_cd_scene::set_do_cd)
+        .def("set_background_color", &fast_cd_scene::set_background_color)
+        .def("set_record", &fast_cd_scene::set_record)
+        ;
 
     py::class_<sim_state>(m, "sim_state",
         "Simulation state \ \n")
@@ -71,7 +375,7 @@ PYBIND11_MODULE(fast_cd_pyb, m) {
         .def(py::init<EigenDRef<MatrixXd>, EigenDRef<MatrixXi>,
             EigenDRef<MatrixXd>, const VectorXi&,
             SparseMatrix<double>&,
-            const cd_arap_local_global_solver_params&>())
+            const local_global_solver_params&>())
         .def("step", static_cast<VectorXd(fast_ik_sim::*)(
             const VectorXd&,
             const sim_state&, const VectorXd&, const VectorXd&)>
@@ -88,7 +392,7 @@ PYBIND11_MODULE(fast_cd_pyb, m) {
             ")
         .def("set_equality_constraint", &fast_ik_sim::set_equality_constraint)        
         .def("params", [](fast_ik_sim& sim) {
-            fast_cd_sim_params* p = (fast_cd_sim_params*)sim.params;
+            fast_cd_arap_sim_params* p = (fast_cd_arap_sim_params*)sim.params;
                 return p;
              })
         ;
@@ -116,6 +420,9 @@ PYBIND11_MODULE(fast_cd_pyb, m) {
             py::arg("num_clustering_features"),
             py::arg("split_components"),
             py::arg("debug") = false, py::arg("output_dir") = "")
+        .def("set_custom_subspace_constraint", 
+            &fast_cd_subspace::set_custom_subspace_constraint)
+
         .def("init", &fast_cd_subspace::init, "\
             Computes modes + clusters from scratch \n \
             Inputs : \n \
@@ -186,132 +493,7 @@ PYBIND11_MODULE(fast_cd_pyb, m) {
 
 
        
-    py::class_<fast_cd_arap_local_global_solver>(m, "fast_cd_arap_local_global_solver")
-        .def(py::init<>())
-        .def(py::init<EigenDRef<MatrixXd> , 
-            EigenDRef<MatrixXd>, cd_arap_local_global_solver_params&>(), " \n \
-            Constructs arap local global solver object used to solve \n \
-            dynamics quickly for fast Complementary DYnamoics \n \
-            Inputs : \n \
-                 A - m x m system matrix \n \
-                Aeq - c x m constraint rows that enforece Aeq z = b \n \
-                as linear equality constraints \n \
-                p - cd_arap_local_global_solver_params \n \
-            ")
-        .def(py::init<EigenDRef<MatrixXd>,
-            EigenDRef<MatrixXd>, bool, int, double>(), " \n \
-            Constructs arap local global solver object used to solve \n \
-            dynamics quickly for fast Complementary DYnamoics \n \
-            Inputs : \n \
-                 A - m x m system matrix \n \
-                Aeq - c x m constraint rows that enforece Aeq z = b \n \
-                as linear equality constraints \n \
-               run_solver_to_convergence - (bool)  \n \
-                max_iters - (int) \n \
-                convergence_threshold - (double) \n \
-                            where to stop if || res || 2 drops below this \n \
-            ")
-        .def_readwrite("prev_solve_iters", &fast_cd_arap_local_global_solver::prev_solve_iters)
-        .def_readwrite("prev_res", &fast_cd_arap_local_global_solver::prev_res);
-        
-
-    py::class_<cd_arap_sim>(m, "cd_arap_sim")
-        .def(py::init<>())
-        .def(py::init<cd_sim_params&, cd_arap_local_global_solver_params&>())
-        .def("step", static_cast<VectorXd(cd_arap_sim::*)(
-            const VectorXd&, const VectorXd&, const cd_sim_state&,
-            const  VectorXd&, const  VectorXd&)>
-            (&cd_arap_sim::step))
-        .def("step", static_cast<VectorXd(cd_arap_sim::*)(
-            const VectorXd&,  const cd_sim_state&,
-            const  VectorXd&, const  VectorXd&)>
-            (&cd_arap_sim::step))
-        .def("set_equality_constraint", &cd_arap_sim::set_equality_constraint)
-        .def("params", &cd_arap_sim::parameters)
-        ;
-
-    py::class_<cd_sim_params>(m, "cd_sim_params")
-        .def(py::init<>())
-        .def(py::init<EigenDRef<MatrixXd>, EigenDRef<MatrixXi>,
-            const SparseMatrix<double>& , double, double, double, 
-            bool, string>())
-        .def(py::init<EigenDRef<MatrixXd>, EigenDRef<MatrixXi>,
-            double, double, double,
-            bool, string>())
-        .def_readwrite("X", &cd_sim_params::X)
-        .def_readwrite("T", &cd_sim_params::T)
-        .def_readwrite("do_inertia", &cd_sim_params::do_inertia)
-        .def_readwrite("Aeq", &cd_sim_params::Aeq)
-        .def_readwrite("h", &cd_sim_params::h)
-        .def_readwrite("invh2", &cd_sim_params::invh2)
-        .def_readwrite("mu", &cd_sim_params::mu)
-        .def_readwrite("lambda", &cd_sim_params::lambda);
-        ;
- 
-        
-
-    py::class_<fast_cd_arap_sim>(m, "fast_cd_arap_sim")
-        .def(py::init<std::string&, fast_cd_sim_params&, 
-            cd_arap_local_global_solver_params&, bool, bool>())
-        .def(py::init<fast_cd_sim_params&, cd_arap_local_global_solver_params&>(), "\
-            cache_dir - (string)  \n \
-            sim_params - fast_cd_sim_params  \n \
-            solver_params - solver_params \n  \
-            read_cache - (bool) \n \
-            write_cache - (bool)\
-            ")
-        .def("step", static_cast<VectorXd(fast_cd_arap_sim::*)(
-            const VectorXd&, const VectorXd&, const cd_sim_state&,
-            const  VectorXd&, const  VectorXd&)>
-            (&fast_cd_arap_sim::step), " \ \
-	        Advances the pre-configured simulation one step  \n \
-            Inputs : \n \
-                z:  m x 1 current guess for z(maybe shouldn't expose this) \n \
-                p : p x 1 flattened rig parameters following writeup column order flattening converntion \n \
-                state : sim_cd_state that contains info like z_curr, z_prev, p_currand p_prev \n \
-                f_ext : used to specify excternal forces like gravity. \n \
-                bc : rhs of equality constraint if some are configured in system \n \
-                (should match in rows with sim.params.Aeq) \n \
-            Outputs : \n \
-                z_next: m x 1 next timestep degrees of freedom \n \
-            ")
-        .def("step", static_cast<VectorXd(fast_cd_arap_sim::*)(
-            const VectorXd&, const VectorXd&, const VectorXd&, const VectorXd&,
-            const VectorXd&, const VectorXd&,
-            const  VectorXd&, const  VectorXd&)>
-            (&fast_cd_arap_sim::step) , " \n \
-            Advances the pre - configured simulation one step \n \
-            Inputs : \n \
-                z:  m x 1 current guess for z(maybe shouldn't expose this) \n \
-                p : p x 1 flattened rig parameters following writeup column order flattening converntion  \n \
-                z_curr : m x 1 current d.o.f.s  \n \
-                z_prev : m x 1 previos d.o.f.s  \n \
-                p_curr : p x 1 current rig parameters  \n \
-                p_prev : p x 1 previous rig parameters  \n \
-                f_ext : used to specify excternal forces like gravity.  \n \
-                bc : rhs of equality constraint if some are configured in system  \n \
-                (should match in rows with sim.params.Aeq)  \n \
-            Outputs :  \n \
-                z_next: m x 1 next timestep degrees of freedom  \n \
-            ")
-        .def("params", [](fast_cd_arap_sim& sim) {
-            fast_cd_sim_params* p = (fast_cd_sim_params*)sim.params;
-            return p;
-        })
-        .def("sp", [](fast_cd_arap_sim& sim) {
-            fast_cd_arap_static_precomp* p = (fast_cd_arap_static_precomp*)sim.sp;
-        return p;
-            })
-        .def("dp", [](fast_cd_arap_sim& sim) {
-            fast_cd_arap_dynamic_precomp* p = (fast_cd_arap_dynamic_precomp*)sim.dp;
-        return p;
-            })
-        .def("sol", [](fast_cd_arap_sim& sim) {
-        fast_cd_arap_local_global_solver* p = (fast_cd_arap_local_global_solver*)sim.sol;
-        return p;
-        })
-        .def("set_equality_constraint", &fast_cd_arap_sim::set_equality_constraint)
-        ;
+  
 
     py::class_<cd_sim_state>(m, "cd_sim_state")
         .def(py::init<>())
@@ -326,69 +508,7 @@ PYBIND11_MODULE(fast_cd_pyb, m) {
         .def_readwrite("p_curr", &cd_sim_state::p_curr)
         .def_readwrite("p_prev", &cd_sim_state::p_prev);
 
-    py::class_<fast_cd_sim_params>(m, "fast_cd_sim_params")
-        .def(py::init<>())
-        .def(py::init<EigenDRef<MatrixXd>, EigenDRef<MatrixXi>,
-            EigenDRef<MatrixXd>, const VectorXi&,
-            const SparseMatrix<double>&, double, double, double,
-            bool, string >(), " \n \
-            Contains all the parameters required to build a \n \
-            fast Complementary Dynamics simulator \n \
-            Inputs: \n \
-                X - n x 3 vertex geometry \n \
-                T - T x 4 tet indices \n \
-                B - 3n x m subspace matrix \n \
-                l - T x 1 clustering labels for each tet \n \
-                J - 3n x p rig jacobian \n \
-                mu - (double)first lame parameter \n \
-                lambda - (double)second lame parameter \n \
-                do_inertia - (bool)whether or not sim should have inertia \n \
-            (if no, then adds Tik.regularizer to laplacian \n \
-                sim_constraint_type - (string) \"none\" or \"cd\" or \"cd_momentum_leak\" for now \n \
-            ")
-        .def_readwrite("X", &fast_cd_sim_params::X)
-        .def_readwrite("T", &fast_cd_sim_params::T)
-        .def_readwrite("B", &fast_cd_sim_params::B)
-        .def_readwrite("labels", &fast_cd_sim_params::labels)
-        .def_readwrite("do_inertia", &fast_cd_sim_params::do_inertia)
-        .def_readwrite("Aeq", &fast_cd_sim_params::Aeq)
-        .def_readwrite("h", &fast_cd_sim_params::h)
-        .def_readwrite("invh2", &fast_cd_sim_params::invh2)
-        .def_readwrite("mu", &fast_cd_sim_params::mu)
-        .def_readwrite("lambda", &fast_cd_sim_params::lambda);
-
-    py::class_<fast_cd_external_force>(m, "fast_cd_external_force", "A \
-        class that holds common spatiotemporal control \
-        forces we can use for test scenes in CD")
-        .def(py::init<fast_cd_sim_params&, string, double>(), py::arg("params"),
-            py::arg("external_force_type") = "none", py::arg("external_force_magnitude"), 
-            " \
-            Initializes external force used in simulation \n \
-            sim_params - (fast_cd_sim_params)parameters of our simulation \n \
-            external_force_type - (string)either \"none\", or \"momentum_leak\" \n \
-            external_force_magnitude - (double) "
-        )
-        .def("get", &fast_cd_external_force::get, " \
-        Returns the external force being supplied to the fast complementary dynamics system. \n \
-        Inputs: \n \
-            step - which timestep of the simulation are we in.This is useful for forces that have a time - varying component \n \
-            p - 12 | B | x1 flattened rig parameters at next timestep \n \
-            state - fast_cd_state struct that contains info on z_curr, z_prev,\
-                        p_currand p_prev.Useful for inertial - like external forces \n \
-            Output - \n \
-            f - m x 1 external force at this timestep \n \
-            ");
-
-    py::class_<cd_arap_local_global_solver_params>(m, "cd_arap_local_global_solver_params", py::dynamic_attr())
-        .def(py::init<>())
-        .def(py::init<bool, int, double>());
-       
-    py::class_<fast_cd_arap_static_precomp>(m, "fast_cd_arap_static_precomp")
-        .def(py::init<>());
-
-    py::class_<fast_cd_arap_dynamic_precomp>(m, "fast_cd_arap_dynamic_precomp")
-        .def(py::init<>());
-
+   
    
         m.def("compute_clusters_weight_space", [](EigenDRef<MatrixXi> T, EigenDRef<MatrixXd> B, EigenDRef<VectorXd> L, int num_clusters, int num_feature_modes)
             {
@@ -449,6 +569,31 @@ skinning weights (empty if mode_type == \"displacement\" ) \n L - num_modes x 1 
         });
         */
 
+
+        m.def("complementarity_constraint_matrix",[](EigenDRef<MatrixXd> V, EigenDRef<MatrixXd> W,
+            EigenDRef<MatrixXi> T)
+        {
+            SparseMatrix<double> J, D, M, Aeq;
+            lbs_jacobian(V, W, J);
+            igl::massmatrix(V, T, igl::MASSMATRIX_TYPE_BARYCENTRIC, M);
+            Aeq = (J.transpose() * igl::repdiag(M, 3));
+            return Aeq;
+        });
+
+        m.def("complementarity_constraint_matrix_with_diffusion_leaking", [](EigenDRef<MatrixXd> V, 
+            EigenDRef<MatrixXd> W, EigenDRef<MatrixXi> T,  double dt, bool flip) {
+            SparseMatrix<double> J, D, M, Aeq;
+            lbs_jacobian(V, W, J);
+            
+            if (flip)
+                momentum_leaking_matrix(V, T, fast_cd::MOMENTUM_LEAK_DIFFUSION_FLIP, D, dt);
+            else
+                momentum_leaking_matrix(V, T, fast_cd::MOMENTUM_LEAK_DIFFUSION, D, dt);
+
+            igl::massmatrix(V, T, igl::MASSMATRIX_TYPE_BARYCENTRIC, M);
+            Aeq = (J.transpose() * igl::repdiag(M, 3) * igl::repdiag(D, 3));
+            return Aeq;
+            });
 
     m.def("momentum_leaking_matrix", [](EigenDRef<MatrixXd> V, EigenDRef<MatrixXi> T) {
         SparseMatrix<double> D;
@@ -515,10 +660,19 @@ skinning weights (empty if mode_type == \"displacement\" ) \n L - num_modes x 1 
             rig_type - either \"surface\" or \"volume\", \n \
         ");
 
+    m.def("write_rig_to_json", [](std::string filename,
+        EigenDRef<MatrixXd> W, EigenDRef<MatrixXd> P0, VectorXi& pI, VectorXd& l,
+        EigenDRef<MatrixXd> V, EigenDRef<MatrixXi> F,
+    std::string rig_type) {
+    return write_rig_to_json(filename, W, P0, pI, l, V, F, rig_type);
+        });
+
     m.def("surface_to_volume_weights", [](EigenDRef<MatrixXd> Ws,
         EigenDRef<MatrixXd> Vs, EigenDRef<MatrixXd>
         V, EigenDRef<MatrixXi> T) {
+          //  printf("Made it before surface_to_volume_weights call!\n");
             MatrixXd W = surface_to_volume_weights(Ws, Vs, V, T);
+          //  printf("Made it past surface_to_volume_weights call!\n");
     return W;
         }, " \n \
         Transfers weights defined on the surface Vs to the volume V \n \
@@ -642,6 +796,15 @@ skinning weights (empty if mode_type == \"displacement\" ) \n L - num_modes x 1 
         return K;
         });
 
+    m.def("compute_bbw_weights", [](EigenDRef<VectorXd> p, EigenDRef<MatrixXd> V, EigenDRef<MatrixXi> T)
+        {
+            MatrixXd W = compute_bbw_weights(p, V, T);
+            return W;
+        });
+
+
+    bind_fast_cd_arap_sim(m);
+    bind_fast_cd_corot_sim(m);
     bind_igl(m);
     bind_viewer(m);
 }

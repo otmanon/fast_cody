@@ -8,6 +8,7 @@ pybind11_add_module(fast_cd_pyb
   src/core.cpp
   src/viewer.cpp
   src/igl.cpp
+  src/sim.cpp
 )
 target_include_directories(fast_cd_pyb PRIVATE ./deps/fast_cd/include/)
 target_link_libraries(fast_cd_pyb PRIVATE fast_cd)

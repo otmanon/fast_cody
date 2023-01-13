@@ -1,6 +1,7 @@
 #include "fast_cd_viewer.h"
 #include "fast_cd_viewer_vertex_selector.h"
 #include "fast_cd_viewer_custom_shader.h"
+#include "fast_cd_viewer_parameters.h"
 
 #include <pybind11/pybind11.h>
 //#include <pybind11/stl.h>
@@ -127,13 +128,12 @@ fast_cd_viewer>(m, "fast_cd_viewer_vertex_selector")
     ");
        // .def("set_mesh", &fast_cd_viewer_vertex_selector::set_mesh);
 
-
     py::class_<fast_cd_viewer_custom_shader,
         fast_cd_viewer>(m, "fast_cd_viewer_custom_shader")
         .def(py::init<>())
         .def(py::init<string&, string&, int, int>(), py::arg("vertex_shader"), py::arg("framgnet_shader"),
             py::arg("max_num_primary_bones"), py::arg("max_num_secondary_bones"))
-        .def("launch", &fast_cd_viewer_custom_shader::launch)
+        .def("launch", &fast_cd_viewer_custom_shader::launch, py::arg("max_fps"), py::arg("render"))
         .def("init_buffers", &fast_cd_viewer_custom_shader::init_buffers)
         .def("free_buffers", &fast_cd_viewer_custom_shader::free_buffers)
         .def("set_primary_weights", &fast_cd_viewer_custom_shader::set_primary_weights)
@@ -143,4 +143,13 @@ fast_cd_viewer>(m, "fast_cd_viewer_vertex_selector")
         .def("set_secondary_bone_transforms", &fast_cd_viewer_custom_shader::set_secondary_bone_transforms)
         .def("set_bone_transforms", &fast_cd_viewer_custom_shader::set_bone_transforms)
         .def("updateGL", &fast_cd_viewer_custom_shader::updateGL);
-}
+
+    py::class_<fast_cd_viewer_parameters>(m, "fast_cd_viewer_parameters")
+        .def(py::init<>())
+        .def("set_texture", static_cast<void (fast_cd_viewer_parameters::*)
+            (std::string, std::string, double, RowVector3d)>(&fast_cd_viewer_parameters::set_texture))
+        .def("set_texture", static_cast<void (fast_cd_viewer_parameters::*)
+            (std::string, std::string)>(&fast_cd_viewer_parameters::set_texture))
+        ;
+       
+} 

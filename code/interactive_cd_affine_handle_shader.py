@@ -11,8 +11,8 @@ read_cache = True
 ## parameters
 num_skinning_modes = 16
 num_clusters = 400
-mu = 10
-lam = 0
+ym = 10
+pr = 0.4
 h = 1e-2
 max_fps = 100000
 
@@ -37,12 +37,14 @@ sub_cd = fcd.fast_cd_subspace(num_skinning_modes, "cd_momentum_leak",
                               "skinning",   num_clusters, num_skinning_modes, True)
 sub_cd.init_with_cache(V, T, J, read_cache, write_cache,
                        cache_cd, cache_cd, True, True)
-solver_params = fcd.cd_arap_local_global_solver_params(True, 10, 1e-4)
+solver_params = fcd.local_global_solver_params(True, 10, 1e-4)
 labels = np.copy(sub_cd.labels)  # need to copy this, for some reason its not writeable otherwise
 B = np.copy(sub_cd.B)
-sim_params = fcd.fast_cd_sim_params(V, T, B, labels, J,  mu, lam, h, do_inertia, "none")
-sim_cd = fcd.fast_cd_arap_sim(cache_cd, sim_params, solver_params, read_cache, write_cache)
+# sim_params = fcd.fast_cd_arap_sim_params(V, T, B, labels, J,  mu, lam, h, do_inertia, "none")
+# sim_cd = fcd.fast_cd_arap_sim(cache_cd, sim_params, solver_params, read_cache, write_cache)
 
+sim_params = fcd.fast_cd_corot_sim_params(V, T, B, labels, J, ym, pr, h, do_inertia)
+sim_cd = fcd.fast_cd_corot_sim(sim_params, solver_params)
 viewer = fcd.fast_cd_viewer_custom_shader(vertex_shader, fragment_shader, 16, 16)
 
 

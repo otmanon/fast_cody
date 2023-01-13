@@ -10,13 +10,13 @@ rig_file = rig_dir + "/skeleton_rig_arms_legs.json"
 texture_obj = "./data/charizard/charizard_tex.obj"
 texture_png = "./data/charizard/charizard_tex.png"
 
-read_cache = True
+read_cache = False
 write_cache = True
 
 
 ######## SIM PARAMS #########
-num_clusters = 100
-num_skinning_modes =30
+num_clusters = 50
+num_skinning_modes =15
 mu = 20.0
 lam = 0
 h = 1e-2
@@ -41,7 +41,7 @@ sub = fcd.fast_ik_subspace(num_clusters, read_cache, "./debug/");
 sub.init_with_cache(V, T, W, read_cache, write_cache,
                     cache_ik, True);
 bI = np.array([1])
-solver_params = fcd.cd_arap_local_global_solver_params(True, 10, 1e-3)
+solver_params = fcd.local_global_solver_params(True, 10, 1e-3)
 bI = np.array([])
 S = fcd.selection_matrix(bI, V.shape[0], V.shape[1])
 labels2 = np.copy(sub.labels)
@@ -55,16 +55,17 @@ state_ik = fcd.sim_state(p, p)
 # p = np.tile(np.identity(4)[:3, :4], W.shape[1]).reshape((V.shape[0] * 12, 1), order="F")
 
 
-
 sub_cd = fcd.fast_cd_subspace(num_skinning_modes, "cd_momentum_leak",
                               "skinning",   num_clusters, num_skinning_modes, True)
 sub_cd.init_with_cache(V, T, J, read_cache, write_cache,
                        cache_cd, cache_cd, True, True)
-solver_params = fcd.cd_arap_local_global_solver_params(True, 10, 1e-4)
+solver_params = fcd.local_global_solver_params(False, 100, 1e-4)
 labels = np.copy(sub_cd.labels)  # need to copy this, for some reason its not writeable otherwise
 B = np.copy(sub_cd.B)
-sim_params = fcd.fast_cd_sim_params(V, T, B, labels, J,  mu, lam, h, do_inertia, "none")
-sim_cd = fcd.fast_cd_arap_sim(cache_cd, sim_params, solver_params, False, write_cache)
+lam = 0.49
+sim_params = fcd.fast_cd_corot_sim_params(V, T, B, labels, J,  mu, lam, h, do_inertia)
+# sim_cd = fcd.fast_cd_arap_sim(cache_cd, sim_params, solver_params, False, write_cache)
+sim_cd = fcd.fast_cd_corot_sim(sim_params, solver_params)
 
 z = np.zeros((sub_cd.W.shape[1] * 12, 1));
 # z = np.tile(np.identity(4)[:3, :4], sub_cd.W.shape[1]).reshape(z.shape)
