@@ -10,3 +10,5 @@ dist/*
 results/*
 data/*
 **.npy
+**.blend
+**.blend1
