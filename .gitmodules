@@ -4,6 +4,3 @@
 [submodule "deps/pybind11"]
 	path = deps/pybind11
 	url = https://github.com/pybind/pybind11.git
-[submodule "fast_cd_data"]
-	path = fast_cd_data
-	url = https://github.com/otmanon/fast_cd_data.git
