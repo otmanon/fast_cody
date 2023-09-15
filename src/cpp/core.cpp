@@ -2,7 +2,6 @@
 #include "rig_parameters.h"
 #include "get_skeleton_mesh.h"
 #include "skinning_modes.h"
-#include "get_modes.h"
 #include "compute_clusters_igl.h"
 
 #include "lbs_jacobian.h"
@@ -15,14 +14,11 @@
 #include "read_rig_from_json.h"
 #include "write_rig_to_json.h"
 #include "fast_cd_subspace.h"
-#include "fast_cd_external_force.h"
 #include "read_rig_anim_from_json.h"
 #include "rig_parameters.h"
-#include "fast_ik_subspace.h"
-#include "fast_ik_sim.h"
 #include "selection_matrix.h"
 #include "prolongation.h"
-#include "fast_cd_scene.h"
+//#include "fast_cd_scene.h"
 #include "vector_gradient_operator.h"
 #include "fast_cd_corot_sim_params.h"
 #include "fast_cd_corot_sim.h"
@@ -174,11 +170,10 @@ void bind_fast_cd_arap_sim(py::module& m)
 
 
         py::class_<fast_cd_arap_sim_params>(m, "fast_cd_arap_sim_params")
-            .def(py::init<>())
             .def(py::init<EigenDRef<MatrixXd>, EigenDRef<MatrixXi>,
                 EigenDRef<MatrixXd>, const VectorXi&,
-                const SparseMatrix<double>&, double, double, double,
-                bool, string >(), " \n \
+                const SparseMatrix<double>&, const SparseMatrix<double>&, 
+                double, double, bool >(), " \n \
             Contains all the parameters required to build a \n \
             fast Complementary Dynamics simulator \n \
             Inputs: \n \
@@ -193,6 +188,10 @@ void bind_fast_cd_arap_sim(py::module& m)
             (if no, then adds Tik.regularizer to laplacian \n \
                 sim_constraint_type - (string) \"none\" or \"cd\" or \"cd_momentum_leak\" for now \n \
             ")
+            .def(py::init<EigenDRef<MatrixXd>, EigenDRef<MatrixXi>,
+                EigenDRef<MatrixXd>, const VectorXi&,
+                const SparseMatrix<double>&, const SparseMatrix<double>&,
+                const VectorXd&, double, bool >())
             .def_readwrite("X", &fast_cd_arap_sim_params::X)
             .def_readwrite("T", &fast_cd_arap_sim_params::T)
             .def_readwrite("B", &fast_cd_arap_sim_params::B)
@@ -201,30 +200,9 @@ void bind_fast_cd_arap_sim(py::module& m)
             .def_readwrite("Aeq", &fast_cd_arap_sim_params::Aeq)
             .def_readwrite("h", &fast_cd_arap_sim_params::h)
             .def_readwrite("invh2", &fast_cd_arap_sim_params::invh2)
-            .def_readwrite("mu", &fast_cd_arap_sim_params::mu)
-            .def_readwrite("lambda", &fast_cd_arap_sim_params::lambda);
+            .def_readwrite("mu", &fast_cd_arap_sim_params::mu);
 
-        py::class_<fast_cd_external_force>(m, "fast_cd_external_force", "A \
-        class that holds common spatiotemporal control \
-        forces we can use for test scenes in CD")
-            .def(py::init<fast_cd_arap_sim_params&, string, double>(), py::arg("params"),
-                py::arg("external_force_type") = "none", py::arg("external_force_magnitude"),
-                " \
-            Initializes external force used in simulation \n \
-            sim_params - (fast_cd_arap_sim_params)parameters of our simulation \n \
-            external_force_type - (string)either \"none\", or \"momentum_leak\" \n \
-            external_force_magnitude - (double) "
-            )
-            .def("get", &fast_cd_external_force::get, " \
-        Returns the external force being supplied to the fast complementary dynamics system. \n \
-        Inputs: \n \
-            step - which timestep of the simulation are we in.This is useful for forces that have a time - varying component \n \
-            p - 12 | B | x1 flattened rig parameters at next timestep \n \
-            state - fast_cd_state struct that contains info on z_curr, z_prev,\
-                        p_currand p_prev.Useful for inertial - like external forces \n \
-            Output - \n \
-            f - m x 1 external force at this timestep \n \
-            ");
+    
 
         py::class_<local_global_solver_params>(m, "local_global_solver_params", py::dynamic_attr())
             .def(py::init<>())
@@ -317,10 +295,7 @@ void bind_fast_cd_corot_sim(py::module& m)
 }
 
 PYBIND11_MODULE(fast_cd_pyb, m) {
-
-
-
-    py::class_<fast_cd_scene_obj>(m, "fast_cd_scene_obj", py::dynamic_attr())
+ /*   py::class_<fast_cd_scene_obj>(m, "fast_cd_scene_obj", py::dynamic_attr())
         .def(py::init<std::string, EigenDRef<MatrixXd>, EigenDRef<MatrixXi>, std::string, std::string, fast_cd_subspace&, fast_cd_arap_sim&>())
         .def("transform_animation", &fast_cd_scene_obj::transform_animation)
         .def("step", &fast_cd_scene_obj::step)
@@ -343,7 +318,7 @@ PYBIND11_MODULE(fast_cd_pyb, m) {
         .def("set_do_cd", &fast_cd_scene::set_do_cd)
         .def("set_background_color", &fast_cd_scene::set_background_color)
         .def("set_record", &fast_cd_scene::set_record)
-        ;
+        ;*/
 
     py::class_<sim_state>(m, "sim_state",
         "Simulation state \ \n")
@@ -353,109 +328,13 @@ PYBIND11_MODULE(fast_cd_pyb, m) {
         ;
 
 
-    py::class_<fast_ik_subspace>(m, "fast_ik_subspace", "Helper Class that builds, reads and writes \
-         the FAST IK subspace\n")
-        .def(py::init<>())
-        .def(py::init<int, bool, string>(), py::arg("num_clusters"),
-            py::arg("debug") = false, py::arg("output_dir") = "")
-        .def("init", &fast_ik_subspace::init)
-        .def("init_with_cache", &fast_ik_subspace::init_with_cache)
-        .def("write_to_cache", &fast_ik_subspace::write_to_cache)
-        .def("read_from_cache", &fast_ik_subspace::read_from_cache)
-        .def("read_from_cache_recompute", &fast_ik_subspace::read_from_cache_recompute)
-        .def_readwrite("labels", &fast_ik_subspace::l)
-        ;
 
-
-    /*MatrixXd& V, MatrixXi& T, MatrixXd& W,
-        VectorXi& l, VectorXi& bI,
-        cd_arap_local_global_solver_params& solver_params*/
-    py::class_<fast_ik_sim>(m, "fast_ik_sim", "FAST IK Simulation")
-        .def(py::init<>())
-        .def(py::init<EigenDRef<MatrixXd>, EigenDRef<MatrixXi>,
-            EigenDRef<MatrixXd>, const VectorXi&,
-            SparseMatrix<double>&,
-            const local_global_solver_params&>())
-        .def("step", static_cast<VectorXd(fast_ik_sim::*)(
-            const VectorXd&,
-            const sim_state&, const VectorXd&, const VectorXd&)>
-            (&fast_ik_sim::step), " \n \
-            Advances the pre - configured simulation one step \n \
-            Inputs : \n \
-                z:  m x 1 current guess for z(maybe shouldn't expose this) \n \
-                sim_state : state  \n \
-                f_ext : m x 1 previos d.o.f.s  \n \
-                bc :  rhs of equality constraint if some are configured in system \n \
-                (should match in rows with sim.params.Aeq)  \n \
-            Outputs :  \n \
-                z_next: m x 1 next timestep degrees of freedom  \n \
-            ")
-        .def("set_equality_constraint", &fast_ik_sim::set_equality_constraint)        
-        .def("params", [](fast_ik_sim& sim) {
-            fast_cd_arap_sim_params* p = (fast_cd_arap_sim_params*)sim.params;
-                return p;
-             })
-        ;
 
     py::class_<fast_cd_subspace>(m, "fast_cd_subspace", "Helper class that \
         builds/reads/writes the subspaces necessary to run and test Fast CD\n",
         py::dynamic_attr())
         .def(py::init<>())
-        .def(py::init<int, string, string, int, int, bool, bool, string>(), "\
-            	Initializes and configures subspace... does NOT build it yet.\n \
-                Inputs: \n \
-                num_modes - (int) number of modes in subspace\n \
-                subspace_constraint_type - (string) either \"none\", or \"cd\" or \
-                                            \"cd_momentum_leak\"\n \
-                mode_type - (string) either \"skinning\" or \"displacement\"\n \
-                num_clusters - (int) number of clusters\n \
-                num_clustering_features - (int) number of clustering features used\n \
-                split_components - (bool) whether to split the components of the clusters \n \
-                \n  \
-                Optional:\n\
-                debug - (bool) whether to save and store debug info\n \
-                output_dir - (string) output directory where we will write debug info\n\
-            ", py::arg("num_modes"), py::arg("subspace_constraint_type"),
-            py::arg("mode_type"), py::arg("num_clusters"),
-            py::arg("num_clustering_features"),
-            py::arg("split_components"),
-            py::arg("debug") = false, py::arg("output_dir") = "")
-        .def("set_custom_subspace_constraint", 
-            &fast_cd_subspace::set_custom_subspace_constraint)
-
-        .def("init", &fast_cd_subspace::init, "\
-            Computes modes + clusters from scratch \n \
-            Inputs : \n \
-                V -> | n | x3 geometry \n \
-                T -> | T | x4 tet indices \n \
-                J -> | c | x3n null space / linear orthogonality constraint")
-        .def("init_with_cache", &fast_cd_subspace::init_with_cache, "\
-            Computes modes + clusters from scratch, \
-            with control over when to read / write from cache \n \
-            Inputs:  \n \
-                V -> | n | x3 geometry  \n \
-                T -> | T | x4 tet indices \n \
-                J -> 3n x | c | rig jacobian (not weighed by mass matrix or nothing) \n \
-                read_cache->whether or not to \
-                            attempt to read modes and clusters from cache. \n \
-                write_cache->whether or not to write modes and clusters to cache. \n \
-                modes_cache_dir->directory where mode cache is \n \
-            (Optional) \n \
-                clusters_cache_dir->directory where clusters cache is \n \
-                recompute_modes_if_not_found->whether or \
-                                            not to recompute modes from scratch \
-                                            if not found in cache(default true) \n \
-                recompute_clusters_if_not_found->whether or not to  \
-                                                recompute clusters from scratich if \
-                                                not found in cache(default true) \n \
-            ")
-        .def("write_to_cache", &fast_cd_subspace::write_to_cache, " \
-                Writes modes and clusters to cache directories \n \
-                modes_dir -> (string)where to save modes directory \
-                             (both B.DMAT or W.DMAT and L.DMAT, modes + frequencies) \n \
-                clusters_dir -> (string)where to save clusters directory(labels.DMAT)\
-                ")
-
+        .def(py::init<string, string, string, int, int>() )
         .def("read_from_cache", &fast_cd_subspace::read_from_cache, "  \
                 Reads modes and clusters from cache directories \n \
                 Inputs: \n \
@@ -477,17 +356,9 @@ PYBIND11_MODULE(fast_cd_pyb, m) {
                         modes_dur - (string)directory where \
                                         cluster B.DMAT / W.DMAT and L.DMAT is stored\
                      ")
-        .def("getB", [](fast_cd_subspace& sub) {return sub.B; })
-        .def("getW", [](fast_cd_subspace& sub) {return sub.W; })
-        .def("getL", [](fast_cd_subspace& sub) {return sub.L; })
-        .def("getLabels", [](fast_cd_subspace& sub) {return sub.l; })
-        .def("setB", [](fast_cd_subspace& sub, EigenDRef<MatrixXd> B) {sub.B = B; })
-        .def("setW", [](fast_cd_subspace& sub, EigenDRef<MatrixXd> W) {sub.W = W; })
-        .def("setL", [](fast_cd_subspace& sub, VectorXd& L) {sub.L = L; })
         .def("setlabels", [](fast_cd_subspace& sub, VectorXi& l) {sub.l = l; })
         .def_readwrite("B", &fast_cd_subspace::B, py::return_value_policy::reference_internal)
         .def_readwrite("W", &fast_cd_subspace::W, py::return_value_policy::reference_internal)
-        .def_readwrite("L", &fast_cd_subspace::L, py::return_value_policy::reference_internal)
         .def_readwrite("labels", &fast_cd_subspace::l, py::return_value_policy::reference_internal)
         ;
 
@@ -522,52 +393,6 @@ PYBIND11_MODULE(fast_cd_pyb, m) {
                 lbs_jacobian(V, W, J);
                 return J;
             });
-
-    /// INDEPENDANT FUNCTIONS 
-        m.def("get_modes", [](EigenDRef<MatrixXd> V, EigenDRef<MatrixXi> T,
-            SparseMatrix<double>& J, std::string mode_type, int num_modes) {
-                MatrixXd B, Ws;
-        VectorXd L;
-
-        if (J.cols() != V.rows() * V.cols())
-        {
-            printf("Constraint matrix does not \
-                have enough columns! Should be a #V*dim x #params matrix");
-            return std::make_tuple(B, Ws, L);
-        }
-        else
-        {
-            get_modes(V, T, J, mode_type, num_modes, B, L, Ws);
-            return std::make_tuple(B, Ws, L);
-        }}
-        , "hi"); /*
-    , "Computes subspace used for fast_cd simulation \n \
-Inputs: \n V - n x 3 mesh geometry \n T - T x 4 tet indices \n \
-J - p x 3V subspace constraint matrix \n mode_type - (string) either \"skinning\" \
-or \"displacement\" \n num_modes : (int) number of modes to compute in our subspace \n \
-Outputs : \n B - 3n x num_modes full subspace columns\n W - n x num_modes \
-skinning weights (empty if mode_type == \"displacement\" ) \n L - num_modes x 1 list of\
- eigenvalues sorted to match with the columns of B or W"
-    //(string)either \"none\", \"cd\" or \"none\"
-
-    m.def("skinning_modes", [](EigenDRef<MatrixXd> V, 
-        SparseMatrix<double>& H, SparseMatrix<double>& M,
-        SparseMatrix<double>& Aeq, int num_modes)
-        {
-            MatrixXd B_lbs, W;
-            VectorXd L;
-            skinning_modes(V, H, M, Aeq, num_modes, B_lbs, W, L);
-            return std::make_tuple(B_lbs, W, L);
-        });
-    /*
-    m.def("compute_clusters", [](EigenDRef<MatrixXi> T, EigenDRef<MatrixXd> B, EigenDRef<VectorXd> L, int num_clusters, int num_feature_modes)
-        {
-            VectorXi labels;
-            MatrixXd C;
-            compute_clusters_igl(T, B, L, num_clusters, num_feature_modes, labels, C);
-            return std::make_tuple(labels, C);
-        });
-        */
 
 
         m.def("complementarity_constraint_matrix",[](EigenDRef<MatrixXd> V, EigenDRef<MatrixXd> W,

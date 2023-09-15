@@ -1,0 +1,8 @@
+README.md
+setup.py
+src/fast_cd_pyb.egg-info/PKG-INFO
+src/fast_cd_pyb.egg-info/SOURCES.txt
+src/fast_cd_pyb.egg-info/dependency_links.txt
+src/fast_cd_pyb.egg-info/not-zip-safe
+src/fast_cd_pyb.egg-info/requires.txt
+src/fast_cd_pyb.egg-info/top_level.txt
