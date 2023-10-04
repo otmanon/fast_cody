@@ -1,7 +1,8 @@
 import numpy as np 
 import scipy as sp
 import igl
-import fast_cd_pyb as fcd 
+import fast_cd_pyb as fcd
+import fast_cd as fc
 import json
 import os.path
 
@@ -16,7 +17,7 @@ lam = 0
 h = 1e-2
 do_inertia = True
 name = "bulldog"
-mesh_file = "./data/" + name + ".msh"
+mesh_file = "../data/" + name + ".msh"
 cache_cd = "./cache/" + name + "/"
 meta_file = cache_cd + "/meta.json"
 [V, F, T] = fcd.readMSH(mesh_file)
@@ -26,12 +27,29 @@ F = igl.boundary_facets(T);
 
 
 W = np.ones((V.shape[0], 1))
-J = fcd.lbs_jacobian(V, W)
+J = fc.lbs_jacobian(V, W)
 
-sub_cd = fcd.fast_cd_subspace(num_skinning_modes, "cd_momentum_leak",
-                              "skinning",   num_clusters, num_skinning_modes, True)
-sub_cd.init_with_cache(V, T, J, read_cache, write_cache,
-                       cache_cd, cache_cd, True, True)
+result_dir = '../../examples/interactive_cd_affine_handle/results/'
+cache_dir = os.path.join(result_dir, 'cache/')
+# os.makedirs(cache_dir)
+modes_dir =  cache_dir
+clusters_dir = cache_dir
+mode_type = 'skinning'
+num_modes = 10
+num_clusters = 100
+
+
+# TODO: make fast_cd_subspace take in B, and l
+M = sp.sparse.kron(sp.sparse.identity(3), \
+                   igl.massmatrix(V, T))
+
+C = fc.lbs_weight_space_constraint(V,  M @ J, M=igl.massmatrix(V, T))
+[B, l, W] = fc.skinning_subspace(V, T, 10, 100, C=C);
+sub_cd = fcd.fast_cd_subspace(modes_dir, clusters_dir, mode_type, num_modes, num_clusters)
+
+sub_cd = fcd.fast_cd_subspace(B, l, W);
+
+
 solver_params = fcd.cd_arap_local_global_solver_params(True, 10, 1e-4)
 labels = np.copy(sub_cd.labels)  # need to copy this, for some reason its not writeable otherwise
 B = np.copy(sub_cd.B)
