@@ -11,7 +11,8 @@ This repo has some python bindings for our fast CD project! When working with th
 ```
 conda create -n <ENV_NAME> python=3.8
 ```
-Then
+
+Then,  
 ```
 conda activate <ENV_NAME>
 ```
