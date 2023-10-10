@@ -334,6 +334,7 @@ PYBIND11_MODULE(fast_cd_pyb, m) {
         builds/reads/writes the subspaces necessary to run and test Fast CD\n",
         py::dynamic_attr())
         .def(py::init<>())
+        .def(py::init<EigenDRef<MatrixXd>,EigenDRef<MatrixXd>, VectorXi,string>() )
         .def(py::init<string, string, string, int, int>() )
         .def("read_from_cache", &fast_cd_subspace::read_from_cache, "  \
                 Reads modes and clusters from cache directories \n \

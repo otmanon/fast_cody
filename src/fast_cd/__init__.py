@@ -26,3 +26,5 @@ from .skinning_subspace import *
 from .vectorized_trace import *
 from .vectorized_transpose import *
 from .ympr_to_lame import *
+from .project_out_subspace import project_out_subspace
+from .diffuse_weights import diffuse_weights

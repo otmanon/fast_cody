@@ -15,6 +15,7 @@ src/fast_cd/linear_elasticity_hessian.py
 src/fast_cd/normalize_height_and_center.py
 src/fast_cd/orthonormalize.py
 src/fast_cd/project_into_subspace.py
+src/fast_cd/project_out_subspace.py
 src/fast_cd/project_to_orthogonal.py
 src/fast_cd/read_rig_anim_from_json.py
 src/fast_cd/read_rig_from_json.py

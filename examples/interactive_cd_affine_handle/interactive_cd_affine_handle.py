@@ -6,12 +6,11 @@ import fast_cd as fc
 import json
 import os.path
 
-write_cache = True
+
+write_cache= True
 read_cache = False
 
 ## parameters
-num_skinning_modes = 16
-num_clusters = 400
 mu = 10
 lam = 0
 h = 1e-2
@@ -30,12 +29,12 @@ W = np.ones((V.shape[0], 1))
 J = fc.lbs_jacobian(V, W)
 
 result_dir = '../../examples/interactive_cd_affine_handle/results/'
-cache_dir = os.path.join(result_dir, 'cache/')
+cache_dir = os.path.join(result_dir, 'cache_project/')
 # os.makedirs(cache_dir)
 modes_dir =  cache_dir
 clusters_dir = cache_dir
 mode_type = 'skinning'
-num_modes = 10
+num_modes = 16
 num_clusters = 100
 
 
@@ -43,17 +42,23 @@ num_clusters = 100
 M = sp.sparse.kron(sp.sparse.identity(3), \
                    igl.massmatrix(V, T))
 
-C = fc.lbs_weight_space_constraint(V,  M @ J, M=igl.massmatrix(V, T))
-[B, l, W] = fc.skinning_subspace(V, T, 10, 100, C=C);
+bI = np.unique(F)
+phi = np.ones((bI.shape[0], 1))
+d = fc.diffuse_weights(V, T, phi, bI, dt=1e-1)
+D = sp.sparse.kron(sp.sparse.identity(3), sp.sparse.diags(d[:, 0]))
+C = fc.lbs_weight_space_constraint(V,  M @ D @ J, M=igl.massmatrix(V, T))
+
+[B, l, W] = fc.skinning_subspace(V, T, num_modes, num_clusters, C=C, read_cache=read_cache,
+                                 cache_dir=cache_dir, constraint_enforcement="project");
 sub_cd = fcd.fast_cd_subspace(modes_dir, clusters_dir, mode_type, num_modes, num_clusters)
+sub_cd = fcd.fast_cd_subspace(B, W, l, "skinning");
 
-sub_cd = fcd.fast_cd_subspace(B, l, W);
 
-
-solver_params = fcd.cd_arap_local_global_solver_params(True, 10, 1e-4)
+solver_params = fcd.local_global_solver_params(True, 10, 1e-4)
 labels = np.copy(sub_cd.labels)  # need to copy this, for some reason its not writeable otherwise
 B = np.copy(sub_cd.B)
-sim_params = fcd.fast_cd_sim_params(V, T, B, labels, J,  mu, lam, h, do_inertia, "none")
+Aeq = sp.sparse.csc_matrix((0, 0))
+sim_params = fcd.fast_cd_arap_sim_params(V, T, B, labels, sp.sparse.csc_matrix(J), Aeq, mu, h, do_inertia)
 sim_cd = fcd.fast_cd_arap_sim(cache_cd, sim_params, solver_params, read_cache, write_cache)
 
 viewer = fcd.fast_cd_viewer()
@@ -65,7 +70,7 @@ color = np.array([144, 210, 236])/255.0
 viewer.set_color(color, 0)
 
 # set sim state 
-z0 = np.zeros((num_skinning_modes*12, 1))
+z0 = np.zeros((num_modes*12, 1))
 T0 = np.identity(4).astype( dtype=np.float32, order="F");
 p0 = T0[0:3, :].reshape( (12, 1))
 st = fcd.cd_sim_state(z0, z0, p0, p0)
@@ -83,7 +88,7 @@ def callback():
 
      #initial guess... 
      z = st.z_curr   
-     z = sim_cd.step(z, p,  st, f_ext, bc).reshape((12*num_skinning_modes, 1), order="F")
+     z = sim_cd.step(z, p,  st, f_ext, bc).reshape((12*num_modes, 1), order="F")
      #print(z)
      st.update(z, p);
      # print(np.linalg.norm(B@z));

@@ -16,8 +16,13 @@ Inputs:
     T: F x 4 tet indices
     num_modes: number of modes to use
     num_clusters: number of clusters to use
-    cache_dir: directory to cache results in
-    read_cache: whether to read from cache or not
+    
+(Optional)
+    cache_dir: directory to cache results in (default None)
+    read_cache: whether to read from cache or not (default False)
+    C : 3n x c constarint matrix that acts on the skinning weights (default None)
+    constraint_enforcement : method of enforcing constraint. Either "project" or "optimal"
+                        for python, default is "project", because optimal makes eigendecomposition take way too long.
 Outputs:
     B: 3n x 12m  subspace matrix
     l: F x 1 cluster indices
@@ -25,11 +30,11 @@ Outputs:
 '''
 def skinning_subspace(X, T, num_modes, num_clusters,
                       cache_dir=None, read_cache=False,
-                      ortho=True, mu=None, C=None):
+                      ortho=True, mu=None, C=None, constraint_enforcement="project"):
     dim = X.shape[1]
 
     if cache_dir is not None:
-        cache_dir = os.path.join(cache_dir, "./physical_subspace/")
+        cache_dir = os.path.join(cache_dir, "./")
         os.makedirs(cache_dir, exist_ok=True)
     if read_cache and cache_dir is not None:
         assert (os.path.exists(cache_dir), "cache directory " + cache_dir + " We are trying to read from does not exist")
@@ -45,13 +50,13 @@ def skinning_subspace(X, T, num_modes, num_clusters,
         B = B[:, i]
         l = np.load(cache_dir + "/l.npy")
     else:
-        [W, E] = laplacian_eigenmodes(X, T, num_modes, read_cache=False, mu=mu, J=C)
+        [W, E] = laplacian_eigenmodes(X, T, num_modes, read_cache=False, mu=mu, J=C, constraint_enforcement=constraint_enforcement)
 
         B = lbs_jacobian(X, W)
         M = sp.sparse.kron(sp.sparse.identity(3), igl.massmatrix(X, T))
 
-        if ortho:
-            B = orthonormalize(B, M)
+        # if ortho:
+        #     B = orthonormalize(B, M)
         l = skinning_clusters(W, E, T, num_clusters, l=2)
 
         if (cache_dir is not None):
