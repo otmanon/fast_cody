@@ -1,4 +1,6 @@
 numpy
 scipy
 gpytoolbox
+polyscope
+cvxopt
 

@@ -7,6 +7,9 @@ import polyscope as ps
 import gpytoolbox as gpt
 
 from .laplacian import laplacian
+
+from .WeightsViewer import WeightsViewer
+import polyscope as ps
 '''
 Diffuses phi quantities on tet mesh Vv, Tv at nodes bI fro time 
 
@@ -29,10 +32,10 @@ def diffuse_weights(Vv, Tv, phi, bI,  dt=None ):
     M = igl.massmatrix(Vv, Tv)
 
     # selection matrix for indices bI
-    W = gpt.min_quad_with_fixed(-L*dt + M, k=bI, y=phi)
+    W = gpt.min_quad_with_fixed(L*dt + M, k=bI, y=phi)
 
     # normalize weights so that max is 1 and min is 0
-    W = (W - np.min(W, axis=0)[:, None]) / (np.max(W, axis=0)[:, None] - np.min(W, axis=0)[:, None])
+    # W = (W - np.min(W, axis=0)[:, None]) / (np.max(W, axis=0)[:, None] - np.min(W, axis=0)[:, None])
 
     # ps.init()
     # # pc = ps.register_point_cloud("pc", Vs)
@@ -43,7 +46,7 @@ def diffuse_weights(Vv, Tv, phi, bI,  dt=None ):
 
 
     # normalize between 0 and 1
-    # W = (W - np.min(W, axis=0)[:, None]) / (np.max(W, axis=0)[:, None] - np.min(W, axis=0)[:, None])
+    W = (W - np.min(W, axis=0)[:, None]) / (np.max(W, axis=0)[:, None] - np.min(W, axis=0)[:, None])
     # WeightsViewer(Vs, Ts, Ws, period=1)
     # WeightsViewer(Vv, Fv, W)
 
@@ -52,4 +55,10 @@ def diffuse_weights(Vv, Tv, phi, bI,  dt=None ):
     # volms.add_scalar_quantity("W", W[:, 0])
     #
     # ps.show()
+
+    # ps.init()
+    # mesh = ps.register_volume_mesh("mesh", Vv, Tv)
+    # mesh.add_scalar_quantity("weights", W[:, 0], enabled=True, cmap='coolwarm')
+    # ps.show()
+    # WeightsViewer(Vv, Tv, W)
     return W

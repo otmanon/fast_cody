@@ -14,11 +14,17 @@ def orthonormalize(B, M=None):
     Bm = Msqrt @ B
 
 
-    [Q, R] = np.linalg.qr(Bm)
+    [Q, R] = np.linalg.qr(Bm, mode='reduced')
 
-    sing = np.abs(R).sum(axis=0)
-    nonsing = np.abs(R).sum(axis=1) > 1e-8  # check which rows are singular
-    B3 = Msqrti @ Q[:, nonsing]
+    [U, s, V] = np.linalg.svd(Bm, full_matrices=False)
+
+    sI = np.where(s > 1e-14)[0]
+    S = np.diag(s)
+    B3 = U @ S[:, sI] @ V[sI, :][:, sI]
+
+    # sing = np.abs(R).sum(axis=0)
+    # nonsing = np.abs(R).sum(axis=1) > 1e-12  # check which rows are singular
+    # B3 = Msqrti @ Q[:, nonsing]
 
     # Bmtest = np.hstack((Bm, Bm[:, [0]]))
     # [Bm2, R] = np.linalg.qr(Bmtest)

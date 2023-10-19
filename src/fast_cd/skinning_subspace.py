@@ -53,6 +53,8 @@ def skinning_subspace(X, T, num_modes, num_clusters,
         [W, E] = laplacian_eigenmodes(X, T, num_modes, read_cache=False, mu=mu, J=C, constraint_enforcement=constraint_enforcement)
 
         B = lbs_jacobian(X, W)
+
+        # WeightsViewer(X, T, B)
         M = sp.sparse.kron(sp.sparse.identity(3), igl.massmatrix(X, T))
 
         # if ortho:

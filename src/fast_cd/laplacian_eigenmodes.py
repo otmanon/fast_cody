@@ -8,8 +8,11 @@ import os
 import time
 import numpy as np
 
+import fast_cd
 from .laplacian import laplacian
 from .project_out_subspace import project_out_subspace
+from .orthonormalize import orthonormalize
+from .WeightsViewer import WeightsViewer
 ''' 
 Constructs a physics subspace corresponding with skinning eigenmodes and skinning clusters
 Inputs:
@@ -56,8 +59,8 @@ def laplacian_eigenmodes(V, T, num_modes, read_cache=False, cache_dir=None, J=No
         E = np.real(E)
 
         if constraint_enforcement == "project":
-            print("Projecting out constraints from eigenmodes...")
             B = project_out_subspace(B, J.T)
+            # WeightsViewer(V, T, B)
             print("Done projecting out constraints from eigenmodes")
 
 
@@ -66,5 +69,5 @@ def laplacian_eigenmodes(V, T, num_modes, read_cache=False, cache_dir=None, J=No
             os.makedirs(cache_dir, exist_ok=True)
             np.save(cache_dir + "/B.npy", B)
             np.save(cache_dir + "/E.npy",E)
-
+        B = orthonormalize(B)
     return B, E

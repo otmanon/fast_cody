@@ -2,6 +2,9 @@ import numpy as np
 import scipy as sp
 
 from scipy.sparse import vstack, hstack
+
+
+from fast_cd.umfpack_lu_solve import umfpack_lu_solve
 '''
 Performs a least squares projection on subspace A so that it does not span space B
 
@@ -40,7 +43,8 @@ def project_out_subspace(A, B, M=None):
     Asp = sp.sparse.csc_matrix(A)
     rhs = vstack(( M @ Asp, z))
 
-    Cmu = sp.sparse.linalg.spsolve(Q, rhs)
+    Cmu = umfpack_lu_solve(Q, rhs.todense())
+    #sp.sparse.linalg.spsolve(Q, rhs)
     C = Cmu[:A.shape[0], :]
-    Cd = C.toarray()
-    return Cd
+    # Cd = C.toarray()
+    return C

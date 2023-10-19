@@ -4,16 +4,20 @@ from .orthonormalize import orthonormalize
 '''
 Linear Blend Skinning Weight Space Constraint
 
+converts a constraint matrix that acts on displacements 3n,
+to act instead on the n skinning weights 
+
 Inputs:
 V: n x 3 vertices
 W: n x d skinning weights... dont think we need this
-C: 3n x c constraints
+C: c x 3n constraints
 
 Outputs:
 C2 : n x c' constraints in weight space with redundnat rows removed
 
 '''
 def lbs_weight_space_constraint(V, C, M=None):
+    C = C.T
     n = V.shape[0]
     d = V.shape[1]
 
@@ -33,11 +37,10 @@ def lbs_weight_space_constraint(V, C, M=None):
         Ad1 = C.T @ Pd
         A = np.vstack([A, Ad1])
 
-
     # form basis, remove redundant rows
     W = A
 
-    W2 = orthonormalize(W.T, M=M)
+    W2 = orthonormalize(W.T).T
     # [u, s, v] = np.linalg.svd(W)
     # ii = np.where(s > 1e-9)[0]
     # W2 = u[:, ii]# @ np.diag(s[ii])
@@ -45,4 +48,4 @@ def lbs_weight_space_constraint(V, C, M=None):
 
 
 
-    return W2.T
+    return W2
