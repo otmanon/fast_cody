@@ -59,7 +59,7 @@ def skinning_subspace(X, T, num_modes, num_clusters,
 
         # if ortho:
         #     B = orthonormalize(B, M)
-        l = skinning_clusters(W, E, T, num_clusters, l=2)
+        l = skinning_clusters(W, E, T, num_clusters, l=2, num_clustering_features=num_modes)
 
         if (cache_dir is not None):
             os.makedirs(cache_dir, exist_ok=True)

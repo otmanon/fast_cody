@@ -60,6 +60,7 @@ def laplacian_eigenmodes(V, T, num_modes, read_cache=False, cache_dir=None, J=No
 
         if constraint_enforcement == "project":
             B = project_out_subspace(B, J.T)
+            E = np.diag(B.T @ L @ B)
             # WeightsViewer(V, T, B)
             print("Done projecting out constraints from eigenmodes")
 

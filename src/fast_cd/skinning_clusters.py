@@ -29,7 +29,7 @@ def skinning_clusters(W, D, T, k, l=2, num_clustering_features=10,
     assert(T.shape[1] == 4, "only tets implemented so far for clustering")
 
     Wt = average_onto_simplex(W, T)
-
+    # Wt2 = Wt / np.power(D, 2)
     Wt = Wt / np.power(D, l)
     Wt = Wt[:, 0:num_clustering_features]
     kmeans = KMeans(n_clusters=k, random_state=0, n_init="auto").fit(Wt)

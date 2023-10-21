@@ -173,7 +173,7 @@ void bind_fast_cd_arap_sim(py::module& m)
             .def(py::init<EigenDRef<MatrixXd>, EigenDRef<MatrixXi>,
                 EigenDRef<MatrixXd>, const VectorXi&,
                 const SparseMatrix<double>&, const SparseMatrix<double>&, 
-                double, double, bool >(), " \n \
+                double, double, double >(), " \n \
             Contains all the parameters required to build a \n \
             fast Complementary Dynamics simulator \n \
             Inputs: \n \
@@ -191,12 +191,12 @@ void bind_fast_cd_arap_sim(py::module& m)
             .def(py::init<EigenDRef<MatrixXd>, EigenDRef<MatrixXi>,
                 EigenDRef<MatrixXd>, const VectorXi&,
                 const SparseMatrix<double>&, const SparseMatrix<double>&,
-                const VectorXd&, double, bool >())
+                const VectorXd&, double, double >())
             .def_readwrite("X", &fast_cd_arap_sim_params::X)
             .def_readwrite("T", &fast_cd_arap_sim_params::T)
             .def_readwrite("B", &fast_cd_arap_sim_params::B)
             .def_readwrite("labels", &fast_cd_arap_sim_params::labels)
-            .def_readwrite("do_inertia", &fast_cd_arap_sim_params::do_inertia)
+            .def_readwrite("rho", &fast_cd_arap_sim_params::rho)
             .def_readwrite("Aeq", &fast_cd_arap_sim_params::Aeq)
             .def_readwrite("h", &fast_cd_arap_sim_params::h)
             .def_readwrite("invh2", &fast_cd_arap_sim_params::invh2)
