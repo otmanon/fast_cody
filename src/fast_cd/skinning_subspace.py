@@ -37,7 +37,7 @@ def skinning_subspace(X, T, num_modes, num_clusters,
         cache_dir = os.path.join(cache_dir, "./")
         os.makedirs(cache_dir, exist_ok=True)
     if read_cache and cache_dir is not None:
-        assert (os.path.exists(cache_dir), "cache directory " + cache_dir + " We are trying to read from does not exist")
+        assert (os.path.exists(cache_dir) and "cache directory " + cache_dir + " we are trying to read from does not exist")
         B = np.load(cache_dir + "/B.npy")
 
 
@@ -66,4 +66,5 @@ def skinning_subspace(X, T, num_modes, num_clusters,
             np.save(cache_dir + "l.npy", l)
             np.save(cache_dir + "B.npy", B)
             np.save(cache_dir + "W.npy", W)
+
     return B, l, W

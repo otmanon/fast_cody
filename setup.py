@@ -118,7 +118,7 @@ def main():
         install_requires=['numpy', 'scipy'],
         include_package_data=True,
         # data_files=[('', ['./src/shaders/*'])],
-        package_data={'fast_cd': ['shaders/*.glsl']},
+        package_data={'fast_cd': ['shaders/*.glsl', 'data/*']},
         ext_modules=[CMakeExtension('.', exclude_arch=exclude_arch)],
         # setup_requires=['pybind11>=2.4'],
         cmdclass=dict(build_ext=CMakeBuild),

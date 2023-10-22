@@ -58,8 +58,10 @@ class interactive_handle_subspace_viewer():
 
         self.viewer = viewer
 
+
     def launch(self):
-        self.viewer.launch(90, True)
+        self.viewer.launch(60, True)
+
 
     def update_subspace_coefficients(self, z, p):
         self.viewer.set_bone_transforms(p, z, 0);

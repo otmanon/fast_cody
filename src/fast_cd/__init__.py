@@ -31,9 +31,10 @@ from .diffuse_weights import diffuse_weights
 from .momentum_leaking_matrix import momentum_leaking_matrix
 from .complementary_constraint_matrix import complementary_constraint_matrix
 from .umfpack_lu_solve import umfpack_lu_solve
+from .eigs import eigs
 from .fast_cd_sim import *
 
-from .examples import *
+from .apps import *
 from .viewers import *
 
 # set data path and shaders path

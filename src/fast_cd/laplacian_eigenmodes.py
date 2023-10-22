@@ -11,7 +11,7 @@ import numpy as np
 from .laplacian import laplacian
 from .project_out_subspace import project_out_subspace
 from .orthonormalize import orthonormalize
-
+from .eigs import eigs
 ''' 
 Constructs a physics subspace corresponding with skinning eigenmodes and skinning clusters
 Inputs:
@@ -47,7 +47,7 @@ def laplacian_eigenmodes(V, T, num_modes, read_cache=False, cache_dir=None, J=No
                 M = sp.sparse.block_diag((M, Z)).tocsc()
         print("Computing eigenmodes... may take a while...")
         start = time.time()
-        [E, B] = sp.sparse.linalg.eigs(L, M=M, k=num_modes, sigma=0, which='LM')
+        [E, B] = eigs(L, M=M, k=num_modes) #sp.sparse.linalg.eigs(L, M=M, k=num_modes, sigma=0, which='LM')
         print("Done computing eigenmodes! Took, ", time.time() - start, " seconds")
 
         n = V.shape[0]
