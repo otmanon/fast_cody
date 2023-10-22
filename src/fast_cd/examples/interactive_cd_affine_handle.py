@@ -60,7 +60,8 @@ def interactive_cd_affine_handle(mesh_file, mu=1e4, rho=1e3, num_modes=16, num_c
 
          U = np.reshape(J @ p + B @ z, (J.shape[0]//3, 3), order="F")
 
-         viewer.update_displacement(U - V)
+         viewer1.update_subspace_coefficients(z, p)
+         # viewer2.update_displacement(U - V)
 
          step += 1
 
@@ -68,9 +69,11 @@ def interactive_cd_affine_handle(mesh_file, mu=1e4, rho=1e3, num_modes=16, num_c
         nonlocal T0
         T0 = A
 
-    viewer = fc.viewers.interactive_handle_subspace_viewer(V, T, )
-
-    viewer = fc.viewers.interactive_handle_viewer(V, T, T0, guizmo_callback, pre_draw_callback,
+    viewer1 = fc.viewers.interactive_handle_subspace_viewer(V, T, Wp, Ws, T0, guizmo_callback, pre_draw_callback,
                                                   texture_png=texture_png, texture_obj=texture_obj,
-                                                  t0=to, s0=so)
-    viewer.launch()
+                                                  t0=to, s0=so )
+
+    # viewer2 = fc.viewers.interactive_handle_viewer(V, T, T0, guizmo_callback, pre_draw_callback,
+    #                                               texture_png=texture_png, texture_obj=texture_obj,
+    #                                               t0=to, s0=so)
+    viewer1.launch()

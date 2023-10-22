@@ -41,32 +41,27 @@ class interactive_handle_subspace_viewer():
             if t0 is not None:
                 Vf = Vf - t0
 
-            P = sp.sparse.kron(sp.sparse.identity(3), fcd.prolongation(Vf, V, T))
+            P = fcd.prolongation(Vf, V, T)
+            Pe = sp.sparse.kron(sp.sparse.identity(3), P )
             viewer.set_mesh(Vf, Ff, 0)
-            viewer.set_show_lines(False, 0)
             viewer.set_texture(texture_png, TC, FTC, 0)
+            self.Wp_tex = P @ Wp;  # primary rig weights
+            self.Ws_tex = P @ Ws;  # secondary subspace weights
+            viewer.set_weights(self.Wp_tex, self.Ws_tex, 0)
+
+            viewer.set_show_lines(False, 0)
             viewer.set_face_based(False, 0)
             viewer.init_guizmo(True, T0, guizmo_callback, "translate")
             viewer.set_pre_draw_callback(pre_draw_callback)
             self.V = Vf
-            self.P = P
+            self.Pe = Pe
 
-            self.Wp_tex = self.P @ Wp; #primary rig weights
-            self.Ws_tex = self.P @ Ws; #secondary subspace weights
-            viewer.set_weights(self.Wp_tex, self.Ws_tex, 0)
         self.viewer = viewer
 
     def launch(self):
-        self.viewer.launch()
+        self.viewer.launch(90, True)
 
-    def update_displacement(self, z, p):
-        if self.vis_texture:
-            U = self.P @ U.reshape((-1, 1), order='F')
-            U = U.reshape((-1, 3), order='F')
-        X = U + self.V
-        self.viewer.set_vertices(X, 0)
-        self.viewer.compute_normals(0)
-
+    def update_subspace_coefficients(self, z, p):
         self.viewer.set_bone_transforms(p, z, 0);
         self.viewer.updateGL(0)
 
