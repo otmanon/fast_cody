@@ -11,7 +11,8 @@ import fast_cd as fc
 from os.path import basename, splitext
 
 
-def interactive_cd_affine_handle(mesh_file, mu=1, rho=1, num_modes=16, num_clusters=100, results_dir=None, read_cache=False):
+def interactive_cd_affine_handle(mesh_file, mu=1, rho=1, num_modes=16, num_clusters=100,
+                                 results_dir=None, read_cache=False, texture_png=None, texture_obj=None):
     write_cache= True
     ## parameters
     h = 1e-2
@@ -59,9 +60,8 @@ def interactive_cd_affine_handle(mesh_file, mu=1, rho=1, num_modes=16, num_clust
 
          U = np.reshape(J @ p + B @ z, (J.shape[0]//3, 3), order="F")
 
-         viewer.update_vertices(U)
-         # viewer.set_vertices(U, 0)
-         # viewer.compute_normals(0)
+         viewer.update_displacement(U - V)
+
          step += 1
 
     def guizmo_callback(A):
@@ -69,5 +69,7 @@ def interactive_cd_affine_handle(mesh_file, mu=1, rho=1, num_modes=16, num_clust
         T0 = A
 
 
-    viewer = fc.viewers.interactive_handle_viewer(V, F, T0, guizmo_callback, pre_draw_callback)
+    viewer = fc.viewers.interactive_handle_viewer(V, T, T0, guizmo_callback, pre_draw_callback,
+                                                  texture_png=texture_png, texture_obj=texture_obj,
+                                                  t0=to, s0=so)
     viewer.launch()
