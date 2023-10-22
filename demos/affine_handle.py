@@ -28,4 +28,4 @@ interactive_cd_affine_handle(name, mu = 1e4, rho=1000, read_cache=True, num_mode
 
 #
 # name = "./data/cd_fish/cd_fish.msh"
-# interactive_cd_affine_handle(name,  mu=100, read_cache=False, num_modes=16)
+# interactive_cd_affine_handle(name, read_cache=False, num_modes=16)

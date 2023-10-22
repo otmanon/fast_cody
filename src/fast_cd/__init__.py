@@ -33,9 +33,13 @@ from .complementary_constraint_matrix import complementary_constraint_matrix
 from .umfpack_lu_solve import umfpack_lu_solve
 from .fast_cd_sim import *
 
-from .WeightsViewer import WeightsViewer
-from .ClustersViewer import ClustersViewer
+from .examples import *
+from .viewers import *
 
-from .examples.interactive_cd_affine_handle import interactive_cd_affine_handle
-
-from .viewers.interactive_handle_viewer import interactive_handle_viewer
+# set data path and shaders path
+import os
+_ROOT = os.path.abspath(os.path.dirname(__file__))
+def get_shader(path):
+    return os.path.join(_ROOT, 'shaders', path)
+def get_data(path):
+    return os.path.join(_ROOT, 'data', path)

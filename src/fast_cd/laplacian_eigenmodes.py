@@ -8,11 +8,10 @@ import os
 import time
 import numpy as np
 
-import fast_cd
 from .laplacian import laplacian
 from .project_out_subspace import project_out_subspace
 from .orthonormalize import orthonormalize
-from .WeightsViewer import WeightsViewer
+
 ''' 
 Constructs a physics subspace corresponding with skinning eigenmodes and skinning clusters
 Inputs:

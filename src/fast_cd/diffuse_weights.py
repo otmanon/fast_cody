@@ -2,14 +2,11 @@
 
 import numpy as np
 import igl
-import polyscope as ps
 
 import gpytoolbox as gpt
 
 from .laplacian import laplacian
 
-from .WeightsViewer import WeightsViewer
-import polyscope as ps
 '''
 Diffuses phi quantities on tet mesh Vv, Tv at nodes bI fro time 
 

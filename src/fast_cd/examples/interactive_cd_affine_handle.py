@@ -11,7 +11,7 @@ import fast_cd as fc
 from os.path import basename, splitext
 
 
-def interactive_cd_affine_handle(mesh_file, mu=1, rho=1, num_modes=16, num_clusters=100,
+def interactive_cd_affine_handle(mesh_file, mu=1e4, rho=1e3, num_modes=16, num_clusters=100,
                                  results_dir=None, read_cache=False, texture_png=None, texture_obj=None):
     write_cache= True
     ## parameters
@@ -29,18 +29,18 @@ def interactive_cd_affine_handle(mesh_file, mu=1, rho=1, num_modes=16, num_clust
     [V, so, to] = fcd.scale_and_center_geometry(V, 1, np.array([[0, 0,  0.]])) #center to unit height and about origin
     F = igl.boundary_facets(T);
 
-    W = np.ones((V.shape[0], 1)) #single handle skinning weight
-    J = fc.lbs_jacobian(V, W)
+    Wp = np.ones((V.shape[0], 1)) #single handle skinning weight
+    J = fc.lbs_jacobian(V, Wp)
     modes_dir =  cache_dir
     clusters_dir = cache_dir
 
     C = fc.complementary_constraint_matrix(V, T, J, dt=1e-3)
     C2 = fc.lbs_weight_space_constraint(V, C)
-    [B, l, W] = fc.skinning_subspace(V, T, num_modes, num_clusters, C=C2, read_cache=read_cache,
+    [B, l, Ws] = fc.skinning_subspace(V, T, num_modes, num_clusters, C=C2, read_cache=read_cache,
                                      cache_dir=cache_dir, constraint_enforcement="project");
     # fc.WeightsViewer(V, T, W)
     # fc.ClustersViewer(V, T, l)
-    sim = fc.fast_cd_sim(V, T, B, l, J, mu=mu, rho=rho, h=1e-2, cache_dir=cache_dir)
+    sim = fc.fast_cd_sim(V, T, B, l, J, mu=mu, rho=rho, h=1e-2, cache_dir=cache_dir, read_cache=read_cache)
 
     # set sim state and initial rig parameters
     z0 = np.zeros((num_modes*12, 1))
@@ -68,6 +68,7 @@ def interactive_cd_affine_handle(mesh_file, mu=1, rho=1, num_modes=16, num_clust
         nonlocal T0
         T0 = A
 
+    viewer = fc.viewers.interactive_handle_subspace_viewer(V, T, )
 
     viewer = fc.viewers.interactive_handle_viewer(V, T, T0, guizmo_callback, pre_draw_callback,
                                                   texture_png=texture_png, texture_obj=texture_obj,

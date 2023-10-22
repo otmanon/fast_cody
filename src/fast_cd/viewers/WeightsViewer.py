@@ -5,7 +5,7 @@ import polyscope as ps
 
 import time
 
-from .rig_geometry import rig_geometry
+from fast_cd.rig_geometry import rig_geometry
 
 import polyscope.imgui as psim
 class WeightsViewer():
