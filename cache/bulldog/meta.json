@@ -1,9 +1,0 @@
-{
-  "num_modes": 20,
-  "num_clusters": 100,
-  "mu": 10,
-  "h": 0.01,
-  "lambda": 0,
-  "mode_type": "skinning",
-  "do_inertia": true
-}

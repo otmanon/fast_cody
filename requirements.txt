@@ -1,6 +1,4 @@
 numpy
 scipy
-gpytoolbox
-polyscope
 cvxopt
-
+polyscope

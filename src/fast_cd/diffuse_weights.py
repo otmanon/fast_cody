@@ -3,8 +3,7 @@
 import numpy as np
 import igl
 
-import gpytoolbox as gpt
-
+import fast_cd
 from .laplacian import laplacian
 
 '''
@@ -28,8 +27,18 @@ def diffuse_weights(Vv, Tv, phi, bI,  dt=None ):
     L = laplacian(Vv, Tv)
     M = igl.massmatrix(Vv, Tv)
 
+    Q = L * dt + M
+
+    ii = np.setdiff1d(  np.arange(Q.shape[0]), bI)
     # selection matrix for indices bI
-    W = gpt.min_quad_with_fixed(L*dt + M, k=bI, y=phi)
+    Qii = Q[ii, :][:, ii]
+    Qib = Q[ii, :][:, bI]
+
+    Wii = fast_cd.umfpack_lu_solve(Qii, -Qib @ phi)
+    W = np.zeros((L.shape[0], Wii.shape[1]))
+    W[ii, :] = Wii
+    W[bI, :] = phi
+    # W = gpt.min_quad_with_fixed(L*dt + M, k=bI, y=phi)
 
     # normalize weights so that max is 1 and min is 0
     # W = (W - np.min(W, axis=0)[:, None]) / (np.max(W, axis=0)[:, None] - np.min(W, axis=0)[:, None])

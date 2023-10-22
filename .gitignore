@@ -16,4 +16,10 @@ src/fast_cd/data/*
 
 **.pyc
 
+src/fast_cd/__pycache__/*
+src/fast_cd/examples/__pycache__/*
+
+src/fast_cd/apps/__pycache__/*
+
+results/**
 **.ini

@@ -10,7 +10,8 @@ import fast_cd
 
 class interactive_handle_subspace_viewer():
     def __init__(self, V, T, Wp, Ws, T0, guizmo_callback, pre_draw_callback,
-                 texture_png=None, texture_obj=None, t0=None, s0=None):
+                 texture_png=None, texture_obj=None, t0=None, s0=None,
+                 callback_key_pressed=None):
         vertex_shader_path = fast_cd.get_shader("./vertex_shader_16.glsl")
         fragment_shader_path = fast_cd.get_shader("./fragment_shader.glsl")
 
@@ -27,7 +28,6 @@ class interactive_handle_subspace_viewer():
             viewer.invert_normals(True, 0)
             color = np.array([144, 210, 236]) / 255.0
             viewer.set_color(color, 0)
-            viewer.init_guizmo(True, T0, guizmo_callback, "translate")
             viewer.set_pre_draw_callback(pre_draw_callback)
             self.V = V
             self.Wp =  Wp;  # primary rig weights
@@ -51,18 +51,25 @@ class interactive_handle_subspace_viewer():
 
             viewer.set_show_lines(False, 0)
             viewer.set_face_based(False, 0)
-            viewer.init_guizmo(True, T0, guizmo_callback, "translate")
-            viewer.set_pre_draw_callback(pre_draw_callback)
             self.V = Vf
             self.Pe = Pe
 
+        transform = "translate"
+        viewer.init_guizmo(True, T0, guizmo_callback, transform)
+
+        viewer.set_pre_draw_callback(pre_draw_callback)
+        if callback_key_pressed is not None:
+            viewer.set_key_callback(callback_key_pressed)
+
         self.viewer = viewer
+
 
 
     def launch(self):
         self.viewer.launch(60, True)
 
-
+    def change_guizmo_op(self, op):
+        self.viewer.change_guizmo_op(op)
     def update_subspace_coefficients(self, z, p):
         self.viewer.set_bone_transforms(p, z, 0);
         self.viewer.updateGL(0)

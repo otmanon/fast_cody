@@ -36,11 +36,16 @@ Optional:
     texture_png - directory pointing towards a .png file of the surface texture.
                   if None and if texture_obj is None, then no texturing is applied. (default=None)      
 '''
-def interactive_cd_affine_handle(msh_file, Ws=None, l=None, mu=1e4, rho=1e3,
+def interactive_cd_affine_handle(msh_file=None, Ws=None, l=None, mu=1e4, rho=1e3,
                                  num_modes=16, num_clusters=100,
                                  constraint_enforcement="optimal",
                                  results_dir=None, read_cache=False,
                                  texture_png=None, texture_obj=None):
+    if msh_file is None:
+        msh_file = fc.get_data("./cd_fish/cd_fish.msh")
+        if texture_png is None or texture_obj is None:
+            texture_png = fc.get_data("./cd_fish/cd_fish_tex.png")
+            texture_obj = fc.get_data("./cd_fish/cd_fish_tex.obj")
 
     assert(splitext(msh_file)[1] == '.msh' and "only supports .msh file format")
     name = basename(splitext(msh_file)[0])
@@ -87,15 +92,30 @@ def interactive_cd_affine_handle(msh_file, Ws=None, l=None, mu=1e4, rho=1e3,
 
          viewer.update_subspace_coefficients(z, p)
 
+
          step += 1
 
     def guizmo_callback(A):
         nonlocal T0
         T0 = A
 
+    transform = "translate"
+    def callback_key_pressed( key, modifier):
+        # nonlocal transform
+        # if (key == ord('g')):
+        #     if (transform == "translate"):
+        #         transform = "rotate"
+        #     elif (transform == "rotate"):
+        #         transform = "scale"
+        #     elif (transform == "scale"):
+        #         transform = "translate"
+        #
+        #     viewer.change_guizmo_op(transform)
+        return False
+
     viewer = fc.viewers.interactive_handle_subspace_viewer(V, T, Wp, Ws, T0, guizmo_callback, pre_draw_callback,
                                                   texture_png=texture_png, texture_obj=texture_obj,
-                                                  t0=to, s0=so )
+                                                  t0=to, s0=so, callback_key_pressed=callback_key_pressed)
     viewer.launch()
 
 

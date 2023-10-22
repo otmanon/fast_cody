@@ -1,15 +1,17 @@
 from fast_cd.apps import *
 from fast_cd import get_data
 # name = "./data/dromedary/dromedary.msh"
-# interactive_cd_affine_handle(name, mu = 10, read_cache=False, num_modes=16)
+# interactive_cd_affine_handle(name, read_cache=False, num_modes=16)
 
 
 # name = "./data/xyz_dragon/xyz_dragon.msh"
-# interactive_cd_affine_handle(name, mu = 10, read_cache=False, num_modes=16)
+# interactive_cd_affine_handle(name,  read_cache=False, num_modes=16)
 
 # name = "./data/elephant/elephant.msh"
-# interactive_cd_affine_handle(name, mu = 1e4, rho=1000, read_cache=False, num_modes=16)
+# interactive_cd_affine_handle(name, rho=1000, read_cache=False, num_modes=16)
 
+
+interactive_cd_affine_handle()
 
 name = get_data("./king_ghidora/king_ghidora.msh")
 texture_obj = get_data("./king_ghidora/king_ghidora_tex.obj")
