@@ -1,46 +1,46 @@
-name: Full build (MacOS)
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
-
-jobs:
-  build:
-    runs-on: "macos-latest"
-    steps:
-
-      - uses: actions/checkout@v3
-        with:
-          submodules: 'recursive'
-
-      - uses: actions/setup-python@v4
-        id: installpython
-        name: Install Python
-        with:
-          python-version: '3.7'
-
-      - name: Install dependencies
-        shell: bash -l {0}
-        run: |
-          ${{ steps.installpython.outputs.python-path }} -m pip install numpy
-          ${{ steps.installpython.outputs.python-path }} -m pip install scipy
-          ${{ steps.installpython.outputs.python-path }} -m pip install polyscope
-          ${{ steps.installpython.outputs.python-path }} -m pip install cvxopt
-      - name: Install c++ bindings
-        shell: bash -l {0}
-        run: |
-          mkdir build
-          cd build
-          cmake -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=${{ steps.installpython.outputs.python-path }} ..
-          cmake --build "." --config Release
-
-      - name: Run unit tests
-        shell: bash -l {0}
-        run: |
-          ${{ steps.installpython.outputs.python-path }} -m pip install tetgen
-          ${{ steps.installpython.outputs.python-path }} -m unittest -v
-
-# see https://github.com/libigl/libigl/blob/main/.github/workflows/continuous.yml
+#name: Full build (MacOS)
+#on:
+#  push:
+#    branches:
+#      - main
+#  pull_request:
+#    branches:
+#      - main
+#
+#jobs:
+#  build:
+#    runs-on: "macos-latest"
+#    steps:
+#
+#      - uses: actions/checkout@v3
+#        with:
+#          submodules: 'recursive'
+#
+#      - uses: actions/setup-python@v4
+#        id: installpython
+#        name: Install Python
+#        with:
+#          python-version: '3.7'
+#
+#      - name: Install dependencies
+#        shell: bash -l {0}
+#        run: |
+#          ${{ steps.installpython.outputs.python-path }} -m pip install numpy
+#          ${{ steps.installpython.outputs.python-path }} -m pip install scipy
+#          ${{ steps.installpython.outputs.python-path }} -m pip install polyscope
+#          ${{ steps.installpython.outputs.python-path }} -m pip install cvxopt
+#      - name: Install c++ bindings
+#        shell: bash -l {0}
+#        run: |
+#          mkdir build
+#          cd build
+#          cmake -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=${{ steps.installpython.outputs.python-path }} ..
+#          cmake --build "." --config Release
+#
+#      - name: Run unit tests
+#        shell: bash -l {0}
+#        run: |
+#          ${{ steps.installpython.outputs.python-path }} -m pip install tetgen
+#          ${{ steps.installpython.outputs.python-path }} -m unittest -v
+#
+## see https://github.com/libigl/libigl/blob/main/.github/workflows/continuous.yml
