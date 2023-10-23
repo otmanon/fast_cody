@@ -52,11 +52,7 @@ jobs:
               { runs-on: ubuntu-latest, cibw-arch: manylinux_x86_64}]
         # cpversion: ["cp36"]
         # os: [ { runs-on: windows-latest, cibw-arch: win_amd64}]
-        exclude:
-          - os: { runs-on: macos-latest, cibw-arch: macosx_arm64}
-            cpversion: "cp36"
-          - os: { runs-on: macos-latest, cibw-arch: macosx_arm64}
-            cpversion: "cp37"
+
 
 
 
@@ -149,15 +145,14 @@ jobs:
         shell: bash -l {0}
         if: runner.os == 'Linux'
         run: |
+           sudo apt-get update -y
            sudo apt-get install \
                     libmpfr-dev \
                     libgmp-dev \
                     libgl1-mesa-dev \
                     xorg-dev \
                     libglu1-mesa-dev
-           sudo apt-get install -y libxrandr-dev
-
-                 libxrandr-dev
+           sudo apt-get install libxrandr-dev
 #              libmpfr-dev \
 #              libgmp-dev \
 
