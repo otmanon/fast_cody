@@ -48,8 +48,7 @@ jobs:
         # cpversion: [ "cp39"]
         # os: [ { runs-on: ubuntu-latest, cibw-arch: manylinux_x86_64}]
         cpversion: ["cp38", "cp39", "cp310", "cp311"]
-        os: [# { runs-on: windows-latest, cibw-arch: win_amd64}, { runs-on: macos-latest, cibw-arch: macosx_x86_64},
-              { runs-on: ubuntu-latest, cibw-arch: manylinux_x86_64}]
+        os: [{ runs-on: windows-latest, cibw-arch: win_amd64}, { runs-on: macos-latest, cibw-arch: macosx_x86_64}, { runs-on: ubuntu-latest, cibw-arch: manylinux_x86_64}]
         # cpversion: ["cp36"]
         # os: [ { runs-on: windows-latest, cibw-arch: win_amd64}]
 
@@ -77,6 +76,8 @@ jobs:
       # CIBW_TEST_COMMAND_LINUX: "python -m pip install tetgen && cd {project} && python -m unittest -v"
       # CIBW_TEST_COMMAND: "python -m pip install tetgen && python -m unittest -v"
       # CIBW_BEFORE_BUILD_LINUX : "yum remove -y cmake && python -m pip install\ cmake && yum -y install gmp-devel\ mpfr-devel && python -m pip install numpy"
+      # It's very important to install these libraries here, not the way Silvia did it
+
       CIBW_BEFORE_BUILD_LINUX: "yum remove -y cmake && python -m pip install cmake && yum install -y libX11-devel libXcursor-devel libXrandr-devel libXinerama-devel mesa-libGL-devel libXi-devel freeglut-devel"
 
       CIBW_BUILD: "${{ matrix.cpversion }}-${{ matrix.os.cibw-arch }}"
