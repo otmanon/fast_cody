@@ -18,7 +18,7 @@ else:
 
 import numpy
 import scipy
-import cvxopt
+# import cvxopt
 import unittest
 import fast_cd
 import fast_cd_pyb
