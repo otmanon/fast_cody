@@ -143,16 +143,17 @@ jobs:
       #     echo "CIBW_BUILD=${{ matrix.cpversion }}-${{ matrix.cibw-arch }}" >> $GITHUB_ENV
       #     echo "CIBW_ENVIRONMENT_MACOS=CMAKE_OSX_ARCHITECTURES=\"$CMAKE_OSX_ARCHITECTURES\"" >> $GITHUB_ENV
 
-    # This shouldn't be necessary
-      # - name: Install dependencies (Ubuntu)
-      #   shell: bash -l {0}
-      #   if: runner.os == 'Linux'
-      #   run: |
-      #     sudo apt-get update
-      #     sudo apt-get upgrade
-      #     sudo apt-get install \
-      #         libmpfr-dev \
-      #         libgmp-dev \
+#     This shouldn't be necessary
+      - name: Install dependencies (Ubuntu)
+        shell: bash -l {0}
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get upgrade
+          sudo apt-get install \
+              libmpfr-dev \
+              libgmp-dev \
+              librandr-dev \
 
       # - name: Package source distribution
       #   if: runner.os == 'Linux'
