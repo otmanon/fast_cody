@@ -3,10 +3,7 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/deps/fast_cd" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/deps/fast_cd/deps/OpenBLAS" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/deps/fast_cd/deps/SuiteSparse" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/deps/fast_cd/deps/libigl" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/deps/fast_cd/deps/spectra" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/deps/pybind11" vcs="Git" />
   </component>
 </project>
