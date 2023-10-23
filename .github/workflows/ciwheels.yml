@@ -148,9 +148,14 @@ jobs:
         shell: bash -l {0}
         if: runner.os == 'Linux'
         run: |
-          sudo apt-get update
-          sudo apt-get upgrade
-          sudo apt-get install \
+           sudo apt-get install \
+                    libmpfr-dev \
+                    libgmp-dev \
+                    libgl1-mesa-dev \
+                    xorg-dev \
+                    libglu1-mesa-dev
+           sudo apt-get install -y libxrandr-dev
+
                  libxrandr-dev
 #              libmpfr-dev \
 #              libgmp-dev \
