@@ -8,7 +8,17 @@ from .deformation_jacobian import deformation_jacobian
 
 
 '''
-Computes the linear elasticity hessian matrix
+Computes the linear elasticity hessian matrix, using the method of Kim. et al. 2019 Dynamic Deformables
+Inputs:
+    V - n x 3 mesh geometry
+    F - t x 4 tet indices
+Optional:
+    mu - float or t x 1 array of per-tet first lame parameter values
+    U - n x 3 deformed mesh geometry where hessian is evaluated
+
+Returns:
+    H - 3n x 3n sparse arap hessian matrix
+    
 '''
 def arap_hessian(V, F, mu=None, U=None):
     dim = V.shape[1]
