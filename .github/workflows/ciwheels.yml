@@ -147,7 +147,7 @@ jobs:
 
         run: |
            sudo apt-get update -y
-           sudo apt-get install \
+           sudo apt-get install -y \
                     libmpfr-dev \
                     libgmp-dev \
                     libgl1-mesa-dev \
