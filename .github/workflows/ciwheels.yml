@@ -143,7 +143,7 @@ jobs:
 #     This shouldn't be necessary
       - name: Install dependencies (Ubuntu)
         shell: bash -l {0}
-        if: runner.os == 'Linux'
+#        if: runner.os == 'Linux'
         run: |
            sudo apt-get update -y
            sudo apt-get install \
