@@ -153,7 +153,8 @@ jobs:
                     libgl1-mesa-dev \
                     xorg-dev \
                     libglu1-mesa-dev \
-                    libxinerama-dev 
+                    libxinerama-dev \
+                    libXrandr-devel
            sudo apt-get install libxrandr-dev
            sudo apt-get install xorg-dev libglu1-mesa-dev
 #           sudo apt-get install xrandr-dev
