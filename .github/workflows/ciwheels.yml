@@ -144,6 +144,7 @@ jobs:
       - name: Install dependencies (Ubuntu)
         shell: bash -l {0}
 #        if: runner.os == 'Linux'
+        if: matrix.os == 'ubuntu-latest'
         run: |
            sudo apt-get update -y
            sudo apt-get install \
@@ -151,7 +152,8 @@ jobs:
                     libgmp-dev \
                     libgl1-mesa-dev \
                     xorg-dev \
-                    libglu1-mesa-dev
+                    libglu1-mesa-dev \
+                    libxinerama-dev 
            sudo apt-get install libxrandr-dev
            sudo apt-get install xorg-dev libglu1-mesa-dev
 #           sudo apt-get install xrandr-dev
