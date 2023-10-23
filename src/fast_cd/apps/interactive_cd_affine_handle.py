@@ -42,10 +42,10 @@ def interactive_cd_affine_handle(msh_file=None, Ws=None, l=None, mu=1e4, rho=1e3
                                  results_dir=None, read_cache=False,
                                  texture_png=None, texture_obj=None):
     if msh_file is None:
-        msh_file = fc.get_data("./cd_fish/cd_fish.msh")
+        msh_file = fc.get_data("./cd_fish.msh")
         if texture_png is None or texture_obj is None:
-            texture_png = fc.get_data("./cd_fish/cd_fish_tex.png")
-            texture_obj = fc.get_data("./cd_fish/cd_fish_tex.obj")
+            texture_png = fc.get_data("./cd_fish_tex.png")
+            texture_obj = fc.get_data("./cd_fish_tex.obj")
 
     assert(splitext(msh_file)[1] == '.msh' and "only supports .msh file format")
     name = basename(splitext(msh_file)[0])
