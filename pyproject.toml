@@ -1,0 +1,15 @@
+[tool.cibuildwheel]
+build-verbosity = "3"
+[build-system]
+requires = [
+    "numpy",
+    "scipy",
+    "polyscope",
+    "cvxopt",
+    "setuptools>=42",
+    "wheel",
+    "cmake>=3.16",
+    "packaging",
+]
+
+build-backend = "setuptools.build_meta"
