@@ -2,3 +2,5 @@ numpy
 scipy
 cvxopt
 polyscope
+scikit-learn
+libigl

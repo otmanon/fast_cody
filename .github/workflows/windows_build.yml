@@ -34,6 +34,8 @@ jobs:
           python -m pip install cvxopt
           python -m pip install polyscope
           python -m pip install libigl
+          python -m pip install scikit-learn
+          
 
       # - name: Install dependencies (Windows)
       #   shell: bash -l {0}

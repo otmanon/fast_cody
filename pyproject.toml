@@ -7,6 +7,7 @@ requires = [
     "polyscope",
     "cvxopt",
     "libigl",
+    "scikit-learn",
     "setuptools>=42",
     "wheel",
     "cmake>=3.16",
