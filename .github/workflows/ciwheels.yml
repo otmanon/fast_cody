@@ -153,6 +153,8 @@ jobs:
                     xorg-dev \
                     libglu1-mesa-dev
            sudo apt-get install libxrandr-dev
+           sudo apt-get install xorg-dev libglu1-mesa-dev
+           sudo apt-get install xrandr-dev
 #              libmpfr-dev \
 #              libgmp-dev \
 
