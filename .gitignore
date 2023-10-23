@@ -8,7 +8,6 @@ dist/*
 ./cache/*
 ./results/*
 results/*
-src/fast_cd/data/*
 **.npy
 **.blend
 **.blend1
