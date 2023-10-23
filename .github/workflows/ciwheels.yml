@@ -144,7 +144,7 @@ jobs:
       - name: Install dependencies (Ubuntu)
         shell: bash -l {0}
 #        if: runner.os == 'Linux'
-        if: matrix.os == 'ubuntu-latest'
+
         run: |
            sudo apt-get update -y
            sudo apt-get install \
