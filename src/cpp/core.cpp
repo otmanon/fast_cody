@@ -13,7 +13,7 @@
 #include "momentum_leaking_matrix.h"
 #include "read_rig_from_json.h"
 #include "write_rig_to_json.h"
-#include "fast_cd_subspace.h"
+//#include "fast_cd_subspace.h"
 #include "read_rig_anim_from_json.h"
 #include "rig_parameters.h"
 #include "selection_matrix.h"
@@ -328,40 +328,40 @@ PYBIND11_MODULE(fast_cd_pyb, m) {
         ;
 
 
-
-
-    py::class_<fast_cd_subspace>(m, "fast_cd_subspace", "Helper class that \
-        builds/reads/writes the subspaces necessary to run and test Fast CD\n",
-        py::dynamic_attr())
-        .def(py::init<>())
-        .def(py::init<EigenDRef<MatrixXd>,EigenDRef<MatrixXd>, VectorXi,string>() )
-        .def(py::init<string, string, string, int, int>() )
-        .def("read_from_cache", &fast_cd_subspace::read_from_cache, "  \
-                Reads modes and clusters from cache directories \n \
-                Inputs: \n \
-                    modes_dir - (string)directory where B.DMAT / W.DMAT \n \
-                                    and L.DMAT is stored \
-                        clusters_dir - (string) directory where \
-                clusters labels.DMAT is stored \n \
-                ")
-        .def("read_clusters_from_cache", &fast_cd_subspace::read_clusters_from_cache,
-            "  \
-                Read clusters from cache directories \n  \
-                Inputs: n \
-                    clusters_dir - (string)directory where cluster labels.DMAT is stored \n \
-                        ")
-        .def("read_modes_from_cache", &fast_cd_subspace::read_modes_from_cache,
-            "  \
-                    Read clusters from cache directories \n \
-                    Inputs: \n \
-                        modes_dur - (string)directory where \
-                                        cluster B.DMAT / W.DMAT and L.DMAT is stored\
-                     ")
-        .def("setlabels", [](fast_cd_subspace& sub, VectorXi& l) {sub.l = l; })
-        .def_readwrite("B", &fast_cd_subspace::B, py::return_value_policy::reference_internal)
-        .def_readwrite("W", &fast_cd_subspace::W, py::return_value_policy::reference_internal)
-        .def_readwrite("labels", &fast_cd_subspace::l, py::return_value_policy::reference_internal)
-        ;
+//
+//
+//    py::class_<fast_cd_subspace>(m, "fast_cd_subspace", "Helper class that \
+//        builds/reads/writes the subspaces necessary to run and test Fast CD\n",
+//        py::dynamic_attr())
+//        .def(py::init<>())
+//        .def(py::init<EigenDRef<MatrixXd>,EigenDRef<MatrixXd>, VectorXi,string>() )
+//        .def(py::init<string, string, string, int, int>() )
+//        .def("read_from_cache", &fast_cd_subspace::read_from_cache, "  \
+//                Reads modes and clusters from cache directories \n \
+//                Inputs: \n \
+//                    modes_dir - (string)directory where B.DMAT / W.DMAT \n \
+//                                    and L.DMAT is stored \
+//                        clusters_dir - (string) directory where \
+//                clusters labels.DMAT is stored \n \
+//                ")
+//        .def("read_clusters_from_cache", &fast_cd_subspace::read_clusters_from_cache,
+//            "  \
+//                Read clusters from cache directories \n  \
+//                Inputs: n \
+//                    clusters_dir - (string)directory where cluster labels.DMAT is stored \n \
+//                        ")
+//        .def("read_modes_from_cache", &fast_cd_subspace::read_modes_from_cache,
+//            "  \
+//                    Read clusters from cache directories \n \
+//                    Inputs: python\n \
+//                        modes_dur - (string)directory where \
+//                                        cluster B.DMAT / W.DMAT and L.DMAT is stored\
+//                     ")
+//        .def("setlabels", [](fast_cd_subspace& sub, VectorXi& l) {sub.l = l; })
+//        .def_readwrite("B", &fast_cd_subspace::B, py::return_value_policy::reference_internal)
+//        .def_readwrite("W", &fast_cd_subspace::W, py::return_value_policy::reference_internal)
+//        .def_readwrite("labels", &fast_cd_subspace::l, py::return_value_policy::reference_internal)
+//        ;
 
 
        
