@@ -34,12 +34,12 @@ jobs:
           python -m pip install cvxopt
           python -m pip install polyscope
           sudo apt-get install \
-              libxrandr-dev \
               libmpfr-dev \
               libgmp-dev \
               libgl1-mesa-dev \
               xorg-dev \
               libglu1-mesa-dev
+          sudo apt-get install -y libxrandr-dev
 
       - name: Install c++ bindings
         shell: bash -l {0}
