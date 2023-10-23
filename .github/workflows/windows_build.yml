@@ -33,6 +33,7 @@ jobs:
           python -m pip install scipy
           python -m pip install cvxopt
           python -m pip install polyscope
+          python -m pip install libigl
 
       # - name: Install dependencies (Windows)
       #   shell: bash -l {0}

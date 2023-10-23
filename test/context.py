@@ -20,5 +20,6 @@ import numpy
 import scipy
 # import cvxopt
 import unittest
+import igl
 import fast_cd
 import fast_cd_pyb

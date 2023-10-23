@@ -6,6 +6,7 @@ requires = [
     "scipy",
     "polyscope",
     "cvxopt",
+    "libigl",
     "setuptools>=42",
     "wheel",
     "cmake>=3.16",

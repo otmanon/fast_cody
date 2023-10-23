@@ -115,7 +115,7 @@ def main():
         license="MIT",
         package_dir={'': 'src'},
         packages=setuptools.find_packages(where="src"),
-        install_requires=[ 'numpy', 'scipy', 'cvxopt', 'polyscope'],
+        install_requires=[ 'numpy', 'scipy', 'cvxopt', 'polyscope', 'libigl'],
         include_package_data=True,
         # data_files=[('', ['./src/shaders/*'])],
         package_data={'fast_cd': ['shaders/*.glsl', 'data/*']},
