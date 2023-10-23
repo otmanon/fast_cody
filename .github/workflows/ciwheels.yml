@@ -151,9 +151,9 @@ jobs:
           sudo apt-get update
           sudo apt-get upgrade
           sudo apt-get install \
-              libmpfr-dev \
-              libgmp-dev \
-              librandr-dev \
+                 librandr-dev
+#              libmpfr-dev \
+#              libgmp-dev \
 
       # - name: Package source distribution
       #   if: runner.os == 'Linux'
