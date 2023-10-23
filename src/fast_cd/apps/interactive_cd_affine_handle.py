@@ -82,7 +82,7 @@ def interactive_cd_affine_handle(msh_file=None, Ws=None, l=None, mu=1e4, rho=1e3
     step = 0
     def pre_draw_callback():
          nonlocal J, B, T0, sim, st, step
-         p = T0[0:3, :].reshape( (12, 1))
+         p = viewer.T0[0:3, :].reshape( (12, 1))
 
          z = sim.step( p, st)
 
@@ -95,27 +95,10 @@ def interactive_cd_affine_handle(msh_file=None, Ws=None, l=None, mu=1e4, rho=1e3
 
          step += 1
 
-    def guizmo_callback(A):
-        nonlocal T0
-        T0 = A
 
-    transform = "translate"
-    def callback_key_pressed( key, modifier):
-        # nonlocal transform
-        # if (key == ord('g')):
-        #     if (transform == "translate"):
-        #         transform = "rotate"
-        #     elif (transform == "rotate"):
-        #         transform = "scale"
-        #     elif (transform == "scale"):
-        #         transform = "translate"
-        #
-        #     viewer.change_guizmo_op(transform)
-        return False
-
-    viewer = fc.viewers.interactive_handle_subspace_viewer(V, T, Wp, Ws, T0, guizmo_callback, pre_draw_callback,
+    viewer = fc.viewers.interactive_handle_subspace_viewer(V, T, Wp, Ws, T0, pre_draw_callback,
                                                   texture_png=texture_png, texture_obj=texture_obj,
-                                                  t0=to, s0=so, callback_key_pressed=callback_key_pressed)
+                                                  t0=to, s0=so)
     viewer.launch()
 
 

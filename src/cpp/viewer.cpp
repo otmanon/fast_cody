@@ -42,11 +42,16 @@ void bind_viewer(py::module& m) {
                 func();
                 return false;
             };
-    v.igl_v->callback_pre_draw = wrapperFunc;
-
+                v.igl_v->callback_pre_draw = wrapperFunc;
+            })
+         .def("set_key_callback", [&](fast_cd_viewer& v, std::function<bool(unsigned int, int)>& func)
+            {
+                auto wrapperFunc = [=](igl::opengl::glfw::Viewer&, unsigned int key, int modifier) -> bool {
+                return func(key, modifier);
+                };
+                v.igl_v->callback_key_pressed= wrapperFunc;
             })
         .def("set_face_based", &fast_cd_viewer::set_face_based)
-        .def("set_key_callback", &fast_cd_viewer::set_key_pressed_callback)
         .def("set_color", static_cast<void (fast_cd_viewer::*)(const RowVector3d&, int)>(&fast_cd_viewer::set_color))
          .def("set_show_lines", &fast_cd_viewer::get_show_lines)
         .def("set_show_lines", &fast_cd_viewer::set_show_lines)

@@ -7,16 +7,35 @@ import fast_cd_pyb as fcd
 
 import fast_cd
 
+'''
+Viewer for interactive affine handle app. This viewer only updates the draw call by sending
+JUST the subspace coefficients and rig parameters to the GPU, effectively doing the full space
+projection required for rendering entirely in the vertex shader.
 
+Inputs:
+V - n x 3 mesh geometry
+T - t x 4 tet indices
+Wp - n x 1 primary skinning weights for rig
+Ws - n x m secondary skinning weights for subspace
+T0 - 4 x 4 initial rig transform in world space
+guizmo_callback - callback function for guizmo widget
+pre_draw_callback - callback function for pre-draw step
+
+Optional:
+texture_png - path to texture png file
+texture_obj - path to texture obj file
+t0 - initial mesh translation (to align the textured mesh with)
+s0 - initial mesh scale (to align the textured mesh with)
+'''
 class interactive_handle_subspace_viewer():
-    def __init__(self, V, T, Wp, Ws, T0, guizmo_callback, pre_draw_callback,
-                 texture_png=None, texture_obj=None, t0=None, s0=None,
-                 callback_key_pressed=None):
+    def __init__(self, V, T, Wp, Ws, T0, pre_draw_callback,
+                 texture_png=None, texture_obj=None, t0=None, s0=None):
         vertex_shader_path = fast_cd.get_shader("./vertex_shader_16.glsl")
         fragment_shader_path = fast_cd.get_shader("./fragment_shader.glsl")
 
         viewer = fcd.fast_cd_viewer_custom_shader(vertex_shader_path,
                                                   fragment_shader_path, 16, 16)
+        print("  g        Toggle guizmo widget")
         F = igl.boundary_facets(T)
         vis_texture = False
         if texture_png is not None and texture_obj is not None:
@@ -28,7 +47,6 @@ class interactive_handle_subspace_viewer():
             viewer.invert_normals(True, 0)
             color = np.array([144, 210, 236]) / 255.0
             viewer.set_color(color, 0)
-            viewer.set_pre_draw_callback(pre_draw_callback)
             self.V = V
             self.Wp =  Wp;  # primary rig weights
             self.Ws =  Ws;  # secondary subspace weights
@@ -54,17 +72,30 @@ class interactive_handle_subspace_viewer():
             self.V = Vf
             self.Pe = Pe
 
-        transform = "translate"
-        viewer.init_guizmo(True, T0, guizmo_callback, transform)
+        self.T0 = T0
+        self.transform = "translate"
+        viewer.init_guizmo(True, T0, self.guizmo_callback, self.transform)
 
         viewer.set_pre_draw_callback(pre_draw_callback)
-        if callback_key_pressed is not None:
-            viewer.set_key_callback(callback_key_pressed)
+
+        viewer.set_key_callback(self.callback_key_pressed)
 
         self.viewer = viewer
 
+    def guizmo_callback(self, A):
+        self.T0 = A
 
+    def callback_key_pressed(s, key, modifier):
+        if (key == ord('g')):
+            if (s.transform == "translate"):
+                s.transform = "rotate"
+            elif (s.transform == "rotate"):
+                s.transform = "scale"
+            elif (s.transform == "scale"):
+                s.transform = "translate"
 
+            s.viewer.change_guizmo_op(s.transform)
+        return False
     def launch(self):
         self.viewer.launch(60, True)
 

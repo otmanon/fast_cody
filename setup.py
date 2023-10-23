@@ -10,7 +10,7 @@ from setuptools import setup, Extension
 from setuptools.command.build_ext import build_ext
 from distutils.version import LooseVersion
 
-__version__ = '0.0.0'
+__version__ = '0.0.3'
 
 
 class CMakeExtension(Extension):
@@ -115,7 +115,7 @@ def main():
         license="MIT",
         package_dir={'': 'src'},
         packages=setuptools.find_packages(where="src"),
-        install_requires=['numpy', 'scipy'],
+        install_requires=[ 'numpy', 'scipy'],
         include_package_data=True,
         # data_files=[('', ['./src/shaders/*'])],
         package_data={'fast_cd': ['shaders/*.glsl', 'data/*']},
@@ -123,7 +123,7 @@ def main():
         # setup_requires=['pybind11>=2.4'],
         cmdclass=dict(build_ext=CMakeBuild),
         zip_safe=False,
-        test_suite="test",
+        test_suite="tests",
     )
 
 
