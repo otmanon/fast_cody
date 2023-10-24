@@ -17,8 +17,8 @@ class TestEigs(unittest.TestCase):
         C2 = fcd.lbs_weight_space_constraint(V, C)
         # [B, l, Ws] = fcd.skinning_subspace(V, T, 10, num_clusters, C=C2, read_cache=read_cache,
 
-        t = 1e5
-        for i in range(10):
+        t = 0
+        for i in range(1):
             random = (np.random.randn(V.shape[0], V.shape[1]) - 0.5) * 2
             U = V + random * t
             L = fcd.laplacian(U, T)
@@ -42,8 +42,8 @@ class TestEigs(unittest.TestCase):
         msh_file = fcd.get_data('cd_fish.msh')
         [V, F, T] = fcdp.readMSH(msh_file)
 
-        t = 1e10
-        for i in range(10):
+        t = 0
+        for i in range(1):
             random = (np.random.randn(V.shape[0], V.shape[1])-0.5)*2
             U = V + random*t
             A = fcd.laplacian(U, T)
@@ -58,6 +58,26 @@ class TestEigs(unittest.TestCase):
             cvxopt.umfpack.solve(Ac, numeric, b)
 
 
+    def test_eigs_indefinite(self):
+        msh_file = fcd.get_data('cd_fish.msh')
+        [V, F, T] = fcdp.readMSH(msh_file)
+        W = np.ones((V.shape[0], 1))
+        J = fcd.lbs_jacobian(V, W)
+        C = fcd.complementary_constraint_matrix(V, T, J, dt=1e-3)
+        C2 = fcd.lbs_weight_space_constraint(V, C)
+        c = C2.shape[0]
+        Z = sp.sparse.csc_matrix((c, c))
+        M = igl.massmatrix(V, T)
+
+        L = fcd.laplacian(V, T)
+        A = sp.sparse.vstack((sp.sparse.hstack((L, C2.T)),
+                              sp.sparse.hstack((C2, Z)))).tocsc()
+        M = sp.sparse.block_diag((M, Z)).tocsc()
+
+        threshold = 1e-12
+        [E, B] = fcd.eigs(A, M=M, k=10)  # sp.sparse.linalg.eigs(L, M=M, k=num_modes, sigma=0, which='LM')
+        B = B.real[0:L.shape[0], :]
+        self.assertTrue(np.alltrue( C2 @ B < threshold ))
     def test_psd(self):
 
         msh_file = fcd.get_data('cd_fish.msh')
@@ -83,3 +103,61 @@ class TestEigs(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+# import igl
+# import fast_cd as fcd
+# import fast_cd_pyb as fcdp
+# import cvxopt
+# import numpy as np
+# import scipy as sp
+# def test_umfpack_lu_factorization_indefinite():
+#     msh_file = fcd.get_data('cd_fish.msh')
+#     [V, F, T] = fcdp.readMSH(msh_file)
+#     W = np.ones((V.shape[0], 1))
+#     J = fcd.lbs_jacobian(V, W)
+#     C = fcd.complementary_constraint_matrix(V, T, J, dt=1e-3)
+#     C2 = fcd.lbs_weight_space_constraint(V, C)
+#     # [B, l, Ws] = fcd.skinning_subspace(V, T, 10, num_clusters, C=C2, read_cache=read_cache,
+#
+#     t = 1e5
+#     for i in range(10):
+#         random = (np.random.randn(V.shape[0], V.shape[1]) - 0.5) * 2
+#         U = V + random * t
+#         L = fcd.laplacian(U, T)
+#         c = C2.shape[0]
+#         Z = sp.sparse.csc_matrix((c, c))
+#         A = sp.sparse.vstack((sp.sparse.hstack((L, C2.T)),
+#                     sp.sparse.hstack((C2, Z)))).tocsc()
+#
+#
+#         [I, J] = A.nonzero()
+#         v = A.data
+#
+#         Ac = cvxopt.spmatrix(v, I, J, A.shape)
+#         F = cvxopt.umfpack.symbolic(Ac)
+#         numeric = cvxopt.umfpack.numeric(Ac, F)
+#         b = cvxopt.matrix(np.zeros(A.shape[0]))
+#         cvxopt.umfpack.solve(Ac, numeric, b)
+#
+#
+# def test_umfpack_lu_factorization_psd():
+#     msh_file = fcd.get_data('cd_fish.msh')
+#     [V, F, T] = fcdp.readMSH(msh_file)
+#
+#     t = 1e10
+#     for i in range(10):
+#         random = (np.random.randn(V.shape[0], V.shape[1])-0.5)*2
+#         U = V + random*t
+#         A = fcd.laplacian(U, T)
+#         [I, J] = A.nonzero()
+#         v = A.data
+#
+#
+#         Ac = cvxopt.spmatrix(v, I, J, A.shape)
+#         F = cvxopt.umfpack.symbolic(Ac)
+#         numeric = cvxopt.umfpack.numeric(Ac, F)
+#         b = cvxopt.matrix(np.zeros(A.shape[0]))
+#         cvxopt.umfpack.solve(Ac, numeric, b)
+#
+# test_umfpack_lu_factorization_psd()
+# test_umfpack_lu_factorization_indefinite()
