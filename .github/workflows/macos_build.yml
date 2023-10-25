@@ -32,6 +32,8 @@ jobs:
           ${{ steps.installpython.outputs.python-path }} -m pip install polyscope
           ${{ steps.installpython.outputs.python-path }} -m pip install libigl
           ${{ steps.installpython.outputs.python-path }} -m pip install scikit-learn
+          ${{ steps.installpython.outputs.python-path }} -m pip install --force-reinstall opencv-python
+          ${{ steps.installpython.outputs.python-path }} -m pip install mediapipe
 
       - name: Install c++ bindings
         shell: bash -l {0}

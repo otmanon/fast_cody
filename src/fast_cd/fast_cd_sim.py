@@ -77,7 +77,7 @@ class fast_cd_sim():
 
     '''
     def __init__(self, V, T, B, l, J, mu=1e5, rho=1, h=1e-2, max_iters=10, threshold=1e-6,
-                 read_cache=False, cache_dir="", Aeq=None):
+                 read_cache=False, cache_dir="", Aeq=None, write_sim_cache=False):
         #These parameters need to be global member variables otherwise their memory is destroyed
         self.solver_params = fcd.local_global_solver_params(False, 30, 1e-8)
         if Aeq is None:
@@ -85,7 +85,7 @@ class fast_cd_sim():
         self.Jsp = sp.sparse.csc_matrix(J)
         self.sim_params = fcd.fast_cd_arap_sim_params(V, T, B, l, self.Jsp, self.Aeq, mu, h, 200.)
 
-        write_cache = True
+        write_cache = write_sim_cache
         self.sim = fcd.fast_cd_arap_sim(cache_dir, self.sim_params, self.solver_params, read_cache, write_cache)
 
 

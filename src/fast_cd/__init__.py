@@ -33,7 +33,9 @@ from .complementary_constraint_matrix import complementary_constraint_matrix
 from .umfpack_lu_solve import umfpack_lu_solve
 from .eigs import eigs
 from .fast_cd_sim import *
-
+from .mediapipe_face import FE
+from .one_euro_filter import OneEuroFilter
+from .face_landmarks_to_positions import face_landmarks_to_positions
 from .apps import *
 from .viewers import *
 

@@ -1,0 +1,5 @@
+from fast_cd.apps.cd_demo_face_tracking import interactive_cd_face_tracking
+
+
+
+interactive_cd_face_tracking()

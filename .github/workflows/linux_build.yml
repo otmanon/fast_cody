@@ -36,6 +36,9 @@ jobs:
           python -m pip install polyscope
           python -m pip install libigl
           python -m pip install scikit-learn
+          python -m pip install mediapipe
+          python -m pip install --force-reinstall opencv-python
+
           sudo apt-get install \
               libmpfr-dev \
               libgmp-dev \

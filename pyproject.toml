@@ -10,6 +10,8 @@ requires = [
     "libigl",
     "scikit-learn",
     "setuptools>=42",
+    "opencv-python",
+    "mediapipe",
     "wheel",
     "cmake>=3.16"
 ]
