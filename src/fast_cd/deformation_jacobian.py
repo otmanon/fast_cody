@@ -19,8 +19,7 @@ def deformation_jacobian(V, T):
     P = sp.sparse.coo_matrix((vals.flatten(), (imat.flatten(), jmat.flatten())), shape=(9 * t, 9 * t)).tocsc()
     J = P @ Ge
 
-    # f = J@V.flatten(order="F")
-    # F = f.reshape((t, 9))
+
 
     return J
 

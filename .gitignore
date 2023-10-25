@@ -22,3 +22,6 @@ src/fast_cd/apps/__pycache__/*
 
 results/**
 **.ini
+
+site/*
+site/**

@@ -1,46 +1,52 @@
-from .arap_hessian import *
-from .skinning_subspace import *
-from .average_onto_simplex import  *
-from .closest_orthogonal_subspace import  *
-from .cluster_centroids import *
-from .cluster_grouping_matrices import  *
-from .deformation_jacobian import  *
-from .laplacian import *
-from .laplacian_eigenmodes import *
-from .lbs_jacobian import *
-from .lbs_jacobian import *
-from .lbs_weight_space_constraint import *
-from .linear_elasticity_hessian import *
-from .normalize_height_and_center import *
-from .orthonormalize import *
-from .project_into_subspace import *
-from .project_to_orthogonal import *
-from .read_rig_from_json import *
-from .read_rig_anim_from_json import *
-from .rig_curve_geometry import *
-from .rig_geometry import *
-from .rotate_rig import *
-from .skinning_clusters import *
-from .skinning_subspace import *
-from .vectorized_trace import *
-from .vectorized_transpose import *
-from .ympr_to_lame import *
+__version__ = '0.0.5'
+
+from .arap_hessian import arap_hessian
+from .skinning_subspace import  skinning_subspace
+from .average_onto_simplex import  average_onto_simplex
+from .closest_orthogonal_subspace import  closest_orthogonal_subspace
+from .cluster_centroids import cluster_centroids_spectral, cluster_centroids_euclidean
+from .cluster_grouping_matrices import  cluster_grouping_matrices
+from .deformation_jacobian import  deformation_jacobian
+from .laplacian import laplacian
+from .laplacian_eigenmodes import laplacian_eigenmodes
+from .lbs_jacobian import lbs_jacobian
+from .lbs_weight_space_constraint import lbs_weight_space_constraint
+from .linear_elasticity_hessian import linear_elasticity_hessian
+from .normalize_height_and_center import normalize_height_and_center
+from .orthonormalize import orthonormalize
+from .project_into_subspace import project_into_subspace
+from .project_to_orthogonal import project_to_orthogonal
+from .read_rig_from_json import read_rig_from_json
+from .read_rig_anim_from_json import read_rig_anim_from_json
+from .rig_curve_geometry import rig_curve_geometry
+from .rig_geometry import rig_geometry
+from .rotate_rig import rotate_rig
+from .skinning_clusters import skinning_clusters
+from .vectorized_trace import vectorized_trace
+from .vectorized_transpose import vectorized_transpose
+from .ympr_to_lame import ympr_to_lame
 from .project_out_subspace import project_out_subspace
 from .diffuse_weights import diffuse_weights
 from .momentum_leaking_matrix import momentum_leaking_matrix
 from .complementary_constraint_matrix import complementary_constraint_matrix
 from .umfpack_lu_solve import umfpack_lu_solve
 from .eigs import eigs
-from .fast_cd_sim import *
+from .fast_cd_sim import fast_cd_sim, fast_cd_state
 from .mediapipe_face import FE
 from .one_euro_filter import OneEuroFilter
 from .face_landmarks_to_positions import face_landmarks_to_positions
-from .apps import *
-from .viewers import *
+from .apps.interactive_cd_rig_anim import interactive_cd_rig_anim
 from .mediapipe_face_captor import mediapipe_face_captor
 from .world2rel import world2rel
-from .viewers.WeightsViewer import *
-from .viewers.ClustersViewer import *
+
+#Apps
+from .apps.interactive_cd_face_tracking import interactive_cd_face_tracking
+from .apps.interactive_cd_affine_handle import interactive_cd_affine_handle
+
+#Viewers
+from .viewers.WeightsViewer import WeightsViewer
+from .viewers.ClustersViewer import ClustersViewer
+from .viewers.interactive_handle_subspace_viewer import interactive_handle_subspace_viewer
 
 # set data path and shaders path
 import os
