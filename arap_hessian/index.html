@@ -73,7 +73,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="cyan" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="red" data-md-color-accent="indigo">
   
     
     
@@ -1044,21 +1044,103 @@
 
   <div class="doc doc-contents ">
   
-      <p>Computes ARAP Hessian.</p>
-<p>Parameters</p>
-<hr />
-<pre><code>V  : (n, 3) vertex geometry
-F  : (f, 4) tet simplex indices
-mu : double or (f, 1) or None first lame parameter defining stiffness for each tet.
-U  : None or (n, 3) deformed geometry where to evaluate the Hessian.
-</code></pre>
-<p>Returns</p>
-<hr />
-<pre><code>H : (3n, 3n) sparse ARAP Hessian matrix
-</code></pre>
-<p>Examples</p>
-<hr />
-<p>TODO</p>
+      <p>Computes ARAP Hessian</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>V</code></td>
+          <td>
+                <code>(n, 3) numpy float array</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Rest vertex geometry</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>F</code></td>
+          <td>
+                <code>(f, 4) numpy int array</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Tetrahedron indices</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>mu</code></td>
+          <td>
+                <code>float or (f, 1) numpy float array or None</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>First lame parameter (e.g. stiffness). if None, then sets it to 1 for all tets.</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>U</code></td>
+          <td>
+                <code>(n, 3) numpy float array or None</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Deformed geometry where to evaluate the hessian. If None, then U=V.</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+<th>Name</th>        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+<td><code>H</code></td>          <td>
+                <code>(n*3, n*3) scipy sparse csc matrix</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>ARAP Hessian at U</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
 
           <details class="quote">
             <summary>Source code in <code>src\fast_cd\arap_hessian.py</code></summary>
@@ -1140,24 +1222,30 @@ U  : None or (n, 3) deformed geometry where to evaluate the Hessian.
 <span class="normal">84</span>
 <span class="normal">85</span>
 <span class="normal">86</span>
-<span class="normal">87</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">arap_hessian</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">U</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot; Computes ARAP Hessian.</span>
+<span class="normal">87</span>
+<span class="normal">88</span>
+<span class="normal">89</span>
+<span class="normal">90</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">arap_hessian</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">U</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Computes ARAP Hessian</span>
 
 <span class="sd">    Parameters</span>
-<span class="sd">    __________</span>
-<span class="sd">        V  : (n, 3) vertex geometry</span>
-<span class="sd">        F  : (f, 4) tet simplex indices</span>
-<span class="sd">        mu : double or (f, 1) or None first lame parameter defining stiffness for each tet.</span>
-<span class="sd">        U  : None or (n, 3) deformed geometry where to evaluate the Hessian.</span>
+<span class="sd">    ----------</span>
+<span class="sd">    V : (n, 3) numpy float array</span>
+<span class="sd">        Rest vertex geometry</span>
+<span class="sd">    F : (f, 4) numpy int array</span>
+<span class="sd">        Tetrahedron indices</span>
+<span class="sd">    mu : float or (f, 1) numpy float array or None</span>
+<span class="sd">        First lame parameter (e.g. stiffness). if None, then sets it to 1 for all tets.</span>
+<span class="sd">    U : (n, 3) numpy float array or None</span>
+<span class="sd">        Deformed geometry where to evaluate the hessian. If None, then U=V.</span>
 
 <span class="sd">    Returns</span>
-<span class="sd">    _______</span>
-<span class="sd">        H : (3n, 3n) sparse ARAP Hessian matrix</span>
-
-<span class="sd">    Examples</span>
-<span class="sd">    _______</span>
-<span class="sd">    TODO</span>
+<span class="sd">    -------</span>
+<span class="sd">    H : (n*3, n*3) scipy sparse csc matrix</span>
+<span class="sd">        ARAP Hessian at U</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
 
     <span class="k">def</span> <span class="nf">dpsidF2</span><span class="p">(</span><span class="n">F</span><span class="p">):</span>
         <span class="c1"># F  is organized in a vecotrized way, #tets x d x d</span>
