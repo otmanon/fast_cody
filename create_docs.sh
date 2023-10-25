@@ -28,18 +28,18 @@ for file in src/fast_cd/*.py; do
 		echo "::: src.fast_cd.${name}" >> $path
 	fi
 done
-##For all files in a module
-#shopt -s nullglob
-#for file in src/fast_cd/*/*.py; do
-#	name=$(basename "$file" .py)
-#	modulename=$(basename "$(dirname $file)")
-#	if ! [ "$name" = "__init__" ]; then
-#		mkdir -p "docs/${modulename}"
-#		path="docs/${modulename}/${name}.md"
-#		echo "---" > $path
-#		echo "title: \"${modulename}.${name}\"" >> $path
-#		echo "---" >> $path
-#		echo >> $path
-#		echo "::: src.fast_cd.${modulename}.${name}" >> $path
-#	fi
-#done
+#For all files in a module
+shopt -s nullglob
+for file in src/fast_cd/*/*.py; do
+	name=$(basename "$file" .py)
+	modulename=$(basename "$(dirname $file)")
+	if ! [ "$name" = "__init__" ]; then
+		mkdir -p "docs/${modulename}"
+		path="docs/${modulename}/${name}.md"
+		echo "---" > $path
+		echo "title: \"${modulename}.${name}\"" >> $path
+		echo "---" >> $path
+		echo >> $path
+		echo "::: src.fast_cd.${modulename}.${name}" >> $path
+	fi
+done
