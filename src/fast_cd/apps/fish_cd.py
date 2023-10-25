@@ -15,9 +15,9 @@ class fish_cd():
 
         read_cache = False
         write_cache = False
-        num_modes = 8
+        num_modes = 16
         mode_type = "skinning"
-        num_clusters = 50
+        num_clusters = 100
         mu = 1e4
         rho=1e3
         h = 1e-2

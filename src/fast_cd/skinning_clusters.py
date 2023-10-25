@@ -32,7 +32,7 @@ def skinning_clusters(W, D, T, k, l=2, num_clustering_features=10,
     # Wt2 = Wt / np.power(D, 2)
     Wt = Wt / np.power(D, l)
     Wt = Wt[:, 0:num_clustering_features]
-    kmeans = KMeans(n_clusters=k, random_state=0, n_init="auto").fit(Wt)
+    kmeans = KMeans(n_clusters=k, random_state=0).fit(Wt)
     l = kmeans.labels_
 
     # igl.connected_components()

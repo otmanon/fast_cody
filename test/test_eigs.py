@@ -105,12 +105,18 @@ class TestEigs(unittest.TestCase):
         J = fcd.lbs_jacobian(V, W)
         C = fcd.complementary_constraint_matrix(V, T, J, dt=1e-3)
         C2 = fcd.lbs_weight_space_constraint(V, C)
-        [B, l, Ws] = fcd.skinning_subspace(V, T, 16, 1000, C=C2, read_cache=False,
-                                          cache_dir=None, constraint_enforcement="optimal");
 
-        [B2, l2, Ws2] = fcd.skinning_subspace(V, T, 16, 1000, C=C2, read_cache=False,
-                                          cache_dir=None, constraint_enforcement="project");
+        try:
+            [B, l, Ws] = fcd.skinning_subspace(V, T, 16, 1000, C=C2, read_cache=False,
+                                              cache_dir=None, constraint_enforcement="optimal");
+        except:
+            self.assertTrue(False)
 
+        try:
+            [B2, l2, Ws2] = fcd.skinning_subspace(V, T, 16, 1000, C=C2, read_cache=False,
+                                             cache_dir=None, constraint_enforcement="project");
+        except:
+            self.assertTrue(False)
     def test_laplacian_eigenmodes(self):
         msh_file = fcd.get_data('cd_fish.msh')
         [V, F, T] = fcdp.readMSH(msh_file)
