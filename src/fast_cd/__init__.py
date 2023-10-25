@@ -38,7 +38,7 @@ from .one_euro_filter import OneEuroFilter
 from .face_landmarks_to_positions import face_landmarks_to_positions
 from .apps import *
 from .viewers import *
-
+from .mediapipe_face_captor import mediapipe_face_captor
 # set data path and shaders path
 import os
 _ROOT = os.path.abspath(os.path.dirname(__file__))

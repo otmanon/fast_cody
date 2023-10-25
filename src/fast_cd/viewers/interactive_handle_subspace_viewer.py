@@ -29,7 +29,7 @@ s0 - initial mesh scale (to align the textured mesh with)
 '''
 class interactive_handle_subspace_viewer():
     def __init__(self, V, T, Wp, Ws, T0, pre_draw_callback,
-                 texture_png=None, texture_obj=None, t0=None, s0=None):
+                 texture_png=None, texture_obj=None, t0=None, s0=None, init_guizmo=True, max_fps=60):
         vertex_shader_path = fast_cd.get_shader("./vertex_shader_16.glsl")
         fragment_shader_path = fast_cd.get_shader("./fragment_shader.glsl")
 
@@ -42,6 +42,7 @@ class interactive_handle_subspace_viewer():
             vis_texture = True
         self.vis_texture = vis_texture
 
+        self.max_fps = max_fps
         if not vis_texture:
             viewer.set_mesh(V, F, 0)
             viewer.invert_normals(True, 0)
@@ -72,9 +73,12 @@ class interactive_handle_subspace_viewer():
             self.V = Vf
             self.Pe = Pe
 
-        self.T0 = T0
-        self.transform = "translate"
-        viewer.init_guizmo(True, T0, self.guizmo_callback, self.transform)
+
+        self.init_guizmo = init_guizmo
+        if init_guizmo:
+            self.T0 = T0
+            self.transform = "translate"
+            viewer.init_guizmo(True, T0, self.guizmo_callback, self.transform)
 
         viewer.set_pre_draw_callback(pre_draw_callback)
 
@@ -97,7 +101,7 @@ class interactive_handle_subspace_viewer():
             s.viewer.change_guizmo_op(s.transform)
         return False
     def launch(self):
-        self.viewer.launch(60, True)
+        self.viewer.launch(self.max_fps, True)
 
     def change_guizmo_op(self, op):
         self.viewer.change_guizmo_op(op)
