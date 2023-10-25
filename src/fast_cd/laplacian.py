@@ -23,6 +23,8 @@ def tet_laplacian(X, T, mu=None):
 
     if mu is None:
         mu = np.ones(T.shape[0])
+    elif np.isscalar(mu):
+        mu = mu * np.ones(T.shape[0])
     else:
         assert(type(mu) == np.ndarray)
         assert(mu.shape[0] == T.shape[0])

@@ -25,12 +25,14 @@ jobs:
       - name: Install dependencies
         shell: bash -l {0}
         run: |
+          ${{ steps.installpython.outputs.python-path }} -m pip install packaging
           ${{ steps.installpython.outputs.python-path }} -m pip install numpy
           ${{ steps.installpython.outputs.python-path }} -m pip install scipy
           ${{ steps.installpython.outputs.python-path }} -m pip install cvxopt
           ${{ steps.installpython.outputs.python-path }} -m pip install polyscope
           ${{ steps.installpython.outputs.python-path }} -m pip install libigl
           ${{ steps.installpython.outputs.python-path }} -m pip install scikit-learn
+
       - name: Install c++ bindings
         shell: bash -l {0}
         run: |

@@ -2,6 +2,7 @@
 build-verbosity = "3"
 [build-system]
 requires = [
+    "packaging",
     "numpy",
     "scipy",
     "polyscope",
@@ -10,8 +11,7 @@ requires = [
     "scikit-learn",
     "setuptools>=42",
     "wheel",
-    "cmake>=3.16",
-    "packaging",
+    "cmake>=3.16"
 ]
 
 build-backend = "setuptools.build_meta"
