@@ -1,4 +1,5 @@
 README.md
+pyproject.toml
 setup.py
 src/fast_cd/__init__.py
 src/fast_cd/arap_hessian.py
@@ -52,6 +53,11 @@ src/fast_cd/apps/save_rig_mesh.py
 src/fast_cd/apps/test_FAST_IK.py
 src/fast_cd/apps/test_FAST_IK_CD_tex.py
 src/fast_cd/apps/test_FAST_IK_tex.py
+src/fast_cd/data/__init__.py
+src/fast_cd/data/cd_fish.msh
+src/fast_cd/data/cd_fish_tex.obj
+src/fast_cd/data/cd_fish_tex.png
+src/fast_cd/shaders/__init__.py
 src/fast_cd/shaders/fragment_shader.glsl
 src/fast_cd/shaders/vertex_shader_16.glsl
 src/fast_cd/shaders/vertex_shader_4.glsl
@@ -67,3 +73,5 @@ src/fast_cd_pyb.egg-info/dependency_links.txt
 src/fast_cd_pyb.egg-info/not-zip-safe
 src/fast_cd_pyb.egg-info/requires.txt
 src/fast_cd_pyb.egg-info/top_level.txt
+test/test_eigs.py
+test/test_lbs_jacobian.py

@@ -1,2 +1,6 @@
 numpy
 scipy
+cvxopt
+polyscope
+libigl
+scikit-learn

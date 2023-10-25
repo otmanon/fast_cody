@@ -96,8 +96,23 @@ class TestEigs(unittest.TestCase):
         # first eigenvector should be constant
         self.assertTrue(np.std(B[:, 0]) < t)
 
+    def test_cd_skinning_weights(self):
+        msh_file = fcd.get_data('cd_fish.msh')
+        [V, F, T] = fcdp.readMSH(msh_file)
+        [V, so, to] = fcd.scale_and_center_geometry(V, 1, np.array([[0, 0, 0.]]))  # center to unit height and about origin
 
+        W = np.ones((V.shape[0], 1))
+        J = fcd.lbs_jacobian(V, W)
+        C = fcd.complementary_constraint_matrix(V, T, J, dt=1e-3)
+        C2 = fcd.lbs_weight_space_constraint(V, C)
+        [B, l, Ws] = fcd.skinning_subspace(V, T, 16, 1000, C=C2, read_cache=False,
+                                          cache_dir=None, constraint_enforcement="optimal");
 
+        [B2, l2, Ws2] = fcd.skinning_subspace(V, T, 16, 1000, C=C2, read_cache=False,
+                                          cache_dir=None, constraint_enforcement="project");
+        # [B, l, Ws] = fcd.skinning_subspace(V, T, 10, num_clusters, C=C2, read_cache=read_cache,
+        #                                    write_cache=write_cache, cache_file=cache_file, dt=1e-3)
+        # self.assertTrue(np.alltrue( C2 @ B < threshold ))
 
 
 

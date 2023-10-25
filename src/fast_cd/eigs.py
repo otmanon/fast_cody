@@ -53,8 +53,12 @@ def eigs(A, k=5, M=None):
     if M is None:
         M = sp.sparse.identity(A.shape[0])
 
-    OpInv = umfpack_LU_LinearOperator(A)
-    # MInv = umfpack_LU_LinearOperator(M)
-    [D, B] = sp.sparse.linalg.eigs(A, M=M, k=k, sigma=0,
-                              which='LM', OPinv=OpInv)
+    try:
+        OpInv = umfpack_LU_LinearOperator(A)
+        # MInv = umfpack_LU_LinearOperator(M)
+        [D, B] = sp.sparse.linalg.eigs(A, M=M, k=k, sigma=0,
+                                  which='LM', OPinv=OpInv)
+    except:
+        print("UMFPACK LU Factorization Failed, Trying Scipy LU")
+        [D, B] = sp.sparse.linalg.eigs(A, M=M, k=k, sigma=0,which='LM')
     return D, B
