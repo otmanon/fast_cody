@@ -1,19 +1,14 @@
-import cv2
-import mediapipe as mp
-import igl
 import numpy as np
 import os
 from os.path import basename, splitext
 
-
 import fast_cd_pyb as fcd
 import fast_cd as fc
-from fast_cd import OneEuroFilter, face_landmarks_to_positions
 
 
 '''
 Runs a standard interactive fast CD simulation, where the user can manipulate a single affine 
-handle with a Guizmo and observe secondary effects in real-time.
+handle with a mediapipe face tracker in real time.
 
 
 Optional:
@@ -101,7 +96,7 @@ def interactive_cd_face_tracking(msh_file=None, Wp=None, bI=0, Ws=None, l=None, 
         face_captor.imshow()
 
 
-    viewer = fc.viewers.interactive_handle_subspace_viewer(V, T, Wp, Ws, T0, user_callback,
+    viewer = fc.viewers.interactive_handle_subspace_viewer(V, T, Wp, Ws, user_callback,
                                                            texture_png=texture_png, texture_obj=texture_obj,
                                                            t0=to, s0=so, init_guizmo=False, max_fps=100)
     viewer.launch()

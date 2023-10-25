@@ -1,0 +1,4 @@
+from fast_cd.apps.interactive_cd_rig_anim import interactive_cd_rig_anim
+
+
+interactive_cd_rig_anim()

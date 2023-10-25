@@ -28,14 +28,16 @@ t0 - initial mesh translation (to align the textured mesh with)
 s0 - initial mesh scale (to align the textured mesh with)
 '''
 class interactive_handle_subspace_viewer():
-    def __init__(self, V, T, Wp, Ws, T0, pre_draw_callback,
+    def __init__(self, V, T, Wp, Ws,  pre_draw_callback,T0=None,
                  texture_png=None, texture_obj=None, t0=None, s0=None, init_guizmo=True, max_fps=60):
         vertex_shader_path = fast_cd.get_shader("./vertex_shader_16.glsl")
         fragment_shader_path = fast_cd.get_shader("./fragment_shader.glsl")
 
         viewer = fcd.fast_cd_viewer_custom_shader(vertex_shader_path,
                                                   fragment_shader_path, 16, 16)
-        print("  g        Toggle guizmo widget")
+        print("  c        Toggle Secondary Motion")
+
+        print("  g        Toggle Guizmo Widget Transform")
         F = igl.boundary_facets(T)
         vis_texture = False
         if texture_png is not None and texture_obj is not None:
@@ -76,6 +78,8 @@ class interactive_handle_subspace_viewer():
 
         self.init_guizmo = init_guizmo
         if init_guizmo:
+            if T0 is None:
+                T0 = np.identity(4).astype( dtype=np.float32, order="F");
             self.T0 = T0
             self.transform = "translate"
             viewer.init_guizmo(True, T0, self.guizmo_callback, self.transform)
@@ -86,19 +90,21 @@ class interactive_handle_subspace_viewer():
 
         self.viewer = viewer
 
+        self.vis_cd = True
+
     def guizmo_callback(self, A):
         self.T0 = A
 
     def callback_key_pressed(s, key, modifier):
-        if (key == ord('g')):
+        if (key == ord('g') or key == ord('G')):
             if (s.transform == "translate"):
                 s.transform = "rotate"
             elif (s.transform == "rotate"):
                 s.transform = "scale"
             elif (s.transform == "scale"):
                 s.transform = "translate"
-
-            s.viewer.change_guizmo_op(s.transform)
+        if (key == ord('c') or key==ord('C') ):
+            s.vis_cd = not s.vis_cd
         return False
     def launch(self):
         self.viewer.launch(self.max_fps, True)
@@ -106,7 +112,7 @@ class interactive_handle_subspace_viewer():
     def change_guizmo_op(self, op):
         self.viewer.change_guizmo_op(op)
     def update_subspace_coefficients(self, z, p):
-        self.viewer.set_bone_transforms(p, z, 0);
+        self.viewer.set_bone_transforms(p, z * self.vis_cd, 0);
         self.viewer.updateGL(0)
 
 

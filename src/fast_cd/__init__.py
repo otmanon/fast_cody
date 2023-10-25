@@ -1,4 +1,3 @@
-
 from .arap_hessian import *
 from .skinning_subspace import *
 from .average_onto_simplex import  *
@@ -39,6 +38,10 @@ from .face_landmarks_to_positions import face_landmarks_to_positions
 from .apps import *
 from .viewers import *
 from .mediapipe_face_captor import mediapipe_face_captor
+from .world2rel import world2rel
+from .viewers.WeightsViewer import *
+from .viewers.ClustersViewer import *
+
 # set data path and shaders path
 import os
 _ROOT = os.path.abspath(os.path.dirname(__file__))

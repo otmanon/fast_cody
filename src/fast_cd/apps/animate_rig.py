@@ -1,9 +1,11 @@
 import polyscope as ps
 import numpy as np
 import igl
-import fast_cd_pyb as fcd
-
+import fast_cd as fcd
+import fast_cd_pyb as fcdp
 name = "stingray"
+
+
 frame = 20
 num_modes = 3
 
@@ -16,6 +18,7 @@ anim_json = "./data/rigs/skeleton_rig/anim/flap.json"
 
 [V, F,  T] = fcd.readMSH(msh_file)
 [V, so, to] = fcd.scale_and_center_geometry(V, 1, np.array([[0, 0,  0.]]))
+
 
 [W, P0,pI, bl, Vs, Fs, rig_type ] = fcd.read_rig_from_json(rig_json)
 A = np.identity(4)[:3, :4]

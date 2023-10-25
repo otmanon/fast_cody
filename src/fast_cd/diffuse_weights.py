@@ -19,7 +19,7 @@ bI: c x b indices at diffusion points
 returns
 W: n x b  diffused quantities over entire mesh
 '''
-def diffuse_weights(Vv, Tv, phi, bI,  dt=None ):
+def diffuse_weights(Vv, Tv, phi, bI,  dt=None, normalize=True):
 
     if (dt is None):
         dt = np.mean(igl.edge_lengths(Vv, Tv)) ** 2
@@ -52,7 +52,10 @@ def diffuse_weights(Vv, Tv, phi, bI,  dt=None ):
 
 
     # normalize between 0 and 1
-    W = (W - np.min(W, axis=0)[:, None]) / (np.max(W, axis=0)[:, None] - np.min(W, axis=0)[:, None])
+    if W.ndim == 1:
+        W = W[:, None]
+    if normalize:
+        W = (W - np.min(W, axis=0)) / (np.max(W, axis=0) - np.min(W, axis=0))
     # WeightsViewer(Vs, Ts, Ws, period=1)
     # WeightsViewer(Vv, Fv, W)
 
