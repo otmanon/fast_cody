@@ -11,6 +11,19 @@ Returns:
     At - t x d  per simplex averaged d-dimensional quantities
 '''
 def average_onto_simplex(A, T):
+    """ Average quantity from vertices to simplices
+    Parameters
+    ----------
+    A : (n, d) numpy float array
+        Per vertex d-dimensional quantities
+    T : (t, s) numpy int array
+        Simplex indices
+
+    Returns
+    -------
+    At : (t, d) numpy float array
+        Per simplex d-dimensional quantities
+    """
     At = np.zeros((T.shape[0], A.shape[1]))
     for td in range(T.shape[1]):
         At += (A[T[:, td], :])/T.shape[1]

@@ -2,7 +2,20 @@ import numpy as np
 
 
 def cluster_centroids_spectral( B, cluster_indices):
+    """Computes for clusters in spectral space.
 
+    Parameters
+    ----------
+    B : (n, d) numpy float array
+        d-dimensional spectral feature vectors.
+    cluster_indices : (n, ) numpy int array
+        Cluster indices.
+
+    Returns
+    -------
+    centroids : (num_clusters, d) numpy float array
+        Centroids in spectral space.
+    """
     # Determine the number of clusters
     num_clusters = np.max(cluster_indices) + 1
     # Initialize an array to store the centroids
@@ -13,12 +26,25 @@ def cluster_centroids_spectral( B, cluster_indices):
         cluster_points = B[cluster_mask, :]
         centroid = np.mean(cluster_points, axis=0)
         centroids[cluster_idx] = centroid
-
-
     return centroids
 
 
 def cluster_centroids_euclidean(positions, masses, cluster_indices):
+    """ Computes euclidean centroids for a set of clusters.
+    Parameters
+    ----------
+    positions : (n, d) numpy float array
+        d-dimensional positions.
+    masses: (n, ) numpy float array
+        Masses/weights for each of the n-positions.
+    cluster_indices : (n, ) numpy int array
+        Cluster indices.
+
+    Returns
+    ------
+    centroids : (num_clusters, d) numpy float array
+        Centroids in euclidean space.
+    """
     unique_clusters = np.unique(cluster_indices)
     centroids = np.zeros( (unique_clusters.shape[0] ,positions.shape[1] ))
 
