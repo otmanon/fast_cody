@@ -82,6 +82,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#src.fast_cd.deformation_jacobian.deformation_jacobian" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -336,6 +341,17 @@
       
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    deformation_jacobian
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -345,6 +361,30 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#src.fast_cd.deformation_jacobian.deformation_jacobian" class="md-nav__link">
+    deformation_jacobian()
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1270,6 +1310,21 @@
   
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#src.fast_cd.deformation_jacobian.deformation_jacobian" class="md-nav__link">
+    deformation_jacobian()
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1306,6 +1361,201 @@
 
 
 
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h2 id="src.fast_cd.deformation_jacobian.deformation_jacobian" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">deformation_jacobian</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span></code>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Computes the deformation Jacobian of a tetrahedral mesh.
+The resulting jacobian J is used to obtain the deformation gradient from the positions.</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>V</code></td>
+          <td>
+                <code>(n, 3) float numpy array</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Mesh vertices</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>T</code></td>
+          <td>
+                <code>(t, 4) int numpy array</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Mesh tets</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+<th>Name</th>        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+<td><code>J</code></td>          <td>
+                <code>(9t, 3n) scipy sparse csc matrix</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Deformation Jacobian matrix</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+<p><strong>Examples:</strong></p>
+    <p>Obtain a stacked t x 3 x 3 list of deformation gradients from each tet, from n x 3 positions U</p>
+<pre><code>J = deformation_jacobian(X, T)
+f = J @ U.flatten(order='F')
+F = f.reshape(-1, 3, 3)
+</code></pre>
+
+          <details class="quote">
+            <summary>Source code in <code>src\fast_cd\deformation_jacobian.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">deformation_jacobian</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">T</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Computes the deformation Jacobian of a tetrahedral mesh.</span>
+<span class="sd">    The resulting jacobian J is used to obtain the deformation gradient from the positions.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    V : (n, 3) float numpy array</span>
+<span class="sd">        Mesh vertices</span>
+<span class="sd">    T : (t, 4) int numpy array</span>
+<span class="sd">        Mesh tets</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    J : (9t, 3n) scipy sparse csc matrix</span>
+<span class="sd">        Deformation Jacobian matrix</span>
+
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Obtain a stacked t x 3 x 3 list of deformation gradients from each tet, from n x 3 positions U</span>
+<span class="sd">    ```</span>
+<span class="sd">    J = deformation_jacobian(X, T)</span>
+<span class="sd">    f = J @ U.flatten(order=&#39;F&#39;)</span>
+<span class="sd">    F = f.reshape(-1, 3, 3)</span>
+<span class="sd">    ```</span>
+
+
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">G</span> <span class="o">=</span> <span class="n">igl</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
+    <span class="n">t</span><span class="o">=</span><span class="n">T</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">I</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="n">V</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="n">Ge</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">block_diag</span><span class="p">((</span><span class="n">G</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">G</span><span class="p">))</span>
+
+
+    <span class="n">imat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span> <span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">t</span><span class="p">)[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="mi">9</span><span class="p">;</span>
+
+    <span class="n">jmat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">t</span><span class="p">,</span> <span class="mi">6</span> <span class="o">*</span> <span class="n">t</span><span class="p">,</span> <span class="mi">1</span> <span class="o">*</span> <span class="n">t</span><span class="p">,</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">t</span><span class="p">,</span> <span class="mi">7</span> <span class="o">*</span> <span class="n">t</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">t</span><span class="p">,</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">t</span><span class="p">,</span> <span class="mi">8</span> <span class="o">*</span> <span class="n">t</span><span class="p">]),</span> <span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">t</span><span class="p">)[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
+
+    <span class="n">vals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">imat</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">coo_matrix</span><span class="p">((</span><span class="n">vals</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="p">(</span><span class="n">imat</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">jmat</span><span class="o">.</span><span class="n">flatten</span><span class="p">())),</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span> <span class="o">*</span> <span class="n">t</span><span class="p">,</span> <span class="mi">9</span> <span class="o">*</span> <span class="n">t</span><span class="p">))</span><span class="o">.</span><span class="n">tocsc</span><span class="p">()</span>
+    <span class="n">J</span> <span class="o">=</span> <span class="n">P</span> <span class="o">@</span> <span class="n">Ge</span>
+
+
+
+    <span class="k">return</span> <span class="n">J</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
 
 
 

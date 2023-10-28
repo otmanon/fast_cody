@@ -82,6 +82,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#src.fast_cd.diffuse_weights.diffuse_weights" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -355,6 +360,17 @@
       
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    diffuse_weights
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -364,6 +380,30 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#src.fast_cd.diffuse_weights.diffuse_weights" class="md-nav__link">
+    diffuse_weights()
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1270,6 +1310,21 @@
   
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#src.fast_cd.diffuse_weights.diffuse_weights" class="md-nav__link">
+    diffuse_weights()
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1306,6 +1361,303 @@
 
 
 
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h2 id="src.fast_cd.diffuse_weights.diffuse_weights" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">diffuse_weights</span><span class="p">(</span><span class="n">Vv</span><span class="p">,</span> <span class="n">Tv</span><span class="p">,</span> <span class="n">phi</span><span class="p">,</span> <span class="n">bI</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></code>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Performs a diffusion on the tet mesh Vv, Tv at nodes bI for time dt.</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>Vv</code></td>
+          <td>
+                <code>(n, 3) float numpy array</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Mesh vertices</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>Tv</code></td>
+          <td>
+                <code>(t, 4) int numpy array</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Mesh tets</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>phi</code></td>
+          <td>
+                <code>(c, b) float numpy array</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Quantity to diffuse</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>bI</code></td>
+          <td>
+                <code>(c, b) int numpy array</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Indices at diffusion points</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>dt</code></td>
+          <td>
+                <code>float</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Time to diffuse for</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>normalize</code></td>
+          <td>
+                <code>bool</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Whether to normalize the weights</p>
+            </div>
+          </td>
+          <td>
+                <code>True</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+<th>Name</th>        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+<td><code>W</code></td>          <td>
+                <code>(n, b) float numpy array</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Diffused quantities over entire mesh</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+          <details class="quote">
+            <summary>Source code in <code>src\fast_cd\diffuse_weights.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span>
+<span class="normal">84</span>
+<span class="normal">85</span>
+<span class="normal">86</span>
+<span class="normal">87</span>
+<span class="normal">88</span>
+<span class="normal">89</span>
+<span class="normal">90</span>
+<span class="normal">91</span>
+<span class="normal">92</span>
+<span class="normal">93</span>
+<span class="normal">94</span>
+<span class="normal">95</span>
+<span class="normal">96</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">diffuse_weights</span><span class="p">(</span><span class="n">Vv</span><span class="p">,</span> <span class="n">Tv</span><span class="p">,</span> <span class="n">phi</span><span class="p">,</span> <span class="n">bI</span><span class="p">,</span>  <span class="n">dt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Performs a diffusion on the tet mesh Vv, Tv at nodes bI for time dt.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Vv : (n, 3) float numpy array</span>
+<span class="sd">        Mesh vertices</span>
+<span class="sd">    Tv : (t, 4) int numpy array</span>
+<span class="sd">        Mesh tets</span>
+<span class="sd">    phi : (c, b) float numpy array</span>
+<span class="sd">        Quantity to diffuse</span>
+<span class="sd">    bI : (c, b) int numpy array</span>
+<span class="sd">        Indices at diffusion points</span>
+<span class="sd">    dt : float</span>
+<span class="sd">        Time to diffuse for</span>
+<span class="sd">    normalize : bool</span>
+<span class="sd">        Whether to normalize the weights</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    W : (n, b) float numpy array</span>
+<span class="sd">        Diffused quantities over entire mesh</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">dt</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="n">dt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">igl</span><span class="o">.</span><span class="n">edge_lengths</span><span class="p">(</span><span class="n">Vv</span><span class="p">,</span> <span class="n">Tv</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span>
+
+    <span class="n">L</span> <span class="o">=</span> <span class="n">laplacian</span><span class="p">(</span><span class="n">Vv</span><span class="p">,</span> <span class="n">Tv</span><span class="p">)</span>
+    <span class="n">M</span> <span class="o">=</span> <span class="n">igl</span><span class="o">.</span><span class="n">massmatrix</span><span class="p">(</span><span class="n">Vv</span><span class="p">,</span> <span class="n">Tv</span><span class="p">)</span>
+
+    <span class="n">Q</span> <span class="o">=</span> <span class="n">L</span> <span class="o">*</span> <span class="n">dt</span> <span class="o">+</span> <span class="n">M</span>
+
+    <span class="n">ii</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">setdiff1d</span><span class="p">(</span>  <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">Q</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">bI</span><span class="p">)</span>
+    <span class="c1"># selection matrix for indices bI</span>
+    <span class="n">Qii</span> <span class="o">=</span> <span class="n">Q</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span> <span class="p">:][:,</span> <span class="n">ii</span><span class="p">]</span>
+    <span class="n">Qib</span> <span class="o">=</span> <span class="n">Q</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span> <span class="p">:][:,</span> <span class="n">bI</span><span class="p">]</span>
+
+    <span class="n">Wii</span> <span class="o">=</span> <span class="n">fast_cd</span><span class="o">.</span><span class="n">umfpack_lu_solve</span><span class="p">(</span><span class="n">Qii</span><span class="p">,</span> <span class="o">-</span><span class="n">Qib</span> <span class="o">@</span> <span class="n">phi</span><span class="p">)</span>
+    <span class="n">W</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">L</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">Wii</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="n">W</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">Wii</span>
+    <span class="n">W</span><span class="p">[</span><span class="n">bI</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">phi</span>
+    <span class="c1"># W = gpt.min_quad_with_fixed(L*dt + M, k=bI, y=phi)</span>
+
+    <span class="c1"># normalize weights so that max is 1 and min is 0</span>
+    <span class="c1"># W = (W - np.min(W, axis=0)[:, None]) / (np.max(W, axis=0)[:, None] - np.min(W, axis=0)[:, None])</span>
+
+    <span class="c1"># ps.init()</span>
+    <span class="c1"># # pc = ps.register_point_cloud(&quot;pc&quot;, Vs)</span>
+    <span class="c1"># # pc_CI = ps.register_point_cloud(&quot;pc_cI&quot;, Vs[CI])</span>
+    <span class="c1"># mesh = ps.register_volume_mesh(&quot;mesh&quot;, Vv, Tv)</span>
+    <span class="c1"># mesh.add_scalar_quantity(&quot;w&quot;, W.flatten())</span>
+    <span class="c1"># ps.show()</span>
+
+
+    <span class="c1"># normalize between 0 and 1</span>
+    <span class="k">if</span> <span class="n">W</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">W</span> <span class="o">=</span> <span class="n">W</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">normalize</span><span class="p">:</span>
+        <span class="n">W</span> <span class="o">=</span> <span class="p">(</span><span class="n">W</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+    <span class="c1"># WeightsViewer(Vs, Ts, Ws, period=1)</span>
+    <span class="c1"># WeightsViewer(Vv, Fv, W)</span>
+
+    <span class="c1"># ps.init()</span>
+    <span class="c1"># volms = ps.register_volume_mesh(&quot;vol&quot;, Vv, Tv)</span>
+    <span class="c1"># volms.add_scalar_quantity(&quot;W&quot;, W[:, 0])</span>
+    <span class="c1">#</span>
+    <span class="c1"># ps.show()</span>
+
+    <span class="c1"># ps.init()</span>
+    <span class="c1"># mesh = ps.register_volume_mesh(&quot;mesh&quot;, Vv, Tv)</span>
+    <span class="c1"># mesh.add_scalar_quantity(&quot;weights&quot;, W[:, 0], enabled=True, cmap=&#39;coolwarm&#39;)</span>
+    <span class="c1"># ps.show()</span>
+    <span class="c1"># WeightsViewer(Vv, Tv, W)</span>
+    <span class="k">return</span> <span class="n">W</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
 
 
 

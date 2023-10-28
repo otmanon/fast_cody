@@ -82,6 +82,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#src.fast_cd.eigs.eigs" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -374,6 +379,17 @@
       
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    eigs
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -383,6 +399,30 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#src.fast_cd.eigs.eigs" class="md-nav__link">
+    eigs()
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1270,6 +1310,21 @@
   
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#src.fast_cd.eigs.eigs" class="md-nav__link">
+    eigs()
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1306,6 +1361,187 @@
 
 
 
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h2 id="src.fast_cd.eigs.eigs" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">eigs</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">M</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Computes Generalized Eigenvalues and Eigenvectors of sparse non-definite matrix A, with massmatrix M</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>A</code></td>
+          <td>
+                <code>(n, n) float sparse matrix</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Indefinite sparse matrix</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>k</code></td>
+          <td>
+                <code>int</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Number of eigenvectors/values to solve for (default=5)</p>
+            </div>
+          </td>
+          <td>
+                <code>5</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>M</code></td>
+          <td>
+                <code>(n, n) float sparse matrix</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Indefinite mass matrix</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+<th>Name</th>        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+<td><code>D</code></td>          <td>
+                <code>(k, 1) float numpy array</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Eigenvalues</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+<td><code>B</code></td>          <td>
+                <code>(n, k) float numpy array</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Eigenvectors</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+          <details class="quote">
+            <summary>Source code in <code>src\fast_cd\eigs.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span>
+<span class="normal">84</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">eigs</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">M</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Computes Generalized Eigenvalues and Eigenvectors of sparse non-definite matrix A, with massmatrix M</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    A : (n, n) float sparse matrix</span>
+<span class="sd">        Indefinite sparse matrix</span>
+<span class="sd">    k : int</span>
+<span class="sd">        Number of eigenvectors/values to solve for (default=5)</span>
+<span class="sd">    M : (n, n) float sparse matrix</span>
+<span class="sd">        Indefinite mass matrix</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    D : (k, 1) float numpy array</span>
+<span class="sd">        Eigenvalues</span>
+<span class="sd">    B : (n, k) float numpy array</span>
+<span class="sd">        Eigenvectors</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">M</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">M</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">OpInv</span> <span class="o">=</span> <span class="n">umfpack_LU_LinearOperator</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+        <span class="c1"># MInv = umfpack_LU_LinearOperator(M)</span>
+        <span class="p">[</span><span class="n">D</span><span class="p">,</span> <span class="n">B</span><span class="p">]</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigs</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">M</span><span class="o">=</span><span class="n">M</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                                  <span class="n">which</span><span class="o">=</span><span class="s1">&#39;LM&#39;</span><span class="p">,</span> <span class="n">OPinv</span><span class="o">=</span><span class="n">OpInv</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;UMFPACK LU Factorization Failed, Trying Scipy LU&quot;</span><span class="p">)</span>
+        <span class="p">[</span><span class="n">D</span><span class="p">,</span> <span class="n">B</span><span class="p">]</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigs</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">M</span><span class="o">=</span><span class="n">M</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">which</span><span class="o">=</span><span class="s1">&#39;LM&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">D</span><span class="p">,</span> <span class="n">B</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
 
 
 
