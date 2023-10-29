@@ -32,14 +32,12 @@ from .complementary_constraint_matrix import complementary_constraint_matrix
 from .umfpack_lu_solve import umfpack_lu_solve
 from .eigs import eigs
 from .fast_cd_sim import fast_cd_sim, fast_cd_state
-from .mediapipe_face import FE
 from .one_euro_filter import OneEuroFilter
-from .face_landmarks_to_positions import face_landmarks_to_positions
-from .apps.interactive_cd_rig_anim import interactive_cd_rig_anim
 from .mediapipe_face_captor import mediapipe_face_captor
 from .world2rel import world2rel
 
 #Apps
+from .apps.interactive_cd_rig_anim import interactive_cd_rig_anim
 from .apps.interactive_cd_face_tracking import interactive_cd_face_tracking
 from .apps.interactive_cd_affine_handle import interactive_cd_affine_handle
 

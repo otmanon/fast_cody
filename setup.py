@@ -108,7 +108,7 @@ def main():
         version=__version__,
         author='Otman Benchekroun',
         author_email='otmanbench@gmail.com',
-        url='https://github.com/otmanon/fast-cd-pyb/',
+        url='https://github.com/otmanon/fast-cody/',
         description='',
         long_description=long_description,
         long_description_content_type='text/markdown',

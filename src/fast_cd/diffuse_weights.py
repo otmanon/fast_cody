@@ -20,6 +20,29 @@ returns
 W: n x b  diffused quantities over entire mesh
 '''
 def diffuse_weights(Vv, Tv, phi, bI,  dt=None, normalize=True):
+    """ Performs a diffusion on the tet mesh Vv, Tv at nodes bI for time dt.
+
+    Parameters
+    ----------
+    Vv : (n, 3) float numpy array
+        Mesh vertices
+    Tv : (t, 4) int numpy array
+        Mesh tets
+    phi : (c, b) float numpy array
+        Quantity to diffuse
+    bI : (c, b) int numpy array
+        Indices at diffusion points
+    dt : float
+        Time to diffuse for
+    normalize : bool
+        Whether to normalize the weights
+
+    Returns
+    -------
+    W : (n, b) float numpy array
+        Diffused quantities over entire mesh
+
+    """
 
     if (dt is None):
         dt = np.mean(igl.edge_lengths(Vv, Tv)) ** 2

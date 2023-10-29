@@ -3,8 +3,28 @@ import mediapipe as mp
 import cv2
 import igl
 
-from fast_cd import OneEuroFilter, face_landmarks_to_positions
+from fast_cd import OneEuroFilter
 
+
+
+#edge indices, libigl style
+FE = np.array([[10, 338], [338, 297], [297, 332], [332, 284],
+                                [284, 251], [251, 389], [389, 356], [356, 454],
+                                [454, 323], [323, 361], [361, 288], [288, 397],
+                                [397, 365], [365, 379], [379, 378], [378, 400],
+                                [400, 377], [377, 152], [152, 148], [148, 176],
+                                [176, 149], [149, 150], [150, 136], [136, 172],
+                                [172, 58], [58, 132], [132, 93], [93, 234],
+                                [234, 127], [127, 162], [162, 21], [21, 54],
+                                [54, 103], [103, 67], [67, 109], [109, 10]])
+def face_landmarks_to_positions(face_landmarks):
+    num_V = mp.solutions.face_mesh.FACEMESH_NUM_LANDMARKS_WITH_IRISES
+    V = np.zeros((num_V, 3))
+    ind = 0
+    for l in face_landmarks.landmark:
+        V[ind, :] = np.array([l.x, l.y, l.z])
+        ind += 1
+    return V
 
 '''
 This class wraps and organizes mediapipe to provide an interface that 

@@ -22,15 +22,45 @@ Inputs:
 (Optional)
     cache_dir: directory to cache results in (default None)
     read_cache: whether to read from cache or not (default False)
-    C :  c x 3n constarint matrix that acts on the skinning weights (default None)
+    C :  c x n constarint matrix that acts on the skinning weights (default None)
     constraint_enforcement : method of enforcing constraint. Either "project" or "optimal"
                         for python, default is "project", because optimal makes eigendecomposition take way too long.
 Outputs:
     B: 3n x 12m  subspace matrix
     W: n x m skinning weights
 '''
-def laplacian_eigenmodes(V, T, num_modes, read_cache=False, cache_dir=None, J=None,
-                         mu=None, constraint_enforcement="project"):
+def laplacian_eigenmodes(V, T, m, read_cache=False, cache_dir=None, J=None,
+                         mu=None, constraint_enforcement="optimal"):
+    """ Computes Laplacian Eigenmodes for a given mesh.
+
+    Parameters
+    ----------
+    V : (n, 3) float numpy array
+        Vertex positions
+    T : (F, 4) int numpy array
+        Tet indices
+    m : int
+        Number of modes to compute
+    read_cache : bool
+        Whether to read from cache or not (default False)
+    cache_dir : str
+        Directory to cache results in (default None)
+    J : (c x n) float numpy array
+        Constraint matrix we desire on our weights s.t. J @ W = 0 (default None)
+    mu : float
+        Per-tet conducivity. If None, sets it to 1.0 everyewhere (default None)
+    constraint_enforcement : str
+        Method of enforcing constraint. Either "project" or "optimal" (default "optimal")
+
+    Returns
+    -------
+    B : (n, m) float numpy array
+        Subspace matrix/Eigenvectors of laplacian.
+    E : (m, 1) float numpy array
+        Eigenvalues of each eigenvector
+
+
+    """
     if read_cache:
         B = np.load(cache_dir + "/B.npy")
         E = np.load(cache_dir + "/E.npy")
@@ -47,7 +77,7 @@ def laplacian_eigenmodes(V, T, num_modes, read_cache=False, cache_dir=None, J=No
                 M = sp.sparse.block_diag((M, Z)).tocsc()
         print("Computing eigenmodes... may take a while...")
         start = time.time()
-        [E, B] = eigs(L, M=M, k=num_modes)
+        [E, B] = eigs(L, M=M, k=m)
         print("Done computing eigenmodes! Took, ", time.time() - start, " seconds")
 
         n = V.shape[0]
@@ -63,11 +93,11 @@ def laplacian_eigenmodes(V, T, num_modes, read_cache=False, cache_dir=None, J=No
             # WeightsViewer(V, T, B)
             print("Done projecting out constraints from eigenmodes")
 
-
-
         if cache_dir is not None:
             os.makedirs(cache_dir, exist_ok=True)
             np.save(cache_dir + "/B.npy", B)
             np.save(cache_dir + "/E.npy",E)
+
         B = orthonormalize(B)
+
     return B, E

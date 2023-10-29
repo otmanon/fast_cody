@@ -35,7 +35,7 @@ def cluster_centroids_euclidean(positions, masses, cluster_indices):
     ----------
     positions : (n, d) numpy float array
         d-dimensional positions.
-    masses: (n, ) numpy float array
+    masses : (n, ) numpy float array
         Masses/weights for each of the n-positions.
     cluster_indices : (n, ) numpy int array
         Cluster indices.

@@ -4,6 +4,34 @@ import numpy as np
 
 
 def deformation_jacobian(V, T):
+    """ Computes the deformation Jacobian of a tetrahedral mesh.
+    The resulting jacobian J is used to obtain the deformation gradient from the positions.
+
+    Parameters
+    ----------
+    V : (n, 3) float numpy array
+        Mesh vertices
+    T : (t, 4) int numpy array
+        Mesh tets
+
+    Returns
+    --------
+    J : (9t, 3n) scipy sparse csc matrix
+        Deformation Jacobian matrix
+
+
+    Examples
+    --------
+    Obtain a stacked t x 3 x 3 list of deformation gradients from each tet, from n x 3 positions U
+    ```
+    J = deformation_jacobian(X, T)
+    f = J @ U.flatten(order='F')
+    F = f.reshape(-1, 3, 3)
+    ```
+
+
+
+    """
     G = igl.grad(V, T)
     t=T.shape[0]
     I = sp.sparse.identity(V.shape[1])

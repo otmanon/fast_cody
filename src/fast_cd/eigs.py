@@ -50,6 +50,26 @@ D - k x 1 eigenvalues
 B - n x k eigenvectors
 '''
 def eigs(A, k=5, M=None):
+    """
+    Computes Generalized Eigenvalues and Eigenvectors of sparse non-definite matrix A, with massmatrix M
+
+    Parameters
+    ----------
+    A : (n, n) float sparse matrix
+        Indefinite sparse matrix
+    k : int
+        Number of eigenvectors/values to solve for (default=5)
+    M : (n, n) float sparse matrix
+        Indefinite mass matrix
+
+    Returns
+    --------
+    D : (k, 1) float numpy array
+        Eigenvalues
+    B : (n, k) float numpy array
+        Eigenvectors
+
+    """
     if M is None:
         M = sp.sparse.identity(A.shape[0])
 
