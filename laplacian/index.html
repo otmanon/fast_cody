@@ -82,6 +82,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#src.fast_cd.laplacian.laplacian" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -386,25 +391,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../face_landmarks_to_positions/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    face_landmarks_to_positions
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../fast_cd_sim/" class="md-nav__link">
         
   
@@ -431,6 +417,17 @@
       
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    laplacian
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -440,6 +437,30 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#src.fast_cd.laplacian.laplacian" class="md-nav__link">
+    laplacian()
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -513,25 +534,6 @@
   
   <span class="md-ellipsis">
     linear_elasticity_hessian
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../mediapipe_face/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    mediapipe_face
   </span>
   
 
@@ -938,10 +940,10 @@
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_39" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_37" >
         
           
-          <label class="md-nav__link" for="__nav_39" id="__nav_39_label" tabindex="">
+          <label class="md-nav__link" for="__nav_37" id="__nav_37_label" tabindex="">
             
   
   <span class="md-ellipsis">
@@ -952,8 +954,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_39_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_39">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_37_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_37">
             <span class="md-nav__icon md-icon"></span>
             Apps
           </label>
@@ -1144,10 +1146,10 @@
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_40" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_38" >
         
           
-          <label class="md-nav__link" for="__nav_40" id="__nav_40_label" tabindex="">
+          <label class="md-nav__link" for="__nav_38" id="__nav_38_label" tabindex="">
             
   
   <span class="md-ellipsis">
@@ -1158,8 +1160,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_40_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_40">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_38_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_38">
             <span class="md-nav__icon md-icon"></span>
             Viewers
           </label>
@@ -1270,6 +1272,21 @@
   
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#src.fast_cd.laplacian.laplacian" class="md-nav__link">
+    laplacian()
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1306,6 +1323,199 @@
 
 
 
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h2 id="src.fast_cd.laplacian.laplacian" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">laplacian</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Computes the Laplacian of a d-simplex. With d being 2, 3 or 4.</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>V</code></td>
+          <td>
+                <code>(n, 3) numpy float array</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Vertex positions</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>T</code></td>
+          <td>
+                <code>(t, d)  (d=2, 3, 4) numpy int array</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Simplex indices</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>mu</code></td>
+          <td>
+                <code>(t,) numpy float array</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Per-simplex conductivity</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+<th>Name</th>        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+<td><code>L</code></td>          <td>
+                <code>(n, n) scipy sparse float array</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Laplacian matrix</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+          <details class="quote">
+            <summary>Source code in <code>src\fast_cd\laplacian.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">laplacian</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Computes the Laplacian of a d-simplex. With d being 2, 3 or 4.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    V : (n, 3) numpy float array</span>
+<span class="sd">        Vertex positions</span>
+<span class="sd">    T : (t, d)  (d=2, 3, 4) numpy int array</span>
+<span class="sd">        Simplex indices</span>
+<span class="sd">    mu : (t,) numpy float array</span>
+<span class="sd">        Per-simplex conductivity</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    L : (n, n) scipy sparse float array</span>
+<span class="sd">        Laplacian matrix</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">mu</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">mu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">T</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">elif</span> <span class="n">np</span><span class="o">.</span><span class="n">isscalar</span><span class="p">(</span><span class="n">mu</span><span class="p">):</span>
+        <span class="n">mu</span> <span class="o">=</span> <span class="n">mu</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">T</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">mu</span><span class="p">)</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="p">(</span><span class="n">mu</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">T</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="n">T</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">l</span> <span class="o">=</span> <span class="n">igl</span><span class="o">.</span><span class="n">edge_lengths</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
+        <span class="n">I</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">T</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">T</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">T</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">T</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]))</span>
+        <span class="n">J</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">T</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">T</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">T</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">T</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]))</span>
+        <span class="n">VV</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="o">-</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">l</span> <span class="o">*</span> <span class="n">mu</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">l</span> <span class="o">*</span> <span class="n">mu</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">l</span> <span class="o">*</span> <span class="n">mu</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">l</span> <span class="o">*</span> <span class="n">mu</span><span class="p">))</span>
+        <span class="n">L</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">csc_matrix</span><span class="p">((</span><span class="n">VV</span><span class="p">,</span> <span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">)),</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+        <span class="k">return</span> <span class="n">L</span>
+    <span class="k">if</span> <span class="n">T</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">or</span> <span class="n">T</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+        <span class="n">muv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+        <span class="n">Muv</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">diags</span><span class="p">(</span><span class="n">muv</span><span class="p">)</span>
+        <span class="n">J</span> <span class="o">=</span> <span class="n">igl</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">igl</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
+        <span class="n">A</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">sp</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">diags</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
+        <span class="n">L</span> <span class="o">=</span> <span class="n">J</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">A</span> <span class="o">@</span> <span class="n">Muv</span> <span class="o">@</span> <span class="n">J</span>
+        <span class="n">L</span> <span class="o">=</span> <span class="n">L</span><span class="p">[:</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">:][:,</span> <span class="p">:</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+        <span class="k">return</span> <span class="n">L</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Laplacian not implemented for dimension </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">T</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
 
 
 

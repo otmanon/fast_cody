@@ -9,7 +9,7 @@
       
       
       
-        <link rel="prev" href="../mediapipe_face/">
+        <link rel="prev" href="../linear_elasticity_hessian/">
       
       
         <link rel="next" href="../momentum_leaking_matrix/">
@@ -391,25 +391,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../face_landmarks_to_positions/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    face_landmarks_to_positions
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../fast_cd_sim/" class="md-nav__link">
         
   
@@ -510,25 +491,6 @@
   
   <span class="md-ellipsis">
     linear_elasticity_hessian
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../mediapipe_face/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    mediapipe_face
   </span>
   
 
@@ -978,10 +940,10 @@
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_39" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_37" >
         
           
-          <label class="md-nav__link" for="__nav_39" id="__nav_39_label" tabindex="">
+          <label class="md-nav__link" for="__nav_37" id="__nav_37_label" tabindex="">
             
   
   <span class="md-ellipsis">
@@ -992,8 +954,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_39_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_39">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_37_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_37">
             <span class="md-nav__icon md-icon"></span>
             Apps
           </label>
@@ -1184,10 +1146,10 @@
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_40" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_38" >
         
           
-          <label class="md-nav__link" for="__nav_40" id="__nav_40_label" tabindex="">
+          <label class="md-nav__link" for="__nav_38" id="__nav_38_label" tabindex="">
             
   
   <span class="md-ellipsis">
@@ -1198,8 +1160,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_40_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_40">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_38_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_38">
             <span class="md-nav__icon md-icon"></span>
             Viewers
           </label>
@@ -1381,27 +1343,7 @@ draw_landmarks: whether to draw landmarks on the image (default=False). Slows do
 
             <details class="quote">
               <summary>Source code in <code>src\fast_cd\mediapipe_face_captor.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 13</span>
-<span class="normal"> 14</span>
-<span class="normal"> 15</span>
-<span class="normal"> 16</span>
-<span class="normal"> 17</span>
-<span class="normal"> 18</span>
-<span class="normal"> 19</span>
-<span class="normal"> 20</span>
-<span class="normal"> 21</span>
-<span class="normal"> 22</span>
-<span class="normal"> 23</span>
-<span class="normal"> 24</span>
-<span class="normal"> 25</span>
-<span class="normal"> 26</span>
-<span class="normal"> 27</span>
-<span class="normal"> 28</span>
-<span class="normal"> 29</span>
-<span class="normal"> 30</span>
-<span class="normal"> 31</span>
-<span class="normal"> 32</span>
-<span class="normal"> 33</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 33</span>
 <span class="normal"> 34</span>
 <span class="normal"> 35</span>
 <span class="normal"> 36</span>
@@ -1495,7 +1437,27 @@ draw_landmarks: whether to draw landmarks on the image (default=False). Slows do
 <span class="normal">124</span>
 <span class="normal">125</span>
 <span class="normal">126</span>
-<span class="normal">127</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">mediapipe_face_captor</span><span class="p">():</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">mediapipe_face_captor</span><span class="p">():</span>
 
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    R0: initial rotation matrix (defualt identity(3))</span>
