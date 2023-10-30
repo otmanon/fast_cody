@@ -15,10 +15,10 @@ results/*
 
 **.pyc
 
-src/fast_cd/__pycache__/*
-src/fast_cd/examples/__pycache__/*
+src/fast_cody/__pycache__/*
+src/fast_cody/examples/__pycache__/*
 
-src/fast_cd/apps/__pycache__/*
+src/fast_cody/apps/__pycache__/*
 
 results/**
 **.ini

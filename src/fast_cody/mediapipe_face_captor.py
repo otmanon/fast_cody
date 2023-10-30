@@ -3,7 +3,7 @@ import mediapipe as mp
 import cv2
 import igl
 
-from fast_cd import OneEuroFilter
+from fast_cody import OneEuroFilter
 
 
 

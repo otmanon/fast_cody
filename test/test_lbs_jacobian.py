@@ -1,4 +1,4 @@
-from .context import fast_cd as fcd
+from .context import fast_cody as fcd
 from .context import unittest
 from .context import numpy as np
 class TestLBSJacobian(unittest.TestCase):

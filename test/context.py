@@ -21,5 +21,5 @@ import scipy
 import cvxopt
 import unittest
 import igl
-import fast_cd
+import fast_cody
 import fast_cd_pyb

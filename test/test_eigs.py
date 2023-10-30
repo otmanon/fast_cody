@@ -1,6 +1,6 @@
 import igl
 
-from .context import fast_cd as fcd
+from .context import fast_cody as fcd
 from .context import fast_cd_pyb as fcdp
 from .context import cvxopt
 from .context import unittest

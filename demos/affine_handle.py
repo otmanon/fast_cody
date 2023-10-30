@@ -1,5 +1,5 @@
-from fast_cd.apps import *
-from fast_cd import get_data
+from fast_cody.apps import *
+from fast_cody import get_data
 # name = "./data/dromedary/dromedary.msh"
 # interactive_cd_affine_handle(name, read_cache=False, num_modes=16)
 

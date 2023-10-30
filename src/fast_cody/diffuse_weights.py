@@ -3,7 +3,7 @@
 import numpy as np
 import igl
 
-import fast_cd
+import fast_cody
 from .laplacian import laplacian
 
 '''
@@ -57,7 +57,7 @@ def diffuse_weights(Vv, Tv, phi, bI,  dt=None, normalize=True):
     Qii = Q[ii, :][:, ii]
     Qib = Q[ii, :][:, bI]
 
-    Wii = fast_cd.umfpack_lu_solve(Qii, -Qib @ phi)
+    Wii = fast_cody.umfpack_lu_solve(Qii, -Qib @ phi)
     W = np.zeros((L.shape[0], Wii.shape[1]))
     W[ii, :] = Wii
     W[bI, :] = phi

@@ -5,7 +5,7 @@ import igl as igl
 
 import fast_cd_pyb as fcd
 
-import fast_cd
+import fast_cody
 
 '''
 Viewer for interactive affine handle app. This viewer only updates the draw call by sending
@@ -30,8 +30,8 @@ s0 - initial mesh scale (to align the textured mesh with)
 class interactive_handle_subspace_viewer():
     def __init__(self, V, T, Wp, Ws,  pre_draw_callback,T0=None,
                  texture_png=None, texture_obj=None, t0=None, s0=None, init_guizmo=True, max_fps=60):
-        vertex_shader_path = fast_cd.get_shader("./vertex_shader_16.glsl")
-        fragment_shader_path = fast_cd.get_shader("./fragment_shader.glsl")
+        vertex_shader_path = fast_cody.get_shader("./vertex_shader_16.glsl")
+        fragment_shader_path = fast_cody.get_shader("./fragment_shader.glsl")
 
         viewer = fcd.fast_cd_viewer_custom_shader(vertex_shader_path,
                                                   fragment_shader_path, 16, 16)

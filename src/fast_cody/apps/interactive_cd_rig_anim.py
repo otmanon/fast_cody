@@ -4,7 +4,7 @@ import os
 from os.path import basename, splitext
 
 import fast_cd_pyb as fcdp
-import fast_cd as fcd
+import fast_cody as fcd
 
 '''
 Runs a standard interactive fast CD simulation, where the user can play back rig animations

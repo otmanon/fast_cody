@@ -1,7 +1,7 @@
 import igl
 import scipy as sp
 
-import fast_cd as fc
+import fast_cody as fc
 
 '''
 Inputs:

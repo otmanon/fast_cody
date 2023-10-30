@@ -1,7 +1,7 @@
 import polyscope as ps
 import numpy as np
 import igl
-import fast_cd as fcd
+import fast_cody as fcd
 import fast_cd_pyb as fcdp
 name = "stingray"
 

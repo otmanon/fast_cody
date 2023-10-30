@@ -12,7 +12,6 @@ from distutils.version import LooseVersion
 
 __version__ = '0.0.6'
 
-
 class CMakeExtension(Extension):
     # Boilerplate that I don't fully understand
     def __init__(self, name, sourcedir='', exclude_arch=False):
@@ -104,7 +103,7 @@ def main():
         exclude_arch = False
 
     setup(
-        name='fast-cd-pyb',
+        name='fast-cody',
         version=__version__,
         author='Otman Benchekroun',
         author_email='otmanbench@gmail.com',
@@ -118,7 +117,7 @@ def main():
         install_requires=[ 'packaging', 'numpy', 'scipy', 'mediapipe', 'opencv-python', 'cvxopt', 'polyscope', 'libigl', 'scikit-learn'],
         include_package_data=True,
         # data_files=[('', ['./src/shaders/*'])],
-        package_data={'fast_cd': ['shaders/*.glsl', 'data/*']},
+        package_data={'fast_cody': ['shaders/*.glsl', 'data/*']},
         ext_modules=[CMakeExtension('.', exclude_arch=exclude_arch)],
         # setup_requires=['pybind11>=2.4'],
         cmdclass=dict(build_ext=CMakeBuild),

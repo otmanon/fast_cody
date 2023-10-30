@@ -4,7 +4,7 @@ import scipy as sp
 from scipy.sparse import vstack, hstack
 
 
-from fast_cd.umfpack_lu_solve import umfpack_lu_solve
+from fast_cody.umfpack_lu_solve import umfpack_lu_solve
 '''
 Performs a least squares projection on subspace A so that it does not span space B
 
