@@ -82,6 +82,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#src.fast_cody.ympr_to_lame.ympr_to_lame" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -849,6 +854,17 @@
       
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    ympr_to_lame
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -858,6 +874,30 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#src.fast_cody.ympr_to_lame.ympr_to_lame" class="md-nav__link">
+    ympr_to_lame()
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1213,6 +1253,21 @@
   
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#src.fast_cody.ympr_to_lame.ympr_to_lame" class="md-nav__link">
+    ympr_to_lame()
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1251,6 +1306,149 @@
 
 
 
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h2 id="src.fast_cody.ympr_to_lame.ympr_to_lame" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">ympr_to_lame</span><span class="p">(</span><span class="n">ym</span><span class="p">,</span> <span class="n">pr</span><span class="p">)</span></code>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Converts from youngs modulus and poisson ratio to lame parameters.</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>ym</code></td>
+          <td>
+                <code>float or float numpy array</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Youngs modulus</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>pr</code></td>
+          <td>
+                <code>float or float numpy array</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Poisson ratio</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+<th>Name</th>        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+<td><code>mu</code></td>          <td>
+                <code>float or float numpy array</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>First lame parameter</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+<td><code>lam</code></td>          <td>
+                <code>float or float numpy array</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Second lame parameter</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+          <details class="quote">
+            <summary>Source code in <code>src\fast_cody\ympr_to_lame.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">ympr_to_lame</span><span class="p">(</span><span class="n">ym</span><span class="p">,</span> <span class="n">pr</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts from youngs modulus and poisson ratio to lame parameters.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ym : float or float numpy array</span>
+<span class="sd">        Youngs modulus</span>
+<span class="sd">    pr : float or float numpy array</span>
+<span class="sd">        Poisson ratio</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    mu : float or float numpy array</span>
+<span class="sd">        First lame parameter</span>
+<span class="sd">    lam : float or float numpy array</span>
+<span class="sd">        Second lame parameter</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">ym</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">pr</span><span class="p">))</span>
+    <span class="n">lam</span> <span class="o">=</span> <span class="n">ym</span> <span class="o">*</span> <span class="n">pr</span> <span class="o">/</span> <span class="p">((</span><span class="mi">1</span> <span class="o">+</span> <span class="n">pr</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">pr</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">mu</span><span class="p">,</span> <span class="n">lam</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
 
 
 
