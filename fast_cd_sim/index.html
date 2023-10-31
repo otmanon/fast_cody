@@ -728,6 +728,25 @@
   
   
     <li class="md-nav__item">
+      <a href="../read_msh/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    read_msh
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../read_rig_anim_from_json/" class="md-nav__link">
         
   
@@ -968,10 +987,10 @@
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_36" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_37" >
         
           
-          <label class="md-nav__link" for="__nav_36" id="__nav_36_label" tabindex="">
+          <label class="md-nav__link" for="__nav_37" id="__nav_37_label" tabindex="">
             
   
   <span class="md-ellipsis">
@@ -982,8 +1001,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_36_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_36">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_37_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_37">
             <span class="md-nav__icon md-icon"></span>
             Apps
           </label>
@@ -1174,10 +1193,10 @@
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_37" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_38" >
         
           
-          <label class="md-nav__link" for="__nav_37" id="__nav_37_label" tabindex="">
+          <label class="md-nav__link" for="__nav_38" id="__nav_38_label" tabindex="">
             
   
   <span class="md-ellipsis">
@@ -1188,8 +1207,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_37_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_37">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_38_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_38">
             <span class="md-nav__icon md-icon"></span>
             Viewers
           </label>
@@ -1520,7 +1539,7 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Fast Complementary Dynamics Simulation, implementation of https://www.dgp.toronto.edu/projects/fast_complementary_dynamics_site/</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mf">1e5</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">max_iters</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mf">1e4</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="mf">1e3</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">max_iters</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span>
                  <span class="n">read_cache</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">cache_dir</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">Aeq</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">write_cache</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initializes a Fast Complementary Dynamics Simulation.</span>
@@ -1638,7 +1657,7 @@
 
 
 <h3 id="src.fast_cody.fast_cd_sim.fast_cd_sim.__init__" class="doc doc-heading">
-          <code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mf">100000.0</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">max_iters</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">1e-08</span><span class="p">,</span> <span class="n">read_cache</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">cache_dir</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">Aeq</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">write_cache</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
+          <code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mf">10000.0</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="mf">1000.0</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">max_iters</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">1e-08</span><span class="p">,</span> <span class="n">read_cache</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">cache_dir</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">Aeq</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">write_cache</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
 
 </h3>
 
@@ -1741,7 +1760,7 @@
             </div>
           </td>
           <td>
-                <code>100000.0</code>
+                <code>10000.0</code>
           </td>
         </tr>
         <tr>
@@ -1755,7 +1774,7 @@
             </div>
           </td>
           <td>
-                <code>1</code>
+                <code>1000.0</code>
           </td>
         </tr>
         <tr>
@@ -1908,7 +1927,7 @@
 <span class="normal">119</span>
 <span class="normal">120</span>
 <span class="normal">121</span>
-<span class="normal">122</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mf">1e5</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">max_iters</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span>
+<span class="normal">122</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mf">1e4</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="mf">1e3</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">max_iters</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span>
              <span class="n">read_cache</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">cache_dir</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">Aeq</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">write_cache</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Initializes a Fast Complementary Dynamics Simulation.</span>

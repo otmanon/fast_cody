@@ -82,6 +82,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#src.fast_cody.viewers.WeightsViewer.WeightsViewer" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -633,6 +638,25 @@
   
   
     <li class="md-nav__item">
+      <a href="../../read_msh/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    read_msh
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../read_rig_anim_from_json/" class="md-nav__link">
         
   
@@ -873,10 +897,10 @@
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_36" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_37" >
         
           
-          <label class="md-nav__link" for="__nav_36" id="__nav_36_label" tabindex="">
+          <label class="md-nav__link" for="__nav_37" id="__nav_37_label" tabindex="">
             
   
   <span class="md-ellipsis">
@@ -887,8 +911,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_36_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_36">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_37_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_37">
             <span class="md-nav__icon md-icon"></span>
             Apps
           </label>
@@ -1081,10 +1105,10 @@
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_37" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_38" checked>
         
           
-          <label class="md-nav__link" for="__nav_37" id="__nav_37_label" tabindex="">
+          <label class="md-nav__link" for="__nav_38" id="__nav_38_label" tabindex="">
             
   
   <span class="md-ellipsis">
@@ -1095,8 +1119,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_37_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_37">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_38_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_38">
             <span class="md-nav__icon md-icon"></span>
             Viewers
           </label>
@@ -1135,6 +1159,17 @@
       
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    viewers.WeightsViewer
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -1144,6 +1179,30 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#src.fast_cody.viewers.WeightsViewer.WeightsViewer" class="md-nav__link">
+    WeightsViewer
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1215,6 +1274,21 @@
   
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#src.fast_cody.viewers.WeightsViewer.WeightsViewer" class="md-nav__link">
+    WeightsViewer
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1250,6 +1324,552 @@
 
 
 
+
+<div class="doc doc-object doc-class">
+
+
+
+
+<h2 id="src.fast_cody.viewers.WeightsViewer.WeightsViewer" class="doc doc-heading">
+          <code>WeightsViewer</code>
+
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+
+  
+      <p>This class is used to visualize the weights of a mesh using polyscope.</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>V</code></td>
+          <td>
+                <code>float numpy array</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>n x 3 vertex positions</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>T</code></td>
+          <td>
+                <code>int numpy array</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>m x 4 tetrahedra indices</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>W</code></td>
+          <td>
+                <code>float numpy array</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>n x k weights</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>eye_pos</code></td>
+          <td>
+                <code>float numpy array</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>3 x 1 position of the camera</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>eye_target</code></td>
+          <td>
+                <code>float numpy array</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>3 x 1 position of the camera target</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>path</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>path to save the images to. if "", then no images are saved.</p>
+            </div>
+          </td>
+          <td>
+                <code>&#39;&#39;</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>R</code></td>
+          <td>
+                <code>float numpy array</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>3 x 3 rotation matrix to apply to the mesh</p>
+            </div>
+          </td>
+          <td>
+                <code><span title="numpy.identity">identity</span>(3)</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>period</code></td>
+          <td>
+                <code>float</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>time between frames</p>
+            </div>
+          </td>
+          <td>
+                <code>1</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>vminmax</code></td>
+          <td>
+                <code>float numpy array</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>2 x 1 min and max values for the color map</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>P</code></td>
+          <td>
+                <code>float numpy array</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>n x 3 positions of the joints</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>s</code></td>
+          <td>
+                <code>float numpy array</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>n x 1 radii of the joints</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>l</code></td>
+          <td>
+                <code>int numpy array</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>n x 1 cluster indices</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>alpha</code></td>
+          <td>
+                <code>float</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>transparency of the mesh</p>
+            </div>
+          </td>
+          <td>
+                <code>1</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+<p><strong>Examples:</strong></p>
+    <p>Visualize standard weights</p>
+    <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">fast_cody</span> <span class="k">as</span> <span class="nn">fcd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">V</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">T</span><span class="p">]</span> <span class="o">=</span> <span class="n">fcd</span><span class="o">.</span><span class="n">read_msh</span><span class="p">(</span><span class="n">fcd</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s2">&quot;cd_fish.msh&quot;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">B</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">Ws</span><span class="p">]</span> <span class="o">=</span> <span class="n">fcd</span><span class="o">.</span><span class="n">skinning_subspace</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fcd</span><span class="o">.</span><span class="n">viewers</span><span class="o">.</span><span class="n">WeightsViewer</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span>
+</code></pre></div>
+    <p>Visualize Complementary Dynamics Weights</p>
+    <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">fast_cody</span> <span class="k">as</span> <span class="nn">fcd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">V</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">T</span><span class="p">]</span> <span class="o">=</span> <span class="n">fcd</span><span class="o">.</span><span class="n">read_msh</span><span class="p">(</span><span class="n">fcd</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s2">&quot;cd_fish.msh&quot;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Wp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">V</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">J</span> <span class="o">=</span> <span class="n">fcd</span><span class="o">.</span><span class="n">lbs_jacobian</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">Wp</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">C</span> <span class="o">=</span> <span class="n">fcd</span><span class="o">.</span><span class="n">complementary_constraint_matrix</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">J</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Cd</span> <span class="o">=</span> <span class="n">fcd</span><span class="o">.</span><span class="n">lbs_weight_space_constraint</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">C</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">B</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">Ws</span><span class="p">]</span> <span class="o">=</span><span class="n">fcd</span><span class="o">.</span><span class="n">skinning_subspace</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="n">Cd</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fcd</span><span class="o">.</span><span class="n">viewers</span><span class="o">.</span><span class="n">WeightsViewer</span><span class="o">.</span><span class="n">WeightsViewer</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">Ws</span><span class="p">)</span>
+</code></pre></div>
+
+            <details class="quote">
+              <summary>Source code in <code>src\fast_cody\viewers\WeightsViewer.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 11</span>
+<span class="normal"> 12</span>
+<span class="normal"> 13</span>
+<span class="normal"> 14</span>
+<span class="normal"> 15</span>
+<span class="normal"> 16</span>
+<span class="normal"> 17</span>
+<span class="normal"> 18</span>
+<span class="normal"> 19</span>
+<span class="normal"> 20</span>
+<span class="normal"> 21</span>
+<span class="normal"> 22</span>
+<span class="normal"> 23</span>
+<span class="normal"> 24</span>
+<span class="normal"> 25</span>
+<span class="normal"> 26</span>
+<span class="normal"> 27</span>
+<span class="normal"> 28</span>
+<span class="normal"> 29</span>
+<span class="normal"> 30</span>
+<span class="normal"> 31</span>
+<span class="normal"> 32</span>
+<span class="normal"> 33</span>
+<span class="normal"> 34</span>
+<span class="normal"> 35</span>
+<span class="normal"> 36</span>
+<span class="normal"> 37</span>
+<span class="normal"> 38</span>
+<span class="normal"> 39</span>
+<span class="normal"> 40</span>
+<span class="normal"> 41</span>
+<span class="normal"> 42</span>
+<span class="normal"> 43</span>
+<span class="normal"> 44</span>
+<span class="normal"> 45</span>
+<span class="normal"> 46</span>
+<span class="normal"> 47</span>
+<span class="normal"> 48</span>
+<span class="normal"> 49</span>
+<span class="normal"> 50</span>
+<span class="normal"> 51</span>
+<span class="normal"> 52</span>
+<span class="normal"> 53</span>
+<span class="normal"> 54</span>
+<span class="normal"> 55</span>
+<span class="normal"> 56</span>
+<span class="normal"> 57</span>
+<span class="normal"> 58</span>
+<span class="normal"> 59</span>
+<span class="normal"> 60</span>
+<span class="normal"> 61</span>
+<span class="normal"> 62</span>
+<span class="normal"> 63</span>
+<span class="normal"> 64</span>
+<span class="normal"> 65</span>
+<span class="normal"> 66</span>
+<span class="normal"> 67</span>
+<span class="normal"> 68</span>
+<span class="normal"> 69</span>
+<span class="normal"> 70</span>
+<span class="normal"> 71</span>
+<span class="normal"> 72</span>
+<span class="normal"> 73</span>
+<span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">WeightsViewer</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class is used to visualize the weights of a mesh using polyscope.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    V : float numpy array</span>
+<span class="sd">        n x 3 vertex positions</span>
+<span class="sd">    T : int numpy array</span>
+<span class="sd">        m x 4 tetrahedra indices</span>
+<span class="sd">    W : float numpy array</span>
+<span class="sd">        n x k weights</span>
+<span class="sd">    eye_pos : float numpy array</span>
+<span class="sd">        3 x 1 position of the camera</span>
+<span class="sd">    eye_target : float numpy array</span>
+<span class="sd">        3 x 1 position of the camera target</span>
+<span class="sd">    path : str</span>
+<span class="sd">        path to save the images to. if &quot;&quot;, then no images are saved.</span>
+<span class="sd">    R : float numpy array</span>
+<span class="sd">        3 x 3 rotation matrix to apply to the mesh</span>
+<span class="sd">    period : float</span>
+<span class="sd">        time between frames</span>
+<span class="sd">    vminmax : float numpy array</span>
+<span class="sd">        2 x 1 min and max values for the color map</span>
+<span class="sd">    P : float numpy array</span>
+<span class="sd">        n x 3 positions of the joints</span>
+<span class="sd">    s : float numpy array</span>
+<span class="sd">        n x 1 radii of the joints</span>
+<span class="sd">    l : int numpy array</span>
+<span class="sd">        n x 1 cluster indices</span>
+<span class="sd">    alpha : float</span>
+<span class="sd">        transparency of the mesh</span>
+
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Visualize standard weights</span>
+<span class="sd">    &gt;&gt;&gt; import fast_cody as fcd</span>
+<span class="sd">    &gt;&gt;&gt; [V, F, T] = fcd.read_msh(fcd.get_data(&quot;cd_fish.msh&quot;))</span>
+<span class="sd">    &gt;&gt;&gt; [B, l, Ws] = fcd.skinning_subspace(V, T, 10, 100)</span>
+<span class="sd">    &gt;&gt;&gt; fcd.viewers.WeightsViewer(V, T, l)</span>
+
+
+
+<span class="sd">    Visualize Complementary Dynamics Weights</span>
+<span class="sd">    &gt;&gt;&gt; import fast_cody as fcd</span>
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; [V, F, T] = fcd.read_msh(fcd.get_data(&quot;cd_fish.msh&quot;))</span>
+<span class="sd">    &gt;&gt;&gt; Wp = np.ones((V.shape[0], 1))</span>
+<span class="sd">    &gt;&gt;&gt; J = fcd.lbs_jacobian(V, Wp)</span>
+<span class="sd">    &gt;&gt;&gt; C = fcd.complementary_constraint_matrix(V, T, J)</span>
+<span class="sd">    &gt;&gt;&gt; Cd = fcd.lbs_weight_space_constraint(V, C)</span>
+<span class="sd">    &gt;&gt;&gt; [B, l, Ws] =fcd.skinning_subspace(V, T, 10, 100, C=Cd)</span>
+<span class="sd">    &gt;&gt;&gt; fcd.viewers.WeightsViewer.WeightsViewer(V, T, Ws)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span>
+              <span class="n">eye_pos</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+              <span class="n">eye_target</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+              <span class="n">path</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+              <span class="n">R</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">period</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                 <span class="n">vminmax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">P</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+
+        <span class="n">write_png</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">path</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">):</span>
+            <span class="n">write_png</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">ps</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">path</span>
+        <span class="k">if</span> <span class="n">F</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">register_point_cloud</span><span class="p">(</span><span class="s2">&quot;mesh&quot;</span><span class="p">,</span> <span class="n">V</span> <span class="o">@</span> <span class="n">R</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">],</span> <span class="n">transparency</span><span class="o">=</span><span class="n">alpha</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">F</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">register_curve_network</span><span class="p">(</span><span class="s2">&quot;mesh&quot;</span><span class="p">,</span> <span class="n">V</span> <span class="o">@</span> <span class="n">R</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">],</span> <span class="n">transparency</span><span class="o">=</span><span class="n">alpha</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">F</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">register_surface_mesh</span><span class="p">(</span><span class="s2">&quot;mesh&quot;</span><span class="p">,</span> <span class="n">V</span> <span class="o">@</span> <span class="n">R</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">],</span> <span class="n">transparency</span><span class="o">=</span><span class="n">alpha</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">F</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">register_volume_mesh</span><span class="p">(</span><span class="s2">&quot;mesh&quot;</span><span class="p">,</span> <span class="n">V</span> <span class="o">@</span> <span class="n">R</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">],</span> <span class="n">transparency</span><span class="o">=</span><span class="n">alpha</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">W</span> <span class="o">=</span> <span class="n">W</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">add_scalar_quantity</span><span class="p">(</span><span class="s2">&quot;weights&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">V</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])),</span>  <span class="n">enabled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;coolwarm&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write_png</span> <span class="o">=</span> <span class="n">write_png</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">period</span> <span class="o">=</span> <span class="n">period</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vminmax</span> <span class="o">=</span> <span class="n">vminmax</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_frame</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">draw_bones</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">P</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">draw_bones</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">P</span> <span class="o">=</span> <span class="n">P</span>
+            <span class="k">if</span> <span class="n">s</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">s</span> <span class="o">=</span> <span class="mi">2</span>
+            <span class="k">if</span> <span class="n">l</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">l</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">W</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">s</span> <span class="o">=</span> <span class="n">s</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">l</span> <span class="o">=</span> <span class="n">l</span>
+            <span class="p">[</span><span class="n">rV</span><span class="p">,</span> <span class="n">rF</span><span class="p">,</span> <span class="n">sV</span><span class="p">,</span> <span class="n">sF</span><span class="p">]</span> <span class="o">=</span> <span class="n">rig_geometry</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">P</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:],</span> <span class="bp">self</span><span class="o">.</span><span class="n">l</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">s</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bone_mesh</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">register_surface_mesh</span><span class="p">(</span><span class="s2">&quot;bone_mesh&quot;</span><span class="p">,</span> <span class="n">rV</span><span class="p">,</span> <span class="n">rF</span><span class="p">)</span>
+            <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.5</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">set_transparency</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">eye_pos</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">eye_target</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ps</span><span class="o">.</span><span class="n">look_at</span><span class="p">(</span><span class="n">eye_pos</span><span class="p">,</span> <span class="n">eye_target</span><span class="p">)</span>
+        <span class="n">ps</span><span class="o">.</span><span class="n">set_user_callback</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">anim</span><span class="p">)</span>
+        <span class="n">ps</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">draw_bones</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bone_mesh</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+
+
+    <span class="k">def</span> <span class="nf">anim</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">i</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_frame</span><span class="p">):</span>
+            <span class="n">mesh</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">i</span>
+            <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="p">[:,</span> <span class="n">i</span><span class="p">])</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">add_scalar_quantity</span><span class="p">(</span><span class="s2">&quot;weights&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="p">[:,</span> <span class="n">i</span><span class="p">],</span>  <span class="n">enabled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">vminmax</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="n">w</span><span class="p">,</span> <span class="n">w</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;coolwarm&#39;</span><span class="p">)</span>
+            <span class="c1"># ps.set_camera_rotation(self.R)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">write_png</span><span class="p">):</span>
+                <span class="n">ps</span><span class="o">.</span><span class="n">screenshot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;.png&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">draw_bones</span><span class="p">):</span>
+                <span class="p">[</span><span class="n">rV</span><span class="p">,</span> <span class="n">rF</span><span class="p">,</span> <span class="n">sV</span><span class="p">,</span> <span class="n">sF</span><span class="p">]</span> <span class="o">=</span> <span class="n">rig_geometry</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">P</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:],</span> <span class="bp">self</span><span class="o">.</span><span class="n">l</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">s</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">bone_mesh</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">register_surface_mesh</span><span class="p">(</span><span class="s2">&quot;bone_mesh&quot;</span><span class="p">,</span> <span class="n">rV</span><span class="p">,</span> <span class="n">rF</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">period</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">changed</span><span class="p">,</span> <span class="n">ID</span> <span class="o">=</span> <span class="n">psim</span><span class="o">.</span><span class="n">SliderInt</span><span class="p">(</span><span class="s2">&quot;bone ID&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">v_min</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">v_max</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">changed</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">ID</span>
+
+                <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="p">[:,</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">])</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">add_scalar_quantity</span><span class="p">(</span><span class="s2">&quot;weights&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="p">[:,</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">],</span> <span class="n">enabled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                              <span class="n">vminmax</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="n">w</span><span class="p">,</span> <span class="n">w</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;coolwarm&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">draw_bones</span><span class="p">):</span>
+                    <span class="p">[</span><span class="n">rV</span><span class="p">,</span> <span class="n">rF</span><span class="p">,</span> <span class="n">sV</span><span class="p">,</span> <span class="n">sF</span><span class="p">]</span> <span class="o">=</span> <span class="n">rig_geometry</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">P</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:],</span> <span class="bp">self</span><span class="o">.</span><span class="n">l</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">s</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">bone_mesh</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">register_surface_mesh</span><span class="p">(</span><span class="s2">&quot;bone_mesh&quot;</span><span class="p">,</span> <span class="n">rV</span><span class="p">,</span> <span class="n">rF</span><span class="p">)</span>
+
+        <span class="k">return</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
 
 
 

@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../skinning_clusters/">
+        <link rel="prev" href="../project_out_subspace/">
       
       
-        <link rel="next" href="../umfpack_lu_solve/">
+        <link rel="next" href="../read_rig_anim_from_json/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>skinning_subspace - Fast CoDy</title>
+        <title>read_msh - Fast CoDy</title>
       
     
     
@@ -83,7 +83,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#src.fast_cody.skinning_subspace.skinning_subspace" class="md-skip">
+        <a href="#src.fast_cody.read_msh.read_msh" class="md-skip">
           Skip to content
         </a>
       
@@ -123,7 +123,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              skinning_subspace
+              read_msh
             
           </span>
         </div>
@@ -636,9 +636,27 @@
       
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../read_msh/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    read_msh
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -647,6 +665,31 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#src.fast_cody.read_msh.read_msh" class="md-nav__link">
+    read_msh()
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -769,27 +812,9 @@
       
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    skinning_subspace
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../skinning_subspace/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -798,31 +823,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#src.fast_cody.skinning_subspace.skinning_subspace" class="md-nav__link">
-    skinning_subspace()
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1279,8 +1279,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#src.fast_cody.skinning_subspace.skinning_subspace" class="md-nav__link">
-    skinning_subspace()
+  <a href="#src.fast_cody.read_msh.read_msh" class="md-nav__link">
+    read_msh()
   </a>
   
 </li>
@@ -1303,7 +1303,7 @@
   
 
 
-  <h1>skinning_subspace</h1>
+  <h1>read_msh</h1>
 
 <div class="doc doc-object doc-module">
 
@@ -1330,15 +1330,15 @@
 
 
 
-<h2 id="src.fast_cody.skinning_subspace.skinning_subspace" class="doc doc-heading">
-          <code class="highlight language-python"><span class="n">skinning_subspace</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">num_modes</span><span class="p">,</span> <span class="n">num_clusters</span><span class="p">,</span> <span class="n">cache_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">read_cache</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ortho</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">constraint_enforcement</span><span class="o">=</span><span class="s1">&#39;optimal&#39;</span><span class="p">)</span></code>
+<h2 id="src.fast_cody.read_msh.read_msh" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">read_msh</span><span class="p">(</span><span class="n">msh_file</span><span class="p">)</span></code>
 
 </h2>
 
 
   <div class="doc doc-contents ">
   
-      <p>Constructs a physics subspace corresponding with skinning eigenmodes and skinning clusters</p>
+      <p>Reads .msh file generated by TetWild.</p>
 
 
 
@@ -1354,143 +1354,17 @@
     </thead>
     <tbody>
         <tr>
-          <td><code>X</code></td>
-          <td>
-                <code>(n, 3) float numpy array</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>Vertex positions</p>
-            </div>
-          </td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-        <tr>
-          <td><code>T</code></td>
-          <td>
-                <code>(t, 4) int numpy array</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>Tet indices</p>
-            </div>
-          </td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-        <tr>
-          <td><code>num_modes</code></td>
-          <td>
-                <code>int</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>Number of modes to use</p>
-            </div>
-          </td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-        <tr>
-          <td><code>num_clusters</code></td>
-          <td>
-                <code>int</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>Number of clusters to use</p>
-            </div>
-          </td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-        <tr>
-          <td><code>cache_dir</code></td>
+          <td><code>msh_file</code></td>
           <td>
                 <code>str</code>
           </td>
           <td>
             <div class="doc-md-description">
-              <p>Directory to cache results in</p>
+              <p>path to Tet mesh .msh file (usually generated by TetWild)</p>
             </div>
           </td>
           <td>
-                <code>None</code>
-          </td>
-        </tr>
-        <tr>
-          <td><code>read_cache</code></td>
-          <td>
-                <code>bool</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>Whether to read from cache or not</p>
-            </div>
-          </td>
-          <td>
-                <code>False</code>
-          </td>
-        </tr>
-        <tr>
-          <td><code>ortho</code></td>
-          <td>
-                <code>bool</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>Whether to orthonormalize the subspace</p>
-            </div>
-          </td>
-          <td>
-                <code>True</code>
-          </td>
-        </tr>
-        <tr>
-          <td><code>mu</code></td>
-          <td>
-                <code>float numpy array</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>Per-tet conducivity. If None, sets it to 1.0 everyewhere</p>
-            </div>
-          </td>
-          <td>
-                <code>None</code>
-          </td>
-        </tr>
-        <tr>
-          <td><code>C</code></td>
-          <td>
-                <code>(3n, c) float numpy array</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>Constraint matrix we desire on our weights s.t. C.T @ W = 0</p>
-            </div>
-          </td>
-          <td>
-                <code>None</code>
-          </td>
-        </tr>
-        <tr>
-          <td><code>constraint_enforcement</code></td>
-          <td>
-                <code>str</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>Method of enforcing constraint. Either "project" or "optimal"</p>
-            </div>
-          </td>
-          <td>
-                <code>&#39;optimal&#39;</code>
+              <em>required</em>
           </td>
         </tr>
     </tbody>
@@ -1508,32 +1382,32 @@
     </thead>
     <tbody>
         <tr>
-<td><code>B</code></td>          <td>
-                <code>(3n, m) float numpy array</code>
+<td><code>V</code></td>          <td>
+                <code>(n, 3) float numpy array</code>
           </td>
           <td>
             <div class="doc-md-description">
-              <p>Subspace matrix/Eigenvectors of laplacian.</p>
+              <p>vertex positions</p>
             </div>
           </td>
         </tr>
         <tr>
-<td><code>l</code></td>          <td>
-                <code>(t, 1) int numpy array</code>
+<td><code>F</code></td>          <td>
+                <code>(f, 3) int numpy array</code>
           </td>
           <td>
             <div class="doc-md-description">
-              <p>Cluster indices</p>
+              <p>triangle indices</p>
             </div>
           </td>
         </tr>
         <tr>
-<td><code>W</code></td>          <td>
-                <code>(n, m) float numpy array</code>
+<td><code>T</code></td>          <td>
+                <code>(m, 4) int numpy array</code>
           </td>
           <td>
             <div class="doc-md-description">
-              <p>Skinning weights</p>
+              <p>tetrahedra indices</p>
             </div>
           </td>
         </tr>
@@ -1541,8 +1415,16 @@
   </table>
 
           <details class="quote">
-            <summary>Source code in <code>src\fast_cody\skinning_subspace.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">12</span>
+            <summary>Source code in <code>src\fast_cody\read_msh.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
 <span class="normal">13</span>
 <span class="normal">14</span>
 <span class="normal">15</span>
@@ -1555,148 +1437,28 @@
 <span class="normal">22</span>
 <span class="normal">23</span>
 <span class="normal">24</span>
-<span class="normal">25</span>
-<span class="normal">26</span>
-<span class="normal">27</span>
-<span class="normal">28</span>
-<span class="normal">29</span>
-<span class="normal">30</span>
-<span class="normal">31</span>
-<span class="normal">32</span>
-<span class="normal">33</span>
-<span class="normal">34</span>
-<span class="normal">35</span>
-<span class="normal">36</span>
-<span class="normal">37</span>
-<span class="normal">38</span>
-<span class="normal">39</span>
-<span class="normal">40</span>
-<span class="normal">41</span>
-<span class="normal">42</span>
-<span class="normal">43</span>
-<span class="normal">44</span>
-<span class="normal">45</span>
-<span class="normal">46</span>
-<span class="normal">47</span>
-<span class="normal">48</span>
-<span class="normal">49</span>
-<span class="normal">50</span>
-<span class="normal">51</span>
-<span class="normal">52</span>
-<span class="normal">53</span>
-<span class="normal">54</span>
-<span class="normal">55</span>
-<span class="normal">56</span>
-<span class="normal">57</span>
-<span class="normal">58</span>
-<span class="normal">59</span>
-<span class="normal">60</span>
-<span class="normal">61</span>
-<span class="normal">62</span>
-<span class="normal">63</span>
-<span class="normal">64</span>
-<span class="normal">65</span>
-<span class="normal">66</span>
-<span class="normal">67</span>
-<span class="normal">68</span>
-<span class="normal">69</span>
-<span class="normal">70</span>
-<span class="normal">71</span>
-<span class="normal">72</span>
-<span class="normal">73</span>
-<span class="normal">74</span>
-<span class="normal">75</span>
-<span class="normal">76</span>
-<span class="normal">77</span>
-<span class="normal">78</span>
-<span class="normal">79</span>
-<span class="normal">80</span>
-<span class="normal">81</span>
-<span class="normal">82</span>
-<span class="normal">83</span>
-<span class="normal">84</span>
-<span class="normal">85</span>
-<span class="normal">86</span>
-<span class="normal">87</span>
-<span class="normal">88</span>
-<span class="normal">89</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">skinning_subspace</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">num_modes</span><span class="p">,</span> <span class="n">num_clusters</span><span class="p">,</span>
-                      <span class="n">cache_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">read_cache</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                      <span class="n">ortho</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">constraint_enforcement</span><span class="o">=</span><span class="s2">&quot;optimal&quot;</span><span class="p">):</span>
+<span class="normal">25</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">read_msh</span><span class="p">(</span><span class="n">msh_file</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Constructs a physics subspace corresponding with skinning eigenmodes and skinning clusters</span>
+<span class="sd">    Reads .msh file generated by TetWild.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    X : (n, 3) float numpy array</span>
-<span class="sd">        Vertex positions</span>
-<span class="sd">    T : (t, 4) int numpy array</span>
-<span class="sd">        Tet indices</span>
-<span class="sd">    num_modes : int</span>
-<span class="sd">        Number of modes to use</span>
-<span class="sd">    num_clusters : int</span>
-<span class="sd">        Number of clusters to use</span>
-<span class="sd">    cache_dir : str</span>
-<span class="sd">        Directory to cache results in</span>
-<span class="sd">    read_cache : bool</span>
-<span class="sd">        Whether to read from cache or not</span>
-<span class="sd">    ortho : bool</span>
-<span class="sd">        Whether to orthonormalize the subspace</span>
-<span class="sd">    mu : float numpy array</span>
-<span class="sd">        Per-tet conducivity. If None, sets it to 1.0 everyewhere</span>
-<span class="sd">    C : (3n, c) float numpy array</span>
-<span class="sd">        Constraint matrix we desire on our weights s.t. C.T @ W = 0</span>
-<span class="sd">    constraint_enforcement : str</span>
-<span class="sd">        Method of enforcing constraint. Either &quot;project&quot; or &quot;optimal&quot;</span>
+<span class="sd">    msh_file : str</span>
+<span class="sd">        path to Tet mesh .msh file (usually generated by TetWild)</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    B : (3n, m) float numpy array</span>
-<span class="sd">        Subspace matrix/Eigenvectors of laplacian.</span>
-<span class="sd">    l : (t, 1) int numpy array</span>
-<span class="sd">        Cluster indices</span>
-<span class="sd">    W : (n, m) float numpy array</span>
-<span class="sd">        Skinning weights</span>
-
+<span class="sd">    V : (n, 3) float numpy array</span>
+<span class="sd">        vertex positions</span>
+<span class="sd">    F : (f, 3) int numpy array</span>
+<span class="sd">        triangle indices</span>
+<span class="sd">    T : (m, 4) int numpy array</span>
+<span class="sd">        tetrahedra indices</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">dim</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-
-    <span class="k">if</span> <span class="n">cache_dir</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">cache_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cache_dir</span><span class="p">,</span> <span class="s2">&quot;./&quot;</span><span class="p">)</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">cache_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">read_cache</span> <span class="ow">and</span> <span class="n">cache_dir</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">assert</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">cache_dir</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">&quot;cache directory &quot;</span> <span class="o">+</span> <span class="n">cache_dir</span> <span class="o">+</span> <span class="s2">&quot; we are trying to read from does not exist&quot;</span><span class="p">)</span>
-        <span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">cache_dir</span> <span class="o">+</span> <span class="s2">&quot;/B.npy&quot;</span><span class="p">)</span>
-
-
-        <span class="n">W</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">cache_dir</span> <span class="o">+</span> <span class="s2">&quot;/W.npy&quot;</span><span class="p">)</span>
-        <span class="n">W</span> <span class="o">=</span> <span class="n">W</span><span class="p">[:,</span> <span class="p">:</span><span class="n">num_modes</span><span class="p">]</span>
-        <span class="c1">#</span>
-        <span class="n">i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">B</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-        <span class="n">ii</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">B</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">//</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">order</span><span class="o">=</span><span class="s1">&#39;F&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">B</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">//</span><span class="mi">12</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="p">)</span>
-        <span class="n">i</span> <span class="o">=</span> <span class="n">ii</span><span class="p">[:</span><span class="n">num_modes</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">num_modes</span><span class="o">*</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">num_modes</span><span class="o">*</span><span class="mi">12</span><span class="p">),</span> <span class="n">order</span><span class="o">=</span><span class="s1">&#39;F&#39;</span><span class="p">)</span>
-        <span class="n">B</span> <span class="o">=</span> <span class="n">B</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span>
-        <span class="n">l</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">cache_dir</span> <span class="o">+</span> <span class="s2">&quot;/l.npy&quot;</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="p">[</span><span class="n">W</span><span class="p">,</span> <span class="n">E</span><span class="p">]</span> <span class="o">=</span> <span class="n">laplacian_eigenmodes</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">num_modes</span><span class="p">,</span> <span class="n">read_cache</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">J</span><span class="o">=</span><span class="n">C</span><span class="p">,</span> <span class="n">constraint_enforcement</span><span class="o">=</span><span class="n">constraint_enforcement</span><span class="p">)</span>
-
-        <span class="n">B</span> <span class="o">=</span> <span class="n">lbs_jacobian</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">W</span><span class="p">)</span>
-
-        <span class="c1"># WeightsViewer(X, T, B)</span>
-        <span class="n">M</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">igl</span><span class="o">.</span><span class="n">massmatrix</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">T</span><span class="p">))</span>
-
-        <span class="c1"># if ortho:</span>
-        <span class="c1">#     B = orthonormalize(B, M)</span>
-        <span class="n">l</span> <span class="o">=</span> <span class="n">skinning_clusters</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">num_clusters</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">num_clustering_features</span><span class="o">=</span><span class="n">num_modes</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="p">(</span><span class="n">cache_dir</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
-            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">cache_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">cache_dir</span> <span class="o">+</span> <span class="s2">&quot;l.npy&quot;</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">cache_dir</span> <span class="o">+</span> <span class="s2">&quot;B.npy&quot;</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">cache_dir</span> <span class="o">+</span> <span class="s2">&quot;W.npy&quot;</span><span class="p">,</span> <span class="n">W</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">B</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">W</span>
+    <span class="p">[</span><span class="n">V</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">T</span><span class="p">]</span> <span class="o">=</span> <span class="n">fcdp</span><span class="o">.</span><span class="n">readMSH</span><span class="p">(</span><span class="n">msh_file</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">V</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">T</span>
 </code></pre></div></td></tr></table></div>
           </details>
   </div>

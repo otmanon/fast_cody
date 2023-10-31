@@ -80,6 +80,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#src.fast_cody.viewers.interactive_handle_viewer.interactive_handle_viewer" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -631,6 +636,25 @@
   
   
     <li class="md-nav__item">
+      <a href="../../read_msh/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    read_msh
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../read_rig_anim_from_json/" class="md-nav__link">
         
   
@@ -871,10 +895,10 @@
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_36" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_37" >
         
           
-          <label class="md-nav__link" for="__nav_36" id="__nav_36_label" tabindex="">
+          <label class="md-nav__link" for="__nav_37" id="__nav_37_label" tabindex="">
             
   
   <span class="md-ellipsis">
@@ -885,8 +909,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_36_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_36">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_37_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_37">
             <span class="md-nav__icon md-icon"></span>
             Apps
           </label>
@@ -1079,10 +1103,10 @@
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_37" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_38" checked>
         
           
-          <label class="md-nav__link" for="__nav_37" id="__nav_37_label" tabindex="">
+          <label class="md-nav__link" for="__nav_38" id="__nav_38_label" tabindex="">
             
   
   <span class="md-ellipsis">
@@ -1093,8 +1117,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_37_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_37">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_38_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_38">
             <span class="md-nav__icon md-icon"></span>
             Viewers
           </label>
@@ -1173,6 +1197,17 @@
       
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    viewers.interactive_handle_viewer
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -1182,6 +1217,30 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#src.fast_cody.viewers.interactive_handle_viewer.interactive_handle_viewer" class="md-nav__link">
+    interactive_handle_viewer
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1212,6 +1271,21 @@
   
   
   
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#src.fast_cody.viewers.interactive_handle_viewer.interactive_handle_viewer" class="md-nav__link">
+    interactive_handle_viewer
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -1248,6 +1322,332 @@
 
 
 
+
+<div class="doc doc-object doc-class">
+
+
+
+
+<h2 id="src.fast_cody.viewers.interactive_handle_viewer.interactive_handle_viewer" class="doc doc-heading">
+          <code>interactive_handle_viewer</code>
+
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+
+  
+      <p>Viewer for interactive affine handle app. This viewer updates the draw call by sending
+the full space mesh and rig parameters to the GPU, and then does the full space projection</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>V</code></td>
+          <td>
+                <code>(n, 3) float numpy array</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>vertex positions</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>T</code></td>
+          <td>
+                <code>(f, 3) int numpy array</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>triangle indices</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>T0</code></td>
+          <td>
+                <code>(4, 4) float numpy array</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>initial rig transform in world space</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>guizmo_callback</code></td>
+          <td>
+                <code>function</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>callback function for guizmo widget</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>pre_draw_callback</code></td>
+          <td>
+                <code>function</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>callback function for pre-draw step</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>texture_png</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>path to texture png file</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>texture_obj</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>path to texture obj file</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>t0</code></td>
+          <td>
+                <code>(3,) float numpy array</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>initial mesh translation (to align the textured mesh with)</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>s0</code></td>
+          <td>
+                <code>float</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>initial mesh scale (to align the textured mesh with)</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+            <details class="quote">
+              <summary>Source code in <code>src\fast_cody\viewers\interactive_handle_viewer.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">interactive_handle_viewer</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Viewer for interactive affine handle app. This viewer updates the draw call by sending</span>
+<span class="sd">    the full space mesh and rig parameters to the GPU, and then does the full space projection</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    V : (n, 3) float numpy array</span>
+<span class="sd">        vertex positions</span>
+<span class="sd">    T : (f, 3) int numpy array</span>
+<span class="sd">        triangle indices</span>
+<span class="sd">    T0 : (4, 4) float numpy array</span>
+<span class="sd">        initial rig transform in world space</span>
+<span class="sd">    guizmo_callback : function</span>
+<span class="sd">        callback function for guizmo widget</span>
+<span class="sd">    pre_draw_callback : function</span>
+<span class="sd">        callback function for pre-draw step</span>
+<span class="sd">    texture_png : str</span>
+<span class="sd">        path to texture png file</span>
+<span class="sd">    texture_obj : str</span>
+<span class="sd">        path to texture obj file</span>
+<span class="sd">    t0 : (3,) float numpy array</span>
+<span class="sd">        initial mesh translation (to align the textured mesh with)</span>
+<span class="sd">    s0 : float</span>
+<span class="sd">        initial mesh scale (to align the textured mesh with)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">T0</span><span class="p">,</span> <span class="n">guizmo_callback</span><span class="p">,</span> <span class="n">pre_draw_callback</span><span class="p">,</span>
+                 <span class="n">texture_png</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">texture_obj</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">t0</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">s0</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">viewer</span> <span class="o">=</span> <span class="n">fcd</span><span class="o">.</span><span class="n">fast_cd_viewer</span><span class="p">()</span>
+        <span class="n">F</span> <span class="o">=</span> <span class="n">igl</span><span class="o">.</span><span class="n">boundary_facets</span><span class="p">(</span><span class="n">T</span><span class="p">)</span>
+        <span class="n">vis_texture</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="n">texture_png</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">texture_obj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">vis_texture</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vis_texture</span> <span class="o">=</span> <span class="n">vis_texture</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">vis_texture</span><span class="p">:</span>
+            <span class="n">viewer</span><span class="o">.</span><span class="n">set_mesh</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="n">viewer</span><span class="o">.</span><span class="n">invert_normals</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="n">color</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">144</span><span class="p">,</span> <span class="mi">210</span><span class="p">,</span> <span class="mi">236</span><span class="p">])</span> <span class="o">/</span> <span class="mf">255.0</span>
+            <span class="n">viewer</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="n">color</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="n">viewer</span><span class="o">.</span><span class="n">init_guizmo</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">T0</span><span class="p">,</span> <span class="n">guizmo_callback</span><span class="p">,</span> <span class="s2">&quot;translate&quot;</span><span class="p">)</span>
+            <span class="n">viewer</span><span class="o">.</span><span class="n">set_pre_draw_callback</span><span class="p">(</span><span class="n">pre_draw_callback</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">V</span> <span class="o">=</span> <span class="n">V</span>
+        <span class="k">if</span> <span class="n">vis_texture</span><span class="p">:</span>
+            <span class="p">[</span><span class="n">Vf</span><span class="p">,</span> <span class="n">TC</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">Ff</span><span class="p">,</span> <span class="n">FTC</span><span class="p">,</span> <span class="n">FN</span><span class="p">]</span> <span class="o">=</span> <span class="n">fcd</span><span class="o">.</span><span class="n">readOBJ_tex</span><span class="p">(</span><span class="n">texture_obj</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">s0</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">Vf</span> <span class="o">=</span> <span class="n">Vf</span> <span class="o">*</span> <span class="n">s0</span>
+            <span class="k">if</span> <span class="n">t0</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">Vf</span> <span class="o">=</span> <span class="n">Vf</span> <span class="o">-</span> <span class="n">t0</span>
+
+            <span class="n">P</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">fcd</span><span class="o">.</span><span class="n">prolongation</span><span class="p">(</span><span class="n">Vf</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">T</span><span class="p">))</span>
+            <span class="n">viewer</span><span class="o">.</span><span class="n">set_mesh</span><span class="p">(</span><span class="n">Vf</span><span class="p">,</span> <span class="n">Ff</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="n">viewer</span><span class="o">.</span><span class="n">set_show_lines</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="n">viewer</span><span class="o">.</span><span class="n">set_texture</span><span class="p">(</span><span class="n">texture_png</span><span class="p">,</span> <span class="n">TC</span><span class="p">,</span> <span class="n">FTC</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="n">viewer</span><span class="o">.</span><span class="n">set_face_based</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="n">viewer</span><span class="o">.</span><span class="n">init_guizmo</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">T0</span><span class="p">,</span> <span class="n">guizmo_callback</span><span class="p">,</span> <span class="s2">&quot;translate&quot;</span><span class="p">)</span>
+            <span class="n">viewer</span><span class="o">.</span><span class="n">set_pre_draw_callback</span><span class="p">(</span><span class="n">pre_draw_callback</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">V</span> <span class="o">=</span> <span class="n">Vf</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">P</span> <span class="o">=</span> <span class="n">P</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">viewer</span> <span class="o">=</span> <span class="n">viewer</span>
+
+    <span class="k">def</span> <span class="nf">launch</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">viewer</span><span class="o">.</span><span class="n">launch</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">update_displacement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">U</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">vis_texture</span><span class="p">:</span>
+            <span class="n">U</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">P</span> <span class="o">@</span> <span class="n">U</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">order</span><span class="o">=</span><span class="s1">&#39;F&#39;</span><span class="p">)</span>
+            <span class="n">U</span> <span class="o">=</span> <span class="n">U</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">order</span><span class="o">=</span><span class="s1">&#39;F&#39;</span><span class="p">)</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">U</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">V</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">viewer</span><span class="o">.</span><span class="n">set_vertices</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">viewer</span><span class="o">.</span><span class="n">compute_normals</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
 
 
 
