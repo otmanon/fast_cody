@@ -119,21 +119,14 @@ def interactive_cd_affine_handle(msh_file=None, Ws=None, l=None, mu=1e4, rho=1e3
     def pre_draw_callback():
          nonlocal J, B, T0, sim, st, step
          p = viewer.T0[0:3, :].reshape( (12, 1))
-
          z = sim.step( p, st)
-
          st.update(z, p)
-
          # U = np.reshape(J @ p + B @ z, (J.shape[0]//3, 3), order="F") # full positions
-
          viewer.update_subspace_coefficients(z, p)
-
-
          step += 1
-
 
     viewer = fc.viewers.interactive_handle_subspace_viewer(V, T, Wp, Ws,  pre_draw_callback,T0=T0,
                                                   texture_png=texture_png, texture_obj=texture_obj,
-                                                  t0=to, s0=so)
+                                                  t0=to, s0=so, init_guizmo=True)
     viewer.launch()
 

@@ -4,20 +4,7 @@ import scipy as sp
 
 from .diffuse_weights import diffuse_weights
 
-'''
-Constructs the momentum leaking matrix, that fudges the CD constraint
-in order to let momentum leak from the rig to the mesh
 
-Inputs:
-V - n x 3 mesh geometry
-T - t x 4 tet indices
-
-Optional:
-dt - float,  used in diffusion (default 1/l^2 where l is the mean edge lengths)
-expand_dim - bool, if True returns a 3nx3n diagonal matrix, 
-Outputs:
-D - n x n diagonal sparse matrix with entries varying from 0 (momentum-fully leaking) to 1 (momentum not leaking) for each vertex
-'''
 def momentum_leaking_matrix(V, T, dt=None, pow=1):
     """
     Constructs the momentum leaking matrix, that fudges the CD constraint to allow momentum to leak from

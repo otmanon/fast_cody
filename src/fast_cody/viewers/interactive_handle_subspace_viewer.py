@@ -55,11 +55,11 @@ class interactive_handle_subspace_viewer():
     max_fps : int
         maximum fps for the viewer
 
-    Examples
-    --------
+
 
     Examples
     --------
+    Simple script for using the viewer in a CD App
     ```
     import fast_cody as fcd
     import numpy as np
@@ -73,8 +73,8 @@ class interactive_handle_subspace_viewer():
     [B, l, Ws] =fcd.skinning_subspace(V, T, num_modes,  num_clusters, C=Cd)
     sim = fcd.fast_cd_sim(V, T, B, l, J, mu=1e4)
     z0 = np.zeros((num_modes*12, 1))
-    T0 = np.identity(4).astype( dtype=np.float32, order="F");
-    p0 = T0[0:3, :].reshape((12, 1))
+    T0 = np.identity(4);
+    p0 = T0[0:3, :].reshape((-1, 1))
     st = fcd.fast_cd_state(z0, p0)
     step = 0
     def pre_draw_callback():
@@ -158,12 +158,15 @@ class interactive_handle_subspace_viewer():
 
     def callback_key_pressed(s, key, modifier):
         if (key == ord('g') or key == ord('G')):
-            if (s.transform == "translate"):
-                s.transform = "rotate"
-            elif (s.transform == "rotate"):
-                s.transform = "scale"
-            elif (s.transform == "scale"):
-                s.transform = "translate"
+            if (s.init_guizmo):
+                if (s.transform == "translate"):
+                    s.transform = "rotate"
+                elif (s.transform == "rotate"):
+                    s.transform = "scale"
+                elif (s.transform == "scale"):
+                    s.transform = "translate"
+            else:
+                print("Guizmo not initialized, pass init_guizmo=True to the viewer constructor")
         if (key == ord('c') or key==ord('C') ):
             s.vis_cd = not s.vis_cd
         return False

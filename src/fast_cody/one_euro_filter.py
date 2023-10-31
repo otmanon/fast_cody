@@ -18,10 +18,13 @@ class OneEuroFilter:
     --------
     ```
     >>> from fast_cody import OneEuroFilter
-    >>> x0 = np.zeros((3, 1))
+    >>> import numpy as np
+    >>> mu = np.ones((3, 1))
+    >>> x0 =  np.random.randn(3, 1) + mu
     >>> f = OneEuroFilter(x0)
-    >>> x = np.random.rand(3, 1)
+    >>> x = np.random.randn(3, 1) + mu
     >>> x_filtered = f(x)
+    >>> print(x_filtered)
     ```
     """
     def __init__(self, x0, dx0=0.0, min_cutoff=1.0, beta=0.0,

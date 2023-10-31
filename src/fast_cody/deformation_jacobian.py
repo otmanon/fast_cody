@@ -24,9 +24,11 @@ def deformation_jacobian(V, T):
     --------
     Obtain a stacked t x 3 x 3 list of deformation gradients from each tet, from n x 3 positions U
     ```
-    J = deformation_jacobian(X, T)
-    f = J @ U.flatten(order='F')
-    F = f.reshape(-1, 3, 3)
+    >>>import fast_cody as fcd
+    >>> [V, F, T] = fcd.fcd.get_data('cd_fish.msh')
+    >>>J = fcd.deformation_jacobian(X, T)
+    >>>f = J @ U.flatten(order='F')
+    >>>F = f.reshape(-1, 3, 3)
     ```
 
 

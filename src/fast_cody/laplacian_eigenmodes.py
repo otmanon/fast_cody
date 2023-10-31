@@ -12,23 +12,7 @@ from .laplacian import laplacian
 from .project_out_subspace import project_out_subspace
 from .orthonormalize import orthonormalize
 from .eigs import eigs
-''' 
-Constructs a physics subspace corresponding with skinning eigenmodes and skinning clusters
-Inputs:
-    X: V x 3 vertex positions
-    T: F x 4 tet indices
-    num_modes: number of modes to use
 
-(Optional)
-    cache_dir: directory to cache results in (default None)
-    read_cache: whether to read from cache or not (default False)
-    C :  c x n constarint matrix that acts on the skinning weights (default None)
-    constraint_enforcement : method of enforcing constraint. Either "project" or "optimal"
-                        for python, default is "project", because optimal makes eigendecomposition take way too long.
-Outputs:
-    B: 3n x 12m  subspace matrix
-    W: n x m skinning weights
-'''
 def laplacian_eigenmodes(V, T, m, read_cache=False, cache_dir=None, J=None,
                          mu=None, constraint_enforcement="optimal"):
     """ Computes Laplacian Eigenmodes for a given mesh.

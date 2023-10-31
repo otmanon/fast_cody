@@ -3,19 +3,7 @@ import scipy as sp
 
 import fast_cody as fc
 
-'''
-Inputs:
-V - n x 3 mesh geometry
-T - t x 4 tet indices
-J - 3n x 12m rig jacobian matrix
 
-Optional:
-dt - timestep used for momentum leaking matrix, (default=1/l^2)
-
-Outputs:
-C - 12m x 3n complementary dynamics constraint matrix
-  
-'''
 def complementary_constraint_matrix(V, T, J, dt=None):
     """ Computes the complementarity constraint matrix
         ```

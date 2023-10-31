@@ -34,15 +34,17 @@ class mediapipe_face_captor():
     Example
     -------
     ```
-    captor = mediapipe_face_captor()
-    for i in range(100):
+    import fast_cody as fcd
+    import time
+    captor = fcd.mediapipe_face_captor()
+    for i in range(1000):
         [R, info] = captor.query_rotation()
         captor.imshow()
         print(R)
     captor.release()
     ```
     """
-    def __init__(self, R0=None, draw_landmarks=False):
+    def __init__(self, R0=None, draw_landmarks=True):
         """
         Parameters
         ----------
@@ -127,32 +129,36 @@ class mediapipe_face_captor():
         """
         Displays the image on the screen. If self.draw_landmarks is True, also draws landmarks on the face.
         """
-        if s.draw_landmarks:
-            if s.multi_face_landmarks:
-                for face_landmarks in s.multi_face_landmarks:
-                    s.mp_drawing.draw_landmarks(
-                        image=s.image,
-                        landmark_list=face_landmarks,
-                        connections=s.mp_face_mesh.FACEMESH_TESSELATION,
-                        landmark_drawing_spec=None,
-                        connection_drawing_spec=s.mp_drawing_styles
-                        .get_default_face_mesh_tesselation_style())
-                    s.mp_drawing.draw_landmarks(
-                        image=s.image,
-                        landmark_list=face_landmarks,
-                        connections=s.mp_face_mesh.FACEMESH_CONTOURS,
-                        landmark_drawing_spec=None,
-                        connection_drawing_spec=s.mp_drawing_styles
-                        .get_default_face_mesh_contours_style())
-                    s.mp_drawing.draw_landmarks(
-                        image=s.image,
-                        landmark_list=face_landmarks,
-                        connections=s.mp_face_mesh.FACEMESH_IRISES,
-                        landmark_drawing_spec=None,
-                        connection_drawing_spec=s.mp_drawing_styles
-                        .get_default_face_mesh_iris_connections_style())
+        if s.cap.isOpened():
+            if s.draw_landmarks:
+                if s.multi_face_landmarks:
+                    for face_landmarks in s.multi_face_landmarks:
+                        s.mp_drawing.draw_landmarks(
+                            image=s.image,
+                            landmark_list=face_landmarks,
+                            connections=s.mp_face_mesh.FACEMESH_TESSELATION,
+                            landmark_drawing_spec=None,
+                            connection_drawing_spec=s.mp_drawing_styles
+                            .get_default_face_mesh_tesselation_style())
+                        s.mp_drawing.draw_landmarks(
+                            image=s.image,
+                            landmark_list=face_landmarks,
+                            connections=s.mp_face_mesh.FACEMESH_CONTOURS,
+                            landmark_drawing_spec=None,
+                            connection_drawing_spec=s.mp_drawing_styles
+                            .get_default_face_mesh_contours_style())
+                        s.mp_drawing.draw_landmarks(
+                            image=s.image,
+                            landmark_list=face_landmarks,
+                            connections=s.mp_face_mesh.FACEMESH_IRISES,
+                            landmark_drawing_spec=None,
+                            connection_drawing_spec=s.mp_drawing_styles
+                            .get_default_face_mesh_iris_connections_style())
 
-        cv2.imshow('MediaPipe Face Detection', cv2.flip(s.image, 1))
+
+            cv2.imshow('MediaPipe Face Detection', cv2.flip(s.image, 1))
+            cv2.waitKey(1)
+            # cv2.waitKey()
         # if (record):
         #     cv2.imwrite(results_dir + "/camera_stream/" + str(step).zfill(4) + ".png", image)
         #

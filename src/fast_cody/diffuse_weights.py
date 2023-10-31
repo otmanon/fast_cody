@@ -6,19 +6,7 @@ import igl
 import fast_cody
 from .laplacian import laplacian
 
-'''
-Diffuses phi quantities on tet mesh Vv, Tv at nodes bI fro time 
 
-Inputs
-------
-Vv: nx3 volume vertices
-Tv: tx4 volume tetrahedra
-phi: c x b quantity to diffuse
-bI: c x b indices at diffusion points
-
-returns
-W: n x b  diffused quantities over entire mesh
-'''
 def diffuse_weights(Vv, Tv, phi, bI,  dt=None, normalize=True):
     """ Performs a diffusion on the tet mesh Vv, Tv at nodes bI for time dt.
 

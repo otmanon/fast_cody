@@ -45,7 +45,7 @@ from .apps.interactive_cd_affine_handle import interactive_cd_affine_handle
 from .viewers.WeightsViewer import WeightsViewer
 from .viewers.ClustersViewer import ClustersViewer
 from .viewers.interactive_handle_subspace_viewer import interactive_handle_subspace_viewer
-from .viewers.interactive_handle_viewer import interactive_handle_viewer
+# from .viewers.interactive_handle_viewer import interactive_handle_viewer
 
 # set data path and shaders path
 import os

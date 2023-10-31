@@ -39,7 +39,7 @@ def interactive_cd_face_tracking(msh_file=None, Wp=None, bI=0, Ws=None, l=None, 
                                  constraint_enforcement="optimal",
                                  results_dir=None, read_cache=False,
                                  texture_png=None, texture_obj=None,
-                                 draw_landmarks=False):
+                                 draw_landmarks=True):
     """
     Runs a standard interactive fast CD simulation, where the user can manipulate a single affine
     handle with a mediapipe face tracker in real time.
@@ -127,7 +127,7 @@ def interactive_cd_face_tracking(msh_file=None, Wp=None, bI=0, Ws=None, l=None, 
     T0 = np.tile(T0, (Wp.shape[1], 1))
     p0 = np.reshape( T0, (Wp.shape[1]*12, 1), order="F")
 
-    face_captor = fc.mediapipe_face_captor(draw_landmarks=draw_landmarks)
+
     st = fc.fast_cd_state(z0, p0)
 
     def user_callback():
@@ -146,6 +146,8 @@ def interactive_cd_face_tracking(msh_file=None, Wp=None, bI=0, Ws=None, l=None, 
     viewer = fc.viewers.interactive_handle_subspace_viewer(V, T, Wp, Ws, user_callback,
                                                            texture_png=texture_png, texture_obj=texture_obj,
                                                            t0=to, s0=so, init_guizmo=False, max_fps=100)
+    face_captor = fc.mediapipe_face_captor(draw_landmarks=draw_landmarks)
+
     viewer.launch()
     face_captor.release()
 
