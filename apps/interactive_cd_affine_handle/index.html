@@ -9,7 +9,7 @@
       
       
       
-        <link rel="prev" href="../cd_demo_pose_tracker/">
+        <link rel="prev" href="../../ympr_to_lame/">
       
       
         <link rel="next" href="../interactive_cd_face_tracking/">
@@ -924,46 +924,6 @@
                 
   
   
-  
-    <li class="md-nav__item">
-      <a href="../animate_rig/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    apps.animate_rig
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../cd_demo_pose_tracker/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    apps.cd_demo_pose_tracker
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
     
   
   
@@ -1054,66 +1014,6 @@
   
   <span class="md-ellipsis">
     apps.interactive_cd_rig_anim
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../test_FAST_IK/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    apps.test_FAST_IK
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../test_FAST_IK_CD_tex/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    apps.test_FAST_IK_CD_tex
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../test_FAST_IK_tex/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    apps.test_FAST_IK_tex
   </span>
   
 
@@ -1220,26 +1120,6 @@
   
   <span class="md-ellipsis">
     viewers.interactive_handle_subspace_viewer
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../viewers/interactive_handle_viewer/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    viewers.interactive_handle_viewer
   </span>
   
 
@@ -1603,14 +1483,7 @@ if None and if texture_obj is None, then no texturing is applied.</p>
 <span class="normal">128</span>
 <span class="normal">129</span>
 <span class="normal">130</span>
-<span class="normal">131</span>
-<span class="normal">132</span>
-<span class="normal">133</span>
-<span class="normal">134</span>
-<span class="normal">135</span>
-<span class="normal">136</span>
-<span class="normal">137</span>
-<span class="normal">138</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">interactive_cd_affine_handle</span><span class="p">(</span><span class="n">msh_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">Ws</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mf">1e4</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="mf">1e3</span><span class="p">,</span>
+<span class="normal">131</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">interactive_cd_affine_handle</span><span class="p">(</span><span class="n">msh_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">Ws</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mf">1e4</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="mf">1e3</span><span class="p">,</span>
                                  <span class="n">num_modes</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">num_clusters</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
                                  <span class="n">constraint_enforcement</span><span class="o">=</span><span class="s2">&quot;optimal&quot;</span><span class="p">,</span>
                                  <span class="n">results_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">read_cache</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -1693,22 +1566,15 @@ if None and if texture_obj is None, then no texturing is applied.</p>
     <span class="k">def</span> <span class="nf">pre_draw_callback</span><span class="p">():</span>
          <span class="k">nonlocal</span> <span class="n">J</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">T0</span><span class="p">,</span> <span class="n">sim</span><span class="p">,</span> <span class="n">st</span><span class="p">,</span> <span class="n">step</span>
          <span class="n">p</span> <span class="o">=</span> <span class="n">viewer</span><span class="o">.</span><span class="n">T0</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
-
          <span class="n">z</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">step</span><span class="p">(</span> <span class="n">p</span><span class="p">,</span> <span class="n">st</span><span class="p">)</span>
-
          <span class="n">st</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
-
          <span class="c1"># U = np.reshape(J @ p + B @ z, (J.shape[0]//3, 3), order=&quot;F&quot;) # full positions</span>
-
          <span class="n">viewer</span><span class="o">.</span><span class="n">update_subspace_coefficients</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
-
-
          <span class="n">step</span> <span class="o">+=</span> <span class="mi">1</span>
-
 
     <span class="n">viewer</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">viewers</span><span class="o">.</span><span class="n">interactive_handle_subspace_viewer</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">Wp</span><span class="p">,</span> <span class="n">Ws</span><span class="p">,</span>  <span class="n">pre_draw_callback</span><span class="p">,</span><span class="n">T0</span><span class="o">=</span><span class="n">T0</span><span class="p">,</span>
                                                   <span class="n">texture_png</span><span class="o">=</span><span class="n">texture_png</span><span class="p">,</span> <span class="n">texture_obj</span><span class="o">=</span><span class="n">texture_obj</span><span class="p">,</span>
-                                                  <span class="n">t0</span><span class="o">=</span><span class="n">to</span><span class="p">,</span> <span class="n">s0</span><span class="o">=</span><span class="n">so</span><span class="p">)</span>
+                                                  <span class="n">t0</span><span class="o">=</span><span class="n">to</span><span class="p">,</span> <span class="n">s0</span><span class="o">=</span><span class="n">so</span><span class="p">,</span> <span class="n">init_guizmo</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">viewer</span><span class="o">.</span><span class="n">launch</span><span class="p">()</span>
 </code></pre></div></td></tr></table></div>
           </details>

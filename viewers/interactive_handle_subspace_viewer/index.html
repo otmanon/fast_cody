@@ -12,8 +12,6 @@
         <link rel="prev" href="../WeightsViewer/">
       
       
-        <link rel="next" href="../interactive_handle_viewer/">
-      
       
       <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.6">
@@ -924,46 +922,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../apps/animate_rig/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    apps.animate_rig
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../apps/cd_demo_pose_tracker/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    apps.cd_demo_pose_tracker
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../apps/interactive_cd_affine_handle/" class="md-nav__link">
         
   
@@ -1009,66 +967,6 @@
   
   <span class="md-ellipsis">
     apps.interactive_cd_rig_anim
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../apps/test_FAST_IK/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    apps.test_FAST_IK
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../apps/test_FAST_IK_CD_tex/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    apps.test_FAST_IK_CD_tex
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../apps/test_FAST_IK_tex/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    apps.test_FAST_IK_tex
   </span>
   
 
@@ -1224,26 +1122,6 @@
   
 </nav>
       
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../interactive_handle_viewer/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    viewers.interactive_handle_viewer
-  </span>
-  
-
-      </a>
     </li>
   
 
@@ -1515,8 +1393,8 @@ Cd = fcd.lbs_weight_space_constraint(V, C)
 [B, l, Ws] =fcd.skinning_subspace(V, T, num_modes,  num_clusters, C=Cd)
 sim = fcd.fast_cd_sim(V, T, B, l, J, mu=1e4)
 z0 = np.zeros((num_modes*12, 1))
-T0 = np.identity(4).astype( dtype=np.float32, order=&quot;F&quot;);
-p0 = T0[0:3, :].reshape((12, 1))
+T0 = np.identity(4);
+p0 = T0[0:3, :].reshape((-1, 1))
 st = fcd.fast_cd_state(z0, p0)
 step = 0
 def pre_draw_callback():
@@ -1679,7 +1557,10 @@ viewer.launch()
 <span class="normal">174</span>
 <span class="normal">175</span>
 <span class="normal">176</span>
-<span class="normal">177</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">interactive_handle_subspace_viewer</span><span class="p">():</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">interactive_handle_subspace_viewer</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Viewer for interactive affine handle app. This viewer updates the draw call by sending</span>
 <span class="sd">    the full space mesh and rig parameters to the GPU, and then does the full space projection</span>
@@ -1725,8 +1606,8 @@ viewer.launch()
 <span class="sd">    [B, l, Ws] =fcd.skinning_subspace(V, T, num_modes,  num_clusters, C=Cd)</span>
 <span class="sd">    sim = fcd.fast_cd_sim(V, T, B, l, J, mu=1e4)</span>
 <span class="sd">    z0 = np.zeros((num_modes*12, 1))</span>
-<span class="sd">    T0 = np.identity(4).astype( dtype=np.float32, order=&quot;F&quot;);</span>
-<span class="sd">    p0 = T0[0:3, :].reshape((12, 1))</span>
+<span class="sd">    T0 = np.identity(4);</span>
+<span class="sd">    p0 = T0[0:3, :].reshape((-1, 1))</span>
 <span class="sd">    st = fcd.fast_cd_state(z0, p0)</span>
 <span class="sd">    step = 0</span>
 <span class="sd">    def pre_draw_callback():</span>
@@ -1810,12 +1691,15 @@ viewer.launch()
 
     <span class="k">def</span> <span class="nf">callback_key_pressed</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">modifier</span><span class="p">):</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">key</span> <span class="o">==</span> <span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;g&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">key</span> <span class="o">==</span> <span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;G&#39;</span><span class="p">)):</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">transform</span> <span class="o">==</span> <span class="s2">&quot;translate&quot;</span><span class="p">):</span>
-                <span class="n">s</span><span class="o">.</span><span class="n">transform</span> <span class="o">=</span> <span class="s2">&quot;rotate&quot;</span>
-            <span class="k">elif</span> <span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">transform</span> <span class="o">==</span> <span class="s2">&quot;rotate&quot;</span><span class="p">):</span>
-                <span class="n">s</span><span class="o">.</span><span class="n">transform</span> <span class="o">=</span> <span class="s2">&quot;scale&quot;</span>
-            <span class="k">elif</span> <span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">transform</span> <span class="o">==</span> <span class="s2">&quot;scale&quot;</span><span class="p">):</span>
-                <span class="n">s</span><span class="o">.</span><span class="n">transform</span> <span class="o">=</span> <span class="s2">&quot;translate&quot;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">init_guizmo</span><span class="p">):</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">transform</span> <span class="o">==</span> <span class="s2">&quot;translate&quot;</span><span class="p">):</span>
+                    <span class="n">s</span><span class="o">.</span><span class="n">transform</span> <span class="o">=</span> <span class="s2">&quot;rotate&quot;</span>
+                <span class="k">elif</span> <span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">transform</span> <span class="o">==</span> <span class="s2">&quot;rotate&quot;</span><span class="p">):</span>
+                    <span class="n">s</span><span class="o">.</span><span class="n">transform</span> <span class="o">=</span> <span class="s2">&quot;scale&quot;</span>
+                <span class="k">elif</span> <span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">transform</span> <span class="o">==</span> <span class="s2">&quot;scale&quot;</span><span class="p">):</span>
+                    <span class="n">s</span><span class="o">.</span><span class="n">transform</span> <span class="o">=</span> <span class="s2">&quot;translate&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Guizmo not initialized, pass init_guizmo=True to the viewer constructor&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">key</span> <span class="o">==</span> <span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">key</span><span class="o">==</span><span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;C&#39;</span><span class="p">)</span> <span class="p">):</span>
             <span class="n">s</span><span class="o">.</span><span class="n">vis_cd</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">s</span><span class="o">.</span><span class="n">vis_cd</span>
         <span class="k">return</span> <span class="kc">False</span>

@@ -967,46 +967,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../apps/animate_rig/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    apps.animate_rig
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../apps/cd_demo_pose_tracker/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    apps.cd_demo_pose_tracker
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../apps/interactive_cd_affine_handle/" class="md-nav__link">
         
   
@@ -1052,66 +1012,6 @@
   
   <span class="md-ellipsis">
     apps.interactive_cd_rig_anim
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../apps/test_FAST_IK/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    apps.test_FAST_IK
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../apps/test_FAST_IK_CD_tex/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    apps.test_FAST_IK_CD_tex
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../apps/test_FAST_IK_tex/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    apps.test_FAST_IK_tex
   </span>
   
 
@@ -1218,26 +1118,6 @@
   
   <span class="md-ellipsis">
     viewers.interactive_handle_subspace_viewer
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../viewers/interactive_handle_viewer/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    viewers.interactive_handle_viewer
   </span>
   
 
@@ -1441,7 +1321,20 @@ and smoothly increases to 1 at the interior.</p>
 
           <details class="quote">
             <summary>Source code in <code>src\fast_cody\momentum_leaking_matrix.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">21</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
 <span class="normal">22</span>
 <span class="normal">23</span>
 <span class="normal">24</span>
@@ -1467,20 +1360,7 @@ and smoothly increases to 1 at the interior.</p>
 <span class="normal">44</span>
 <span class="normal">45</span>
 <span class="normal">46</span>
-<span class="normal">47</span>
-<span class="normal">48</span>
-<span class="normal">49</span>
-<span class="normal">50</span>
-<span class="normal">51</span>
-<span class="normal">52</span>
-<span class="normal">53</span>
-<span class="normal">54</span>
-<span class="normal">55</span>
-<span class="normal">56</span>
-<span class="normal">57</span>
-<span class="normal">58</span>
-<span class="normal">59</span>
-<span class="normal">60</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">momentum_leaking_matrix</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">pow</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="normal">47</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">momentum_leaking_matrix</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">pow</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Constructs the momentum leaking matrix, that fudges the CD constraint to allow momentum to leak from</span>
 <span class="sd">    the rig to the mesh. This is a diagonal matrix with entries ranging from 0 (full momentum leak), to 1 (no momentum leak).</span>

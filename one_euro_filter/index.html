@@ -987,46 +987,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../apps/animate_rig/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    apps.animate_rig
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../apps/cd_demo_pose_tracker/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    apps.cd_demo_pose_tracker
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../apps/interactive_cd_affine_handle/" class="md-nav__link">
         
   
@@ -1072,66 +1032,6 @@
   
   <span class="md-ellipsis">
     apps.interactive_cd_rig_anim
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../apps/test_FAST_IK/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    apps.test_FAST_IK
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../apps/test_FAST_IK_CD_tex/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    apps.test_FAST_IK_CD_tex
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../apps/test_FAST_IK_tex/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    apps.test_FAST_IK_tex
   </span>
   
 
@@ -1238,26 +1138,6 @@
   
   <span class="md-ellipsis">
     viewers.interactive_handle_subspace_viewer
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../viewers/interactive_handle_viewer/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    viewers.interactive_handle_viewer
   </span>
   
 
@@ -1384,10 +1264,13 @@
 
 <p><strong>Examples:</strong></p>
     <pre><code>&gt;&gt;&gt; from fast_cody import OneEuroFilter
-&gt;&gt;&gt; x0 = np.zeros((3, 1))
+&gt;&gt;&gt; import numpy as np
+&gt;&gt;&gt; mu = np.ones((3, 1))
+&gt;&gt;&gt; x0 =  np.random.randn(3, 1) + mu
 &gt;&gt;&gt; f = OneEuroFilter(x0)
-&gt;&gt;&gt; x = np.random.rand(3, 1)
+&gt;&gt;&gt; x = np.random.randn(3, 1) + mu
 &gt;&gt;&gt; x_filtered = f(x)
+&gt;&gt;&gt; print(x_filtered)
 </code></pre>
 
             <details class="quote">
@@ -1457,7 +1340,10 @@
 <span class="normal">75</span>
 <span class="normal">76</span>
 <span class="normal">77</span>
-<span class="normal">78</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">OneEuroFilter</span><span class="p">:</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">OneEuroFilter</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    One Euro Filter for smoothing signals, taken from https://github.com/HoBeom/OneEuroFilter-Numpy</span>
 
@@ -1465,10 +1351,13 @@
 <span class="sd">    --------</span>
 <span class="sd">    ```</span>
 <span class="sd">    &gt;&gt;&gt; from fast_cody import OneEuroFilter</span>
-<span class="sd">    &gt;&gt;&gt; x0 = np.zeros((3, 1))</span>
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; mu = np.ones((3, 1))</span>
+<span class="sd">    &gt;&gt;&gt; x0 =  np.random.randn(3, 1) + mu</span>
 <span class="sd">    &gt;&gt;&gt; f = OneEuroFilter(x0)</span>
-<span class="sd">    &gt;&gt;&gt; x = np.random.rand(3, 1)</span>
+<span class="sd">    &gt;&gt;&gt; x = np.random.randn(3, 1) + mu</span>
 <span class="sd">    &gt;&gt;&gt; x_filtered = f(x)</span>
+<span class="sd">    &gt;&gt;&gt; print(x_filtered)</span>
 <span class="sd">    ```</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">dx0</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">min_cutoff</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
@@ -1556,10 +1445,7 @@
 
           <details class="quote">
             <summary>Source code in <code>src\fast_cody\one_euro_filter.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">55</span>
-<span class="normal">56</span>
-<span class="normal">57</span>
-<span class="normal">58</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">58</span>
 <span class="normal">59</span>
 <span class="normal">60</span>
 <span class="normal">61</span>
@@ -1579,7 +1465,10 @@
 <span class="normal">75</span>
 <span class="normal">76</span>
 <span class="normal">77</span>
-<span class="normal">78</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the filtered signal.&quot;&quot;&quot;</span>
     <span class="k">assert</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_shape</span>
 
@@ -1713,10 +1602,7 @@
 
           <details class="quote">
             <summary>Source code in <code>src\fast_cody\one_euro_filter.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">27</span>
-<span class="normal">28</span>
-<span class="normal">29</span>
-<span class="normal">30</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">30</span>
 <span class="normal">31</span>
 <span class="normal">32</span>
 <span class="normal">33</span>
@@ -1739,7 +1625,10 @@
 <span class="normal">50</span>
 <span class="normal">51</span>
 <span class="normal">52</span>
-<span class="normal">53</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">dx0</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">min_cutoff</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">dx0</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">min_cutoff</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
              <span class="n">d_cutoff</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize the one euro filter.</span>
 

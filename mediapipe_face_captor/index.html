@@ -1008,46 +1008,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../apps/animate_rig/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    apps.animate_rig
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../apps/cd_demo_pose_tracker/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    apps.cd_demo_pose_tracker
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../apps/interactive_cd_affine_handle/" class="md-nav__link">
         
   
@@ -1093,66 +1053,6 @@
   
   <span class="md-ellipsis">
     apps.interactive_cd_rig_anim
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../apps/test_FAST_IK/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    apps.test_FAST_IK
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../apps/test_FAST_IK_CD_tex/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    apps.test_FAST_IK_CD_tex
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../apps/test_FAST_IK_tex/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    apps.test_FAST_IK_tex
   </span>
   
 
@@ -1259,26 +1159,6 @@
   
   <span class="md-ellipsis">
     viewers.interactive_handle_subspace_viewer
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../viewers/interactive_handle_viewer/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    viewers.interactive_handle_viewer
   </span>
   
 
@@ -1422,8 +1302,10 @@
   
       <p>Wrapper for mediapipe face capture.</p>
 <h4 id="src.fast_cody.mediapipe_face_captor.mediapipe_face_captor--example">Example</h4>
-<pre><code>captor = mediapipe_face_captor()
-for i in range(100):
+<pre><code>import fast_cody as fcd
+import time
+captor = fcd.mediapipe_face_captor()
+for i in range(1000):
     [R, info] = captor.query_rotation()
     captor.imshow()
     print(R)
@@ -1566,22 +1448,30 @@ captor.release()
 <span class="normal">161</span>
 <span class="normal">162</span>
 <span class="normal">163</span>
-<span class="normal">164</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">mediapipe_face_captor</span><span class="p">():</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">mediapipe_face_captor</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Wrapper for mediapipe face capture.</span>
 
 
 <span class="sd">    Example</span>
 <span class="sd">    -------</span>
 <span class="sd">    ```</span>
-<span class="sd">    captor = mediapipe_face_captor()</span>
-<span class="sd">    for i in range(100):</span>
+<span class="sd">    import fast_cody as fcd</span>
+<span class="sd">    import time</span>
+<span class="sd">    captor = fcd.mediapipe_face_captor()</span>
+<span class="sd">    for i in range(1000):</span>
 <span class="sd">        [R, info] = captor.query_rotation()</span>
 <span class="sd">        captor.imshow()</span>
 <span class="sd">        print(R)</span>
 <span class="sd">    captor.release()</span>
 <span class="sd">    ```</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">R0</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">draw_landmarks</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">R0</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">draw_landmarks</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1666,32 +1556,36 @@ captor.release()
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Displays the image on the screen. If self.draw_landmarks is True, also draws landmarks on the face.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">draw_landmarks</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">multi_face_landmarks</span><span class="p">:</span>
-                <span class="k">for</span> <span class="n">face_landmarks</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">multi_face_landmarks</span><span class="p">:</span>
-                    <span class="n">s</span><span class="o">.</span><span class="n">mp_drawing</span><span class="o">.</span><span class="n">draw_landmarks</span><span class="p">(</span>
-                        <span class="n">image</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">image</span><span class="p">,</span>
-                        <span class="n">landmark_list</span><span class="o">=</span><span class="n">face_landmarks</span><span class="p">,</span>
-                        <span class="n">connections</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">mp_face_mesh</span><span class="o">.</span><span class="n">FACEMESH_TESSELATION</span><span class="p">,</span>
-                        <span class="n">landmark_drawing_spec</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                        <span class="n">connection_drawing_spec</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">mp_drawing_styles</span>
-                        <span class="o">.</span><span class="n">get_default_face_mesh_tesselation_style</span><span class="p">())</span>
-                    <span class="n">s</span><span class="o">.</span><span class="n">mp_drawing</span><span class="o">.</span><span class="n">draw_landmarks</span><span class="p">(</span>
-                        <span class="n">image</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">image</span><span class="p">,</span>
-                        <span class="n">landmark_list</span><span class="o">=</span><span class="n">face_landmarks</span><span class="p">,</span>
-                        <span class="n">connections</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">mp_face_mesh</span><span class="o">.</span><span class="n">FACEMESH_CONTOURS</span><span class="p">,</span>
-                        <span class="n">landmark_drawing_spec</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                        <span class="n">connection_drawing_spec</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">mp_drawing_styles</span>
-                        <span class="o">.</span><span class="n">get_default_face_mesh_contours_style</span><span class="p">())</span>
-                    <span class="n">s</span><span class="o">.</span><span class="n">mp_drawing</span><span class="o">.</span><span class="n">draw_landmarks</span><span class="p">(</span>
-                        <span class="n">image</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">image</span><span class="p">,</span>
-                        <span class="n">landmark_list</span><span class="o">=</span><span class="n">face_landmarks</span><span class="p">,</span>
-                        <span class="n">connections</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">mp_face_mesh</span><span class="o">.</span><span class="n">FACEMESH_IRISES</span><span class="p">,</span>
-                        <span class="n">landmark_drawing_spec</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                        <span class="n">connection_drawing_spec</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">mp_drawing_styles</span>
-                        <span class="o">.</span><span class="n">get_default_face_mesh_iris_connections_style</span><span class="p">())</span>
+        <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">cap</span><span class="o">.</span><span class="n">isOpened</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">draw_landmarks</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">multi_face_landmarks</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">face_landmarks</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">multi_face_landmarks</span><span class="p">:</span>
+                        <span class="n">s</span><span class="o">.</span><span class="n">mp_drawing</span><span class="o">.</span><span class="n">draw_landmarks</span><span class="p">(</span>
+                            <span class="n">image</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">image</span><span class="p">,</span>
+                            <span class="n">landmark_list</span><span class="o">=</span><span class="n">face_landmarks</span><span class="p">,</span>
+                            <span class="n">connections</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">mp_face_mesh</span><span class="o">.</span><span class="n">FACEMESH_TESSELATION</span><span class="p">,</span>
+                            <span class="n">landmark_drawing_spec</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                            <span class="n">connection_drawing_spec</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">mp_drawing_styles</span>
+                            <span class="o">.</span><span class="n">get_default_face_mesh_tesselation_style</span><span class="p">())</span>
+                        <span class="n">s</span><span class="o">.</span><span class="n">mp_drawing</span><span class="o">.</span><span class="n">draw_landmarks</span><span class="p">(</span>
+                            <span class="n">image</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">image</span><span class="p">,</span>
+                            <span class="n">landmark_list</span><span class="o">=</span><span class="n">face_landmarks</span><span class="p">,</span>
+                            <span class="n">connections</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">mp_face_mesh</span><span class="o">.</span><span class="n">FACEMESH_CONTOURS</span><span class="p">,</span>
+                            <span class="n">landmark_drawing_spec</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                            <span class="n">connection_drawing_spec</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">mp_drawing_styles</span>
+                            <span class="o">.</span><span class="n">get_default_face_mesh_contours_style</span><span class="p">())</span>
+                        <span class="n">s</span><span class="o">.</span><span class="n">mp_drawing</span><span class="o">.</span><span class="n">draw_landmarks</span><span class="p">(</span>
+                            <span class="n">image</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">image</span><span class="p">,</span>
+                            <span class="n">landmark_list</span><span class="o">=</span><span class="n">face_landmarks</span><span class="p">,</span>
+                            <span class="n">connections</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">mp_face_mesh</span><span class="o">.</span><span class="n">FACEMESH_IRISES</span><span class="p">,</span>
+                            <span class="n">landmark_drawing_spec</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                            <span class="n">connection_drawing_spec</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">mp_drawing_styles</span>
+                            <span class="o">.</span><span class="n">get_default_face_mesh_iris_connections_style</span><span class="p">())</span>
 
-        <span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s1">&#39;MediaPipe Face Detection&#39;</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">image</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+            <span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s1">&#39;MediaPipe Face Detection&#39;</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">image</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="c1"># cv2.waitKey()</span>
         <span class="c1"># if (record):</span>
         <span class="c1">#     cv2.imwrite(results_dir + &quot;/camera_stream/&quot; + str(step).zfill(4) + &quot;.png&quot;, image)</span>
         <span class="c1">#</span>
@@ -1723,7 +1617,7 @@ captor.release()
 
 
 <h3 id="src.fast_cody.mediapipe_face_captor.mediapipe_face_captor.__init__" class="doc doc-heading">
-          <code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="n">R0</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">draw_landmarks</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
+          <code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="n">R0</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">draw_landmarks</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></code>
 
 </h3>
 
@@ -1769,7 +1663,7 @@ captor.release()
             </div>
           </td>
           <td>
-                <code>False</code>
+                <code>True</code>
           </td>
         </tr>
     </tbody>
@@ -1777,9 +1671,7 @@ captor.release()
 
           <details class="quote">
             <summary>Source code in <code>src\fast_cody\mediapipe_face_captor.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">45</span>
-<span class="normal">46</span>
-<span class="normal">47</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">47</span>
 <span class="normal">48</span>
 <span class="normal">49</span>
 <span class="normal">50</span>
@@ -1804,7 +1696,9 @@ captor.release()
 <span class="normal">69</span>
 <span class="normal">70</span>
 <span class="normal">71</span>
-<span class="normal">72</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">R0</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">draw_landmarks</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">R0</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">draw_landmarks</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1856,9 +1750,7 @@ captor.release()
 
           <details class="quote">
             <summary>Source code in <code>src\fast_cody\mediapipe_face_captor.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">126</span>
-<span class="normal">127</span>
-<span class="normal">128</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">128</span>
 <span class="normal">129</span>
 <span class="normal">130</span>
 <span class="normal">131</span>
@@ -1885,36 +1777,44 @@ captor.release()
 <span class="normal">152</span>
 <span class="normal">153</span>
 <span class="normal">154</span>
-<span class="normal">155</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">imshow</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">imshow</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Displays the image on the screen. If self.draw_landmarks is True, also draws landmarks on the face.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">draw_landmarks</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">multi_face_landmarks</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">face_landmarks</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">multi_face_landmarks</span><span class="p">:</span>
-                <span class="n">s</span><span class="o">.</span><span class="n">mp_drawing</span><span class="o">.</span><span class="n">draw_landmarks</span><span class="p">(</span>
-                    <span class="n">image</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">image</span><span class="p">,</span>
-                    <span class="n">landmark_list</span><span class="o">=</span><span class="n">face_landmarks</span><span class="p">,</span>
-                    <span class="n">connections</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">mp_face_mesh</span><span class="o">.</span><span class="n">FACEMESH_TESSELATION</span><span class="p">,</span>
-                    <span class="n">landmark_drawing_spec</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                    <span class="n">connection_drawing_spec</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">mp_drawing_styles</span>
-                    <span class="o">.</span><span class="n">get_default_face_mesh_tesselation_style</span><span class="p">())</span>
-                <span class="n">s</span><span class="o">.</span><span class="n">mp_drawing</span><span class="o">.</span><span class="n">draw_landmarks</span><span class="p">(</span>
-                    <span class="n">image</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">image</span><span class="p">,</span>
-                    <span class="n">landmark_list</span><span class="o">=</span><span class="n">face_landmarks</span><span class="p">,</span>
-                    <span class="n">connections</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">mp_face_mesh</span><span class="o">.</span><span class="n">FACEMESH_CONTOURS</span><span class="p">,</span>
-                    <span class="n">landmark_drawing_spec</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                    <span class="n">connection_drawing_spec</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">mp_drawing_styles</span>
-                    <span class="o">.</span><span class="n">get_default_face_mesh_contours_style</span><span class="p">())</span>
-                <span class="n">s</span><span class="o">.</span><span class="n">mp_drawing</span><span class="o">.</span><span class="n">draw_landmarks</span><span class="p">(</span>
-                    <span class="n">image</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">image</span><span class="p">,</span>
-                    <span class="n">landmark_list</span><span class="o">=</span><span class="n">face_landmarks</span><span class="p">,</span>
-                    <span class="n">connections</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">mp_face_mesh</span><span class="o">.</span><span class="n">FACEMESH_IRISES</span><span class="p">,</span>
-                    <span class="n">landmark_drawing_spec</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                    <span class="n">connection_drawing_spec</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">mp_drawing_styles</span>
-                    <span class="o">.</span><span class="n">get_default_face_mesh_iris_connections_style</span><span class="p">())</span>
+    <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">cap</span><span class="o">.</span><span class="n">isOpened</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">draw_landmarks</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">multi_face_landmarks</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">face_landmarks</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">multi_face_landmarks</span><span class="p">:</span>
+                    <span class="n">s</span><span class="o">.</span><span class="n">mp_drawing</span><span class="o">.</span><span class="n">draw_landmarks</span><span class="p">(</span>
+                        <span class="n">image</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">image</span><span class="p">,</span>
+                        <span class="n">landmark_list</span><span class="o">=</span><span class="n">face_landmarks</span><span class="p">,</span>
+                        <span class="n">connections</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">mp_face_mesh</span><span class="o">.</span><span class="n">FACEMESH_TESSELATION</span><span class="p">,</span>
+                        <span class="n">landmark_drawing_spec</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">connection_drawing_spec</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">mp_drawing_styles</span>
+                        <span class="o">.</span><span class="n">get_default_face_mesh_tesselation_style</span><span class="p">())</span>
+                    <span class="n">s</span><span class="o">.</span><span class="n">mp_drawing</span><span class="o">.</span><span class="n">draw_landmarks</span><span class="p">(</span>
+                        <span class="n">image</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">image</span><span class="p">,</span>
+                        <span class="n">landmark_list</span><span class="o">=</span><span class="n">face_landmarks</span><span class="p">,</span>
+                        <span class="n">connections</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">mp_face_mesh</span><span class="o">.</span><span class="n">FACEMESH_CONTOURS</span><span class="p">,</span>
+                        <span class="n">landmark_drawing_spec</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">connection_drawing_spec</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">mp_drawing_styles</span>
+                        <span class="o">.</span><span class="n">get_default_face_mesh_contours_style</span><span class="p">())</span>
+                    <span class="n">s</span><span class="o">.</span><span class="n">mp_drawing</span><span class="o">.</span><span class="n">draw_landmarks</span><span class="p">(</span>
+                        <span class="n">image</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">image</span><span class="p">,</span>
+                        <span class="n">landmark_list</span><span class="o">=</span><span class="n">face_landmarks</span><span class="p">,</span>
+                        <span class="n">connections</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">mp_face_mesh</span><span class="o">.</span><span class="n">FACEMESH_IRISES</span><span class="p">,</span>
+                        <span class="n">landmark_drawing_spec</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">connection_drawing_spec</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">mp_drawing_styles</span>
+                        <span class="o">.</span><span class="n">get_default_face_mesh_iris_connections_style</span><span class="p">())</span>
 
-    <span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s1">&#39;MediaPipe Face Detection&#39;</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">image</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+        <span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s1">&#39;MediaPipe Face Detection&#39;</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">image</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
           </details>
   </div>
@@ -1972,9 +1872,7 @@ captor.release()
 
           <details class="quote">
             <summary>Source code in <code>src\fast_cody\mediapipe_face_captor.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 76</span>
-<span class="normal"> 77</span>
-<span class="normal"> 78</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 78</span>
 <span class="normal"> 79</span>
 <span class="normal"> 80</span>
 <span class="normal"> 81</span>
@@ -2017,7 +1915,9 @@ captor.release()
 <span class="normal">118</span>
 <span class="normal">119</span>
 <span class="normal">120</span>
-<span class="normal">121</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">query_rotation</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">query_rotation</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -2087,10 +1987,10 @@ captor.release()
 
           <details class="quote">
             <summary>Source code in <code>src\fast_cody\mediapipe_face_captor.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">161</span>
-<span class="normal">162</span>
-<span class="normal">163</span>
-<span class="normal">164</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">release</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">release</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Releases the camera.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">cap</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
