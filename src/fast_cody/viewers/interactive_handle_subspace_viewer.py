@@ -55,6 +55,38 @@ class interactive_handle_subspace_viewer():
     max_fps : int
         maximum fps for the viewer
 
+    Examples
+    --------
+
+    Examples
+    --------
+    ```
+    import fast_cody as fcd
+    import numpy as np
+    num_modes = 16
+    num_clusters = 120
+    [V, F, T] = fcd.read_msh(fcd.get_data("cd_fish.msh"))
+    Wp = np.ones((V.shape[0], 1))
+    J = fcd.lbs_jacobian(V, Wp)
+    C = fcd.complementary_constraint_matrix(V, T, J, dt=1e-3)
+    Cd = fcd.lbs_weight_space_constraint(V, C)
+    [B, l, Ws] =fcd.skinning_subspace(V, T, num_modes,  num_clusters, C=Cd)
+    sim = fcd.fast_cd_sim(V, T, B, l, J, mu=1e4)
+    z0 = np.zeros((num_modes*12, 1))
+    T0 = np.identity(4).astype( dtype=np.float32, order="F");
+    p0 = T0[0:3, :].reshape((12, 1))
+    st = fcd.fast_cd_state(z0, p0)
+    step = 0
+    def pre_draw_callback():
+         global step
+         p = viewer.T0[0:3, :].reshape((-1, 1))
+         z = sim.step( p, st)
+         st.update(z, p)
+         viewer.update_subspace_coefficients(z, p)
+         step += 1
+    viewer = fcd.viewers.interactive_handle_subspace_viewer(V, T, Wp, Ws,  pre_draw_callback)
+    viewer.launch()
+    ```
     """
 
     def __init__(self, V, T, Wp, Ws,  pre_draw_callback,T0=None,

@@ -72,7 +72,7 @@ class fast_cd_sim():
     """
     Fast Complementary Dynamics Simulation, implementation of https://www.dgp.toronto.edu/projects/fast_complementary_dynamics_site/
     """
-    def __init__(self, V, T, B, l, J, mu=1e5, rho=1, h=1e-2, max_iters=30, threshold=1e-8,
+    def __init__(self, V, T, B, l, J, mu=1e4, rho=1e3, h=1e-2, max_iters=30, threshold=1e-8,
                  read_cache=False, cache_dir="", Aeq=None, write_cache=False):
         """
         Initializes a Fast Complementary Dynamics Simulation.
