@@ -3,6 +3,21 @@ import numpy as np
 
 
 def orthonormalize(B, M=None):
+    """
+    Orthonormalize a matrix B with respect to the mass matrix M by cutting off redundant columns.
+
+    Parameters
+    ----------
+    A : (n, d) float numpy array
+        Matrix to orthonormalize
+    M : (n, n) scipy sparse matrix
+        Mass matrix
+
+    Returns
+    -------
+     B : (n, d') float numpy array
+        Orthonormalized matrix satisfying B.T @ M @ B = I
+    """
     if M is None:
         M = sp.sparse.identity(B.shape[0])
     # M = sp.sparse.identity(B.shape[0])
@@ -20,11 +35,12 @@ def orthonormalize(B, M=None):
 
     sI = np.where(s > 1e-14)[0]
     S = np.diag(s)
-    B3 = U @ S[:, sI] @ V[sI, :][:, sI]
+    B2 = U @ S[:, sI] @ V[sI, :][:, sI]
+
+    B3 = Msqrti @ B2
 
     # sing = np.abs(R).sum(axis=0)
     # nonsing = np.abs(R).sum(axis=1) > 1e-12  # check which rows are singular
-    # B3 = Msqrti @ Q[:, nonsing]
 
     # Bmtest = np.hstack((Bm, Bm[:, [0]]))
     # [Bm2, R] = np.linalg.qr(Bmtest)

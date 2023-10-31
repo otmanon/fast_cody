@@ -11,6 +11,25 @@ rV: Vx3 the vertex geometry of the rig edge simplex
 rE: e x 2 the edge list of the rig edge simplex 
 '''
 def rig_curve_geometry(P0, pI):
+    """
+    From the global affine matrix of each bone, and each bone's parent index, make a bidirectional
+    edge simplex representing the rig
+
+    Parameters
+    ----------
+    P0 : (b, 3, 4) numpy float  array
+        The world affine matrix of each bone
+    pI : (b, 1)  numpy int array
+        The parent index of each bone
+
+    Returns
+    -------
+    rV : (V, 3) numpy float array
+        The vertex geometry of the rig edge simplex
+    rE : (e, 2) numpy int array
+        The edge list of the rig edge simplex
+
+    """
 
     assert(pI.shape[0] > 1)
     assert(P0.shape[0] == pI.shape[0])

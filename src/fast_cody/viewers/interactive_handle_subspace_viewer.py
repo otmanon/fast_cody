@@ -28,6 +28,35 @@ t0 - initial mesh translation (to align the textured mesh with)
 s0 - initial mesh scale (to align the textured mesh with)
 '''
 class interactive_handle_subspace_viewer():
+    """
+    Viewer for interactive affine handle app. This viewer updates the draw call by sending
+    the full space mesh and rig parameters to the GPU, and then does the full space projection
+
+    Parameters
+    ----------
+    V : (n, 3) float numpy array
+        vertex positions
+    T : (f, 3) int numpy array
+        triangle indices
+    guizmo_callback : function
+        callback function for guizmo widget
+    pre_draw_callback : function
+        callback function for pre-draw step
+    texture_png : str
+        path to texture png file
+    texture_obj : str
+        path to texture obj file
+    t0 : (3,) float numpy array
+        initial mesh translation (to align the textured mesh with)
+    s0 : float
+        initial mesh scale (to align the textured mesh with)
+    init_guizmo : bool
+        whether to initialize the guizmo widget
+    max_fps : int
+        maximum fps for the viewer
+
+    """
+
     def __init__(self, V, T, Wp, Ws,  pre_draw_callback,T0=None,
                  texture_png=None, texture_obj=None, t0=None, s0=None, init_guizmo=True, max_fps=60):
         vertex_shader_path = fast_cody.get_shader("./vertex_shader_16.glsl")

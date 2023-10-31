@@ -1,22 +1,22 @@
 import scipy as sp
 import numpy as np
 from .orthonormalize import orthonormalize
-'''
-Linear Blend Skinning Weight Space Constraint
+def lbs_weight_space_constraint(V, C):
+    """ Rewrites a linear equality constraint that acts on per-vertex displacements (CU(W) = 0)
+        to instead act on the per-vertex skinning weights  (AW = 0).
 
-converts a constraint matrix that acts on displacements 3n,
-to act instead on the n skinning weights 
+    Parameters
+    ----------
+    V : (n, d) float numpy array
+        Mesh vertices
+    C : (c, dn) float numpy array
+        Linear equality constraint matrix that acts on per-vertex displacements
 
-Inputs:
-V: n x 3 vertices
-W: n x d skinning weights... dont think we need this
-C: c x 3n constraints
-
-Outputs:
-C2 : n x c' constraints in weight space with redundnat rows removed
-
-'''
-def lbs_weight_space_constraint(V, C, M=None):
+    Returns
+    -------
+    A : (n, c') float numpy array
+        Linear equality constraint matrix that acts on per-vertex skinning weights
+    """
     C = C.T
     n = V.shape[0]
     d = V.shape[1]
@@ -33,18 +33,11 @@ def lbs_weight_space_constraint(V, C, M=None):
             Vj = V[:, j]
             Adj = C.T @ Pd @ sp.sparse.diags(Vj, 0)
             A = np.vstack([A, Adj])
-        #j+1
         Ad1 = C.T @ Pd
         A = np.vstack([A, Ad1])
 
-    # form basis, remove redundant rows
     W = A
-
     W2 = orthonormalize(W.T).T
-    # [u, s, v] = np.linalg.svd(W)
-    # ii = np.where(s > 1e-9)[0]
-    # W2 = u[:, ii]# @ np.diag(s[ii])
-
 
 
 

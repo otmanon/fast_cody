@@ -21,7 +21,21 @@ Assumes column-major flattening.
 
 '''
 def vectorized_transpose(n, d):
+    """
+    Given a flattened stack of n  dxd matrices, computes the transpose operator
 
+    Parameters
+    ----------
+    n : int
+        Number of matrices
+    d : int
+        Dimension of matrices
+
+    Returns
+    -------
+    T : (n*d*d, n*d*d) scipy sparse matrix
+        Vectorized transpose operator
+    """
     ii = np.arange(n*d*d)
     Mi = np.reshape(ii, (n*d, d))
 

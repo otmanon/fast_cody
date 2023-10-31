@@ -1,7 +1,20 @@
 
 import numpy as np
 def world2rel(P, P0):
+    """
+    Converts world coordinates to relative coordinates
+    Parameters
+    ----------
+    P : (frames, b, 3, 4) float numpy array
+        World transformation of each bone
+    P0 : (b, 3, 4) float numpy array
+        World transformation of each bone at the first frame
 
+    Returns
+    -------
+    Prel : (frames, b, 3, 4) float numpy array
+        Relative transformation of each bone
+    """
     frames = P.shape[0]
     k = P0.shape[0]
 

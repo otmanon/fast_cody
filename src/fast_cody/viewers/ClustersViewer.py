@@ -5,13 +5,47 @@ import polyscope as ps
 
 import time
 
-from fast_cody.rig_geometry import rig_geometry
 
 import polyscope.imgui as psim
 class ClustersViewer():
+    """
+    This class is used to visualize the clusters of a mesh using polyscope.
+
+    Parameters
+    ----------
+    V : float numpy array
+        n x 3 vertex positions
+    T : int numpy array
+        m x 4 tetrahedra indices
+    l : int numpy array
+        T x 1  per-tet cluster indices.
+    eye_pos : float numpy array
+        3 x 1 position of the camera
+    eye_target : float numpy array
+        3 x 1 position of the camera target
+    path : str
+        path to save the images to
+    R : float numpy array
+        3 x 3 rotation matrix to apply to the mesh
+    period : float
+        time between frames
+    vminmax : float numpy array
+        2 x 1 min and max values for the color map
+    alpha : float
+        transparency of the mesh
+    grouped : bool
+        whether to group the clusters or not
+
+    Examples
+    --------
+    >>> import fast_cody as fcd
+    >>> [V, F, T] = fcd.read_msh(fcd.get_data("cd_fish.msh"))
+    >>> [B, l, Ws] = fcd.skinning_subspace(V, T, 10, 100)
+    >>> fcd.viewers.ClustersViewer(V, T, l)
+    """
     def __init__(self, V, T, l,
-              eye_pos = [0, 0, 0],
-              eye_target = [0, 5, 5],
+              eye_pos = [2, 2, 2],
+              eye_target = [0,0, 0],
               path="",
               R=np.identity(3), period=1/60,
                  vminmax=None, alpha=1, grouped=True):
@@ -22,6 +56,8 @@ class ClustersViewer():
 
         nc = np.max(l)+1
         ps.init()
+        ps.look_at(eye_pos, eye_target)
+
         self.grouped = grouped
         self.V = V
         self.T = T
@@ -62,7 +98,6 @@ class ClustersViewer():
                     self.id = ID
                     ind = self.l == ID
                     self.create_mesh(self.V @ self.R.T, self.T[ind, :], self.l[ind])
-
         else:
             if (self.i < self.max_frame):
                 mesh = self.mesh

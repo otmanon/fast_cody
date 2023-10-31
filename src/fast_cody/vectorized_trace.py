@@ -8,6 +8,23 @@ of each of these matrices.
 Assumes column-major flattening.
 '''
 def vectorized_trace(n, d):
+    """
+    Given a flattened stack of n  dxd matrices, computes the trace operator
+    that, when applied to this stack, returns another flattened stack of n values containing the traces
+    of each of these matrices.
+
+    Parameters
+    ----------
+    n : int
+        Number of matrices
+    d : int
+        Dimension of matrices
+
+    Returns
+    -------
+    T : (n, n*d*d) scipy sparse matrix
+
+    """
     # trace of matrix i will have elements i, then n+i + 1, 2n+i+2
 
     ii = np.arange(n * d * d)

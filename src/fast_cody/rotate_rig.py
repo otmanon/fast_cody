@@ -1,6 +1,22 @@
 
 import numpy as np
 def rotate_rig(P, R):
+    """
+    Rotates a rig by a rotation matrix R
+
+    Parameters
+    ----------
+    P : (b, 3, 4) float numpy array
+        World transformation of each bone
+    R : (3, 3) float numpy array
+        Rotation matrix
+
+    Returns
+    -------
+    Prot : (b, 3, 4) float numpy array
+        Rotated world transformation of each bone
+
+    """
     k = P.shape[0]
     if (len(P.shape) == 3):
         k = P.shape[0]

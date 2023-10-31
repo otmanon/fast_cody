@@ -2,4 +2,4 @@
 title: "eigs"
 ---
 
-::: src.fast_cd.eigs
+::: src.fast_cody.eigs

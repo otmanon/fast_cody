@@ -20,7 +20,7 @@ plugins:
     default_handler: python
     handlers:
       python:
-        paths: [src, src/fast_cd]
+        paths: [src, src/fast_cody]
         options:
           heading_level: 2
           show_root_toc_entry: false
@@ -28,8 +28,8 @@ plugins:
           show_signature_annotations: false
           # show_signature: false
           docstring_style: "numpy"
-repo_url: https://github.com/otmanon/fast_cd_pyb/
-repo_name: otmanon/fast_cd_pyb/
+repo_url: https://github.com/otmanon/fast_cody/
+repo_name: otmanon/fast_cody/
 extra:
   analytics:
     provider: google

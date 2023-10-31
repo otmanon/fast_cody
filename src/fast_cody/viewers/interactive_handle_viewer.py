@@ -6,6 +6,31 @@ import igl as igl
 import fast_cd_pyb as fcd
 
 class interactive_handle_viewer():
+    """
+    Viewer for interactive affine handle app. This viewer updates the draw call by sending
+    the full space mesh and rig parameters to the GPU, and then does the full space projection
+
+    Parameters
+    ----------
+    V : (n, 3) float numpy array
+        vertex positions
+    T : (f, 3) int numpy array
+        triangle indices
+    T0 : (4, 4) float numpy array
+        initial rig transform in world space
+    guizmo_callback : function
+        callback function for guizmo widget
+    pre_draw_callback : function
+        callback function for pre-draw step
+    texture_png : str
+        path to texture png file
+    texture_obj : str
+        path to texture obj file
+    t0 : (3,) float numpy array
+        initial mesh translation (to align the textured mesh with)
+    s0 : float
+        initial mesh scale (to align the textured mesh with)
+    """
     def __init__(self, V, T, T0, guizmo_callback, pre_draw_callback,
                  texture_png=None, texture_obj=None, t0=None, s0=None):
         viewer = fcd.fast_cd_viewer()

@@ -11,9 +11,37 @@ def exponential_smoothing(a, x, x_prev):
 
 
 class OneEuroFilter:
+    """
+    One Euro Filter for smoothing signals, taken from https://github.com/HoBeom/OneEuroFilter-Numpy
+
+    Examples
+    --------
+    ```
+    >>> from fast_cody import OneEuroFilter
+    >>> x0 = np.zeros((3, 1))
+    >>> f = OneEuroFilter(x0)
+    >>> x = np.random.rand(3, 1)
+    >>> x_filtered = f(x)
+    ```
+    """
     def __init__(self, x0, dx0=0.0, min_cutoff=1.0, beta=0.0,
                  d_cutoff=1.0):
-        """Initialize the one euro filter."""
+        """Initialize the one euro filter.
+
+        Parameters
+        ----------
+        x0 : float
+            Initial value for the filtered signal.
+        dx0 : float
+            Initial value for the derivative.
+        min_cutoff : float
+            Minimum cutoff frequency.
+        beta : float
+            Cutoff slope.
+        d_cutoff : float
+            Cutoff frequency for the derivate.
+
+        """
         # The parameters.
         self.data_shape = x0.shape
         self.min_cutoff = np.full(x0.shape, min_cutoff)

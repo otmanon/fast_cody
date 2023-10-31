@@ -3,34 +3,53 @@ import scipy as sp
 import os
 import igl
 
-from .arap_hessian import arap_hessian
 from .laplacian_eigenmodes import laplacian_eigenmodes
 from .skinning_clusters import skinning_clusters
 from .lbs_jacobian import lbs_jacobian
 from .orthonormalize import orthonormalize
 
-''' 
-Constructs a physics subspace corresponding with skinning eigenmodes and skinning clusters
-Inputs:
-    X: V x 3 vertex positions
-    T: F x 4 tet indices
-    num_modes: number of modes to use
-    num_clusters: number of clusters to use
-    
-(Optional)
-    cache_dir: directory to cache results in (default None)
-    read_cache: whether to read from cache or not (default False)
-    C : 3n x c constarint matrix that acts on the skinning weights (default None)
-    constraint_enforcement : method of enforcing constraint. Either "project" or "optimal"
-                        for python, default is "project", because optimal makes eigendecomposition take way too long.
-Outputs:
-    B: 3n x 12m  subspace matrix
-    l: F x 1 cluster indices
-    W: n x m skinning weights
-'''
+
 def skinning_subspace(X, T, num_modes, num_clusters,
                       cache_dir=None, read_cache=False,
-                      ortho=True, mu=None, C=None, constraint_enforcement="project"):
+                      ortho=True, mu=None, C=None, constraint_enforcement="optimal"):
+    """
+    Constructs a physics subspace corresponding with skinning eigenmodes and skinning clusters
+
+    Parameters
+    ----------
+    X : (n, 3) float numpy array
+        Vertex positions
+    T : (t, 4) int numpy array
+        Tet indices
+    num_modes : int
+        Number of modes to use
+    num_clusters : int
+        Number of clusters to use
+    cache_dir : str
+        Directory to cache results in
+    read_cache : bool
+        Whether to read from cache or not
+    ortho : bool
+        Whether to orthonormalize the subspace
+    mu : float numpy array
+        Per-tet conducivity. If None, sets it to 1.0 everyewhere
+    C : (3n, c) float numpy array
+        Constraint matrix we desire on our weights s.t. C.T @ W = 0
+    constraint_enforcement : str
+        Method of enforcing constraint. Either "project" or "optimal"
+
+    Returns
+    -------
+    B : (3n, m) float numpy array
+        Subspace matrix/Eigenvectors of laplacian.
+    l : (t, 1) int numpy array
+        Cluster indices
+    W : (n, m) float numpy array
+        Skinning weights
+
+
+    """
+
     dim = X.shape[1]
 
     if cache_dir is not None:

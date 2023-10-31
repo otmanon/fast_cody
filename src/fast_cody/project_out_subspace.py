@@ -28,6 +28,37 @@ Returns:
     A2 - n x m' subspace matrix, where m' <= m
 '''
 def project_out_subspace(A, B, M=None):
+    """ Performs a least squares projection on subspace A so that it does not span space B.
+    Finds C as close as possible to A such that C is orthogonal to B.
+    ```
+        argmin_C ||C - A||^2_F st. C^T B = 0
+        ||C - A||^2_F st. C^T B = 0
+        C'MC - 2 C'MA + mu' C'B
+
+        [ M  B ] [ C ]  = [ MA ]
+        [ B' 0 ] [ mu ]   [ 0 ]
+
+        C = M^-1 (MA - B mu)
+        B' C = 0 -> B' M^-1 (MA - B mu) = 0 ->  mu = ( B' M^-1 B) B' A
+        C = A - M^-1 B  (B' M^-1 B)^(-1) B' A
+    ```
+
+    Parameters
+    ----------
+    A : (n, m) float numpy array
+        Subspace of interes.
+    B : (n, k) float numpy array
+        Subspace to project out. We want C to be orthogonal to B
+    M : (n, n) float numpy array
+        Mass matrix defining the metric for projection. If None, set to identity matrix
+
+    Returns
+    -------
+    C : (n, m) float numpy array
+        Projection of A
+
+    """
+
 
     assert(B.shape[0] == A.shape[0])
     if M is None:

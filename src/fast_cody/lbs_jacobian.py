@@ -1,15 +1,21 @@
 import numpy as np
 
-'''
-Linear Blend Skinning Jacobian
-Input:
-    V: vertices of the mesh (n x d)
-    W: weights of the mesh (n x k)
-Output:
-    J: (nd x d(d+1)k linear blend skinning Jacobian matrix
-'''
 def lbs_jacobian(V, W):
+    """ Linear Blend Skinning Jacobian
 
+        Parameters
+        ----------
+        V : (n, d) numpy float array
+            Mesh vertices
+        W : (n, k) numpy float array
+            Mesh skinning weights
+
+        Returns
+        -------
+        J : (nd, d(d+1)k) numpy float array
+            Linear blend skinning Jacobian matrix
+
+    """
     n = V.shape[0]
     d = V.shape[1]
     k = W.shape[1]

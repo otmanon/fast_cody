@@ -4,14 +4,7 @@ import numpy as np
 
 import fast_cd_pyb as fcd
 
-''' 
-Simulation state for a Fast CD Simulation.
-For Fast CD, the state is comprised of 4 quantities:
-1. z_curr: the current state of the reduced secondary motion
-2. p_curr: the current state of the rig parameters
-3. z_prev: the previous state of the reduced secondary motion
-4. p_prev: the previous state of the rig parameters
-'''
+
 class fast_cd_state(fcd.cd_sim_state):
     """
     Simulation state for a Fast Complementary Dynamics Simulation
@@ -22,18 +15,6 @@ class fast_cd_state(fcd.cd_sim_state):
         z_prev: the previous state of the reduced secondary motion
         p_prev: the previous state of the rig parameters
     """
-    '''
-    Sets both current and previous simulation state to
-    (z0, p0)ate of simulation to z_curr and p_curr
-
-    Inputs:
-    z_curr - m x 1 reduced space coefficients for subspace sim
-    p_curr - 12b x 1 rig parameters
-
-    (Optional)
-    z_prev - m x 1 reduced space coefficients for subspace sim
-    p_prev - 12 b x 1 rig parameters for subspace sim
-    '''
     def __init__(self, z_curr, p_curr, z_prev=None, p_prev=None):
         """
         Sets current and previous simulation states
@@ -91,26 +72,6 @@ class fast_cd_sim():
     """
     Fast Complementary Dynamics Simulation, implementation of https://www.dgp.toronto.edu/projects/fast_complementary_dynamics_site/
     """
-
-
-    '''
-    Inputs:
-    V - n x 3 vertex positions
-    T - F x 4 tet indices
-    B - 3n x m subspace matrix
-    l - F x 1 cluster labels
-    J - 3n x 12b LBS rig jacobian
-    mu - scalar first lame parameter
-    rho - scalar density
-    h - scalar timestep
-
-    max_iters - maximum number of iterations for the local-global solver
-    threshold - convergence threshold for local global solver
-    read_cache - whether to read simulation precomp from cache (default=False)
-    cache_dir - directory to read/write cache from/to (default="")
-    Aeq - c x m constraint matrix (default empty)
-
-    '''
     def __init__(self, V, T, B, l, J, mu=1e5, rho=1, h=1e-2, max_iters=30, threshold=1e-8,
                  read_cache=False, cache_dir="", Aeq=None, write_cache=False):
         """

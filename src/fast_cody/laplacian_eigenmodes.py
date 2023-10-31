@@ -58,8 +58,6 @@ def laplacian_eigenmodes(V, T, m, read_cache=False, cache_dir=None, J=None,
         Subspace matrix/Eigenvectors of laplacian.
     E : (m, 1) float numpy array
         Eigenvalues of each eigenvector
-
-
     """
     if read_cache:
         B = np.load(cache_dir + "/B.npy")

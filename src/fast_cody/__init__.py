@@ -15,7 +15,6 @@ from .linear_elasticity_hessian import linear_elasticity_hessian
 from .normalize_height_and_center import normalize_height_and_center
 from .orthonormalize import orthonormalize
 from .project_into_subspace import project_into_subspace
-from .project_to_orthogonal import project_to_orthogonal
 from .read_rig_from_json import read_rig_from_json
 from .read_rig_anim_from_json import read_rig_anim_from_json
 from .rig_curve_geometry import rig_curve_geometry
@@ -35,6 +34,7 @@ from .fast_cd_sim import fast_cd_sim, fast_cd_state
 from .one_euro_filter import OneEuroFilter
 from .mediapipe_face_captor import mediapipe_face_captor
 from .world2rel import world2rel
+from .read_msh import read_msh
 
 #Apps
 from .apps.interactive_cd_rig_anim import interactive_cd_rig_anim
@@ -45,6 +45,7 @@ from .apps.interactive_cd_affine_handle import interactive_cd_affine_handle
 from .viewers.WeightsViewer import WeightsViewer
 from .viewers.ClustersViewer import ClustersViewer
 from .viewers.interactive_handle_subspace_viewer import interactive_handle_subspace_viewer
+from .viewers.interactive_handle_viewer import interactive_handle_viewer
 
 # set data path and shaders path
 import os

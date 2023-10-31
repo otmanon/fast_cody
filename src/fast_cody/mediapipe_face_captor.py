@@ -7,6 +7,7 @@ from fast_cody import OneEuroFilter
 
 
 
+
 #edge indices, libigl style
 FE = np.array([[10, 338], [338, 297], [297, 332], [332, 284],
                                 [284, 251], [251, 389], [389, 356], [356, 454],
@@ -26,18 +27,30 @@ def face_landmarks_to_positions(face_landmarks):
         ind += 1
     return V
 
-'''
-This class wraps and organizes mediapipe to provide an interface that 
-allows for easy access to facial quantities
-'''
 class mediapipe_face_captor():
+    """ Wrapper for mediapipe face capture.
 
-    '''
-    R0: initial rotation matrix (defualt identity(3))
-    draw_landmarks: whether to draw landmarks on the image (default=False). Slows down the app if true
-    '''
 
+    Example
+    -------
+    ```
+    captor = mediapipe_face_captor()
+    for i in range(100):
+        [R, info] = captor.query_rotation()
+        captor.imshow()
+        print(R)
+    captor.release()
+    ```
+    """
     def __init__(self, R0=None, draw_landmarks=False):
+        """
+        Parameters
+        ----------
+        R0 : 3x3 float numpy array
+            Initial rotation matrix used when face is not detected.
+        draw_landmarks : bool
+            Whether to draw landmarks on the image. Slows down the app if true
+        """
         if R0 is None:
             R0 = np.identity(3)
         self.R0 = R0
@@ -59,14 +72,16 @@ class mediapipe_face_captor():
         self.multi_face_landmarks = None
 
 
-    '''
-    Queries the current face capture rotation
-    
-    Returns:
-        R: 3x3 current rotation matrix
-        info - dict containing 'image', 'multi_face_landmarks', and a 'calibrated' key
-    '''
+
     def query_rotation(s):
+        """
+        Returns
+        -------
+        R : 3x3 float numpy array
+            Current rotation matrix.
+        info : dict
+            Dictionary containing 'image', 'multi_face_landmarks', and a 'calibrated' key.
+        """
         R = s.R0
         with s.mp_face_mesh.FaceMesh(
             max_num_faces=1,
@@ -109,6 +124,9 @@ class mediapipe_face_captor():
     displays the image
     '''
     def imshow(s):
+        """
+        Displays the image on the screen. If self.draw_landmarks is True, also draws landmarks on the face.
+        """
         if s.draw_landmarks:
             if s.multi_face_landmarks:
                 for face_landmarks in s.multi_face_landmarks:
@@ -133,15 +151,14 @@ class mediapipe_face_captor():
                         landmark_drawing_spec=None,
                         connection_drawing_spec=s.mp_drawing_styles
                         .get_default_face_mesh_iris_connections_style())
-    # Flip the image horizontally for a selfie-view display.
 
         cv2.imshow('MediaPipe Face Detection', cv2.flip(s.image, 1))
         # if (record):
         #     cv2.imwrite(results_dir + "/camera_stream/" + str(step).zfill(4) + ".png", image)
         #
 
-    '''
-    Called when closing the face captor
-    '''
+
     def release(self):
+        """ Releases the camera.
+        """
         self.cap.release()

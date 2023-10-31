@@ -2,4 +2,4 @@
 title: "laplacian"
 ---
 
-::: src.fast_cd.laplacian
+::: src.fast_cody.laplacian

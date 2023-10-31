@@ -16,7 +16,32 @@ Outputs:
     SF: 7b x b selection matrix mapping rig geometry to faces
 '''
 def rig_geometry(P, lengths, s=0.1, return_selection_matrices=False):
+    """
+    Generates a pyramid-like geometry for each rig bone
 
+    Parameters
+    ----------
+    P : (b, 3, 4) float numpy array
+        World transformation of each bone
+    lengths : (b, 1) float numpy array
+        Length of each bone
+    s : float, optional
+        Scale of the pyramid
+    return_selection_matrices : bool
+        If True, returns selection matrices mapping bone to rig geometry (default False)
+
+    Returns
+    -------
+    rV : (5b, 3) numpy float array
+        Vertices of rig geometry
+    rF : (7b, 3) numpy float array
+        Faces of rig geometry.
+    SV : (5b, b) scipy sparse matrix
+        Selection matrix mapping rig geometry to bones. Only returns if return_selection_matrices is True
+    SF : (7b, b) scipy sparse matrix
+        Selection matrix mapping rig geometry to faces. Only returns if return_selection_matrices is True
+
+    """
     if (P.ndim == 2):
         P = P[None, :,  :]
     #make standard tetrahedron with square base vertices, pointed upwards
