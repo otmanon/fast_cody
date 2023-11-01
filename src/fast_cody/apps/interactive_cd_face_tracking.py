@@ -39,7 +39,7 @@ def interactive_cd_face_tracking(msh_file=None, Wp=None, bI=0, Ws=None, l=None, 
                                  constraint_enforcement="optimal",
                                  results_dir=None, read_cache=False,
                                  texture_png=None, texture_obj=None,
-                                 draw_landmarks=True):
+                                 draw_landmarks=False):
     """
     Runs a standard interactive fast CD simulation, where the user can manipulate a single affine
     handle with a mediapipe face tracker in real time.

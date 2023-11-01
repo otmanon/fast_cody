@@ -44,7 +44,7 @@ class mediapipe_face_captor():
     captor.release()
     ```
     """
-    def __init__(self, R0=None, draw_landmarks=True):
+    def __init__(self, R0=None, draw_landmarks=False):
         """
         Parameters
         ----------

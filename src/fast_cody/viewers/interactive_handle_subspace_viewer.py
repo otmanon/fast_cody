@@ -99,6 +99,8 @@ class interactive_handle_subspace_viewer():
         print("  c        Toggle Secondary Motion")
 
         print("  g        Toggle Guizmo Widget Transform")
+
+        # TODO q for quit
         F = igl.boundary_facets(T)
         vis_texture = False
         if texture_png is not None and texture_obj is not None:
@@ -165,6 +167,8 @@ class interactive_handle_subspace_viewer():
                     s.transform = "scale"
                 elif (s.transform == "scale"):
                     s.transform = "translate"
+
+                viewer.set_guizmo_transform(s.transform)
             else:
                 print("Guizmo not initialized, pass init_guizmo=True to the viewer constructor")
         if (key == ord('c') or key==ord('C') ):
