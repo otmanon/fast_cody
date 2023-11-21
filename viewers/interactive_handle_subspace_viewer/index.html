@@ -1560,7 +1560,11 @@ viewer.launch()
 <span class="normal">177</span>
 <span class="normal">178</span>
 <span class="normal">179</span>
-<span class="normal">180</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">interactive_handle_subspace_viewer</span><span class="p">():</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">interactive_handle_subspace_viewer</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Viewer for interactive affine handle app. This viewer updates the draw call by sending</span>
 <span class="sd">    the full space mesh and rig parameters to the GPU, and then does the full space projection</span>
@@ -1632,6 +1636,8 @@ viewer.launch()
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  c        Toggle Secondary Motion&quot;</span><span class="p">)</span>
 
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  g        Toggle Guizmo Widget Transform&quot;</span><span class="p">)</span>
+
+        <span class="c1"># TODO q for quit</span>
         <span class="n">F</span> <span class="o">=</span> <span class="n">igl</span><span class="o">.</span><span class="n">boundary_facets</span><span class="p">(</span><span class="n">T</span><span class="p">)</span>
         <span class="n">vis_texture</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="k">if</span> <span class="n">texture_png</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">texture_obj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -1698,6 +1704,8 @@ viewer.launch()
                     <span class="n">s</span><span class="o">.</span><span class="n">transform</span> <span class="o">=</span> <span class="s2">&quot;scale&quot;</span>
                 <span class="k">elif</span> <span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">transform</span> <span class="o">==</span> <span class="s2">&quot;scale&quot;</span><span class="p">):</span>
                     <span class="n">s</span><span class="o">.</span><span class="n">transform</span> <span class="o">=</span> <span class="s2">&quot;translate&quot;</span>
+
+                <span class="n">s</span><span class="o">.</span><span class="n">viewer</span><span class="o">.</span><span class="n">change_guizmo_op</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">transform</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Guizmo not initialized, pass init_guizmo=True to the viewer constructor&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">key</span> <span class="o">==</span> <span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">key</span><span class="o">==</span><span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;C&#39;</span><span class="p">)</span> <span class="p">):</span>

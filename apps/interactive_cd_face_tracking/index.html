@@ -1213,7 +1213,7 @@
 
 
 <h2 id="src.fast_cody.apps.interactive_cd_face_tracking.interactive_cd_face_tracking" class="doc doc-heading">
-          <code class="highlight language-python"><span class="n">interactive_cd_face_tracking</span><span class="p">(</span><span class="n">msh_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">Wp</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bI</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">Ws</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mf">10000.0</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="mf">1000.0</span><span class="p">,</span> <span class="n">num_modes</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">num_clusters</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">constraint_enforcement</span><span class="o">=</span><span class="s1">&#39;optimal&#39;</span><span class="p">,</span> <span class="n">results_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">read_cache</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">texture_png</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">texture_obj</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">draw_landmarks</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></code>
+          <code class="highlight language-python"><span class="n">interactive_cd_face_tracking</span><span class="p">(</span><span class="n">msh_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">Wp</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bI</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">Ws</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mf">10000.0</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="mf">1000.0</span><span class="p">,</span> <span class="n">num_modes</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">num_clusters</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">constraint_enforcement</span><span class="o">=</span><span class="s1">&#39;optimal&#39;</span><span class="p">,</span> <span class="n">results_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">read_cache</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">texture_png</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">texture_obj</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">draw_landmarks</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
 
 </h2>
 
@@ -1419,7 +1419,7 @@ if None and if texture_obj is None, then no texturing is applied. (default=None)
             </div>
           </td>
           <td>
-                <code>True</code>
+                <code>False</code>
           </td>
         </tr>
     </tbody>
@@ -1554,7 +1554,7 @@ if None and if texture_obj is None, then no texturing is applied. (default=None)
                                  <span class="n">constraint_enforcement</span><span class="o">=</span><span class="s2">&quot;optimal&quot;</span><span class="p">,</span>
                                  <span class="n">results_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">read_cache</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                                  <span class="n">texture_png</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">texture_obj</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                                 <span class="n">draw_landmarks</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+                                 <span class="n">draw_landmarks</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Runs a standard interactive fast CD simulation, where the user can manipulate a single affine</span>
 <span class="sd">    handle with a mediapipe face tracker in real time.</span>

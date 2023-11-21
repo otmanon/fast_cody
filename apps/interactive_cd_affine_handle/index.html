@@ -1213,7 +1213,7 @@
 
 
 <h2 id="src.fast_cody.apps.interactive_cd_affine_handle.interactive_cd_affine_handle" class="doc doc-heading">
-          <code class="highlight language-python"><span class="n">interactive_cd_affine_handle</span><span class="p">(</span><span class="n">msh_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">Ws</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mf">10000.0</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="mf">1000.0</span><span class="p">,</span> <span class="n">num_modes</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">num_clusters</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">constraint_enforcement</span><span class="o">=</span><span class="s1">&#39;optimal&#39;</span><span class="p">,</span> <span class="n">results_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">read_cache</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">texture_png</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">texture_obj</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+          <code class="highlight language-python"><span class="n">interactive_cd_affine_handle</span><span class="p">(</span><span class="n">msh_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">Ws</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mf">10000.0</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="mf">1000.0</span><span class="p">,</span> <span class="n">num_modes</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">num_clusters</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">constraint_enforcement</span><span class="o">=</span><span class="s1">&#39;optimal&#39;</span><span class="p">,</span> <span class="n">cache_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">results_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">read_cache</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">texture_png</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">texture_obj</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 </h2>
 
@@ -1322,7 +1322,7 @@ if "optimal", performs the full constrained GEVP described in the paper.</p>
           </td>
         </tr>
         <tr>
-          <td><code>results_dir</code></td>
+          <td><code>cache_dir</code></td>
           <td>
                 <code>str</code>
           </td>
@@ -1391,9 +1391,7 @@ if None and if texture_obj is None, then no texturing is applied.</p>
 
           <details class="quote">
             <summary>Source code in <code>src\fast_cody\apps\interactive_cd_affine_handle.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 39</span>
-<span class="normal"> 40</span>
-<span class="normal"> 41</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 41</span>
 <span class="normal"> 42</span>
 <span class="normal"> 43</span>
 <span class="normal"> 44</span>
@@ -1483,10 +1481,13 @@ if None and if texture_obj is None, then no texturing is applied.</p>
 <span class="normal">128</span>
 <span class="normal">129</span>
 <span class="normal">130</span>
-<span class="normal">131</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">interactive_cd_affine_handle</span><span class="p">(</span><span class="n">msh_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">Ws</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mf">1e4</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="mf">1e3</span><span class="p">,</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">interactive_cd_affine_handle</span><span class="p">(</span><span class="n">msh_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">Ws</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mf">1e4</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="mf">1e3</span><span class="p">,</span>
                                  <span class="n">num_modes</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">num_clusters</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
                                  <span class="n">constraint_enforcement</span><span class="o">=</span><span class="s2">&quot;optimal&quot;</span><span class="p">,</span>
-                                 <span class="n">results_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">read_cache</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                 <span class="n">cache_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">results_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">read_cache</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                                  <span class="n">texture_png</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">texture_obj</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Runs a standard interactive fast CD simulation, where the user can manipulate a single affine</span>
@@ -1507,7 +1508,7 @@ if None and if texture_obj is None, then no texturing is applied.</p>
 <span class="sd">    constraint_enforcements : str</span>
 <span class="sd">        {&quot;project&quot;, &quot;optimal&quot;}.</span>
 <span class="sd">        if &quot;optimal&quot;, performs the full constrained GEVP described in the paper.</span>
-<span class="sd">    results_dir : str</span>
+<span class="sd">    cache_dir : str</span>
 <span class="sd">        directory where results are stored and where cache is stored. if None, then</span>
 <span class="sd">    read_cache : bool</span>
 <span class="sd">        whether to read skinning modes from cache or not (default=False)</span>
@@ -1535,7 +1536,8 @@ if None and if texture_obj is None, then no texturing is applied.</p>
     <span class="n">msh_file</span> <span class="o">=</span> <span class="n">msh_file</span>
     <span class="k">if</span> <span class="n">results_dir</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">results_dir</span> <span class="o">=</span> <span class="s2">&quot;./results/interactive_cd_affine_handle/&quot;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span>
-    <span class="n">cache_dir</span> <span class="o">=</span> <span class="n">results_dir</span> <span class="o">+</span> <span class="s2">&quot;/cache/&quot;</span>
+    <span class="k">if</span> <span class="n">cache_dir</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">cache_dir</span> <span class="o">=</span> <span class="s2">&quot;./data/&quot;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;/cache/&quot;</span>
     <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">cache_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="p">[</span><span class="n">V</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">T</span><span class="p">]</span> <span class="o">=</span> <span class="n">fcd</span><span class="o">.</span><span class="n">readMSH</span><span class="p">(</span><span class="n">msh_file</span><span class="p">)</span>
     <span class="p">[</span><span class="n">V</span><span class="p">,</span> <span class="n">so</span><span class="p">,</span> <span class="n">to</span><span class="p">]</span> <span class="o">=</span> <span class="n">fcd</span><span class="o">.</span><span class="n">scale_and_center_geometry</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>  <span class="mf">0.</span><span class="p">]]))</span> <span class="c1">#center to unit height and about origin</span>

@@ -1138,7 +1138,7 @@
 <h1 id="fast-complementary-dynamics">Fast Complementary Dynamics</h1>
 <p>This is the documentation page for the source code for <a href="https://www.dgp.toronto.edu/projects/fast_complementary_dynamics_site/">Fast Complementary Dynamics
 via Skinning Eigenmodes</a>.</p>
-<p>This site and codebase are still a work in progress.</p>
+<p>This documentation and codebase are still a work in progress, please report any bugs or features to the <a href="https://github.com/otmanon/fast_cody/issues">github issues page</a>.</p>
 <h1 id="installation">Installation</h1>
 <p>Create a fresh conda environment with python &gt;= 3.8</p>
 <pre><code>conda create -n fast_cody python=3.8
@@ -1147,8 +1147,20 @@ pip install fast-cody
 </code></pre>
 <h1 id="demo-applications">Demo Applications</h1>
 <p>We provide a few out of the box demos.</p>
+<h3 id="interactive-face-tracking"><a href="apps/interactive_cd_face_tracking/">Interactive Face Tracking</a></h3>
+<p>Using mediapipe, you can control a digital avatar with your face, while observing secondary effect!</p>
 <pre><code>import fast_cody as fcd
 fcd.apps.interactive_cd_face_tracking()
+</code></pre>
+<h3 id="interactive-affine-handle"><a href="apps/interactive_cd_affine_handle/">Interactive Affine Handle</a>.</h3>
+<p>Move a single character by manipulating an affine handle</p>
+<pre><code>import fast_cody as fcd
+fcd.apps.interactive_cd_affine_handle()
+</code></pre>
+<h3 id="augmenting-rig-animation"><a href="apps/interactive_cd_rig_anim/">Augmenting Rig Animation</a></h3>
+<p>Display a rig animation augmented with secondary effects!</p>
+<pre><code>import fast_cody as fcd
+fcd.apps.interactive_cd_rig_anim()
 </code></pre>
 
 
