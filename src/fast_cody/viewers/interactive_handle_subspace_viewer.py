@@ -168,7 +168,7 @@ class interactive_handle_subspace_viewer():
                 elif (s.transform == "scale"):
                     s.transform = "translate"
 
-                viewer.set_guizmo_transform(s.transform)
+                s.viewer.change_guizmo_op(s.transform)
             else:
                 print("Guizmo not initialized, pass init_guizmo=True to the viewer constructor")
         if (key == ord('c') or key==ord('C') ):

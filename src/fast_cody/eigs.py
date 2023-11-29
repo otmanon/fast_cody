@@ -79,6 +79,6 @@ def eigs(A, k=5, M=None):
         [D, B] = sp.sparse.linalg.eigs(A, M=M, k=k, sigma=0,
                                   which='LM', OPinv=OpInv)
     except:
-        print("UMFPACK LU Factorization Failed, Trying Scipy LU")
+        print("UMFPACK LU Factorization Failed, Trying Scipy LU, which is slower")
         [D, B] = sp.sparse.linalg.eigs(A, M=M, k=k, sigma=0,which='LM')
     return D, B
